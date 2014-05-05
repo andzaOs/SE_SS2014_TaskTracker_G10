@@ -239,10 +239,22 @@ public class upravljanjeKlijentimaGUI extends JFrame{
 		pomocMenu = new JMenu("Pomo\u0107");
 		menuBar.add(pomocMenu);
 		
-		korisnickoUputstvoItem = new JMenuItem("Korisni\u010Dko upustvo");
+		korisnickoUputstvoItem = new JMenuItem("Korisni\u010Dko uputstvo");
 		pomocMenu.add(korisnickoUputstvoItem);
 		
 		oNamaItem = new JMenuItem("O nama");
+		oNamaItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+		            public void run() {
+		                oNamaGUI ex = new oNamaGUI();
+		                ex.setSize(300, 150);
+		                ex.setLocationRelativeTo(null);
+		                ex.setVisible(true);
+		            }
+		        });
+			}
+		});
 		pomocMenu.add(oNamaItem);
 
 	

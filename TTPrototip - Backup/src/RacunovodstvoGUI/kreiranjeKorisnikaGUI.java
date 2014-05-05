@@ -65,6 +65,18 @@ public class kreiranjeKorisnikaGUI extends JFrame {
 		JMenuItem korisnikoUputstvoItem = new JMenuItem("Korisni\u010Dko upustvo");
 		oNamaMenu.add(korisnikoUputstvoItem);		
 		JMenuItem oNamaItem = new JMenuItem("O nama");
+		oNamaItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+		            public void run() {
+		                oNamaGUI ex = new oNamaGUI();
+		                ex.setSize(300, 150);
+		                ex.setLocationRelativeTo(null);
+		                ex.setVisible(true);
+		            }
+		        });
+			}
+		});
 		oNamaMenu.add(oNamaItem);
 		
 		JPanel centralniPanel = new JPanel();

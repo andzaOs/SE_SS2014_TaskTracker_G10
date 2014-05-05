@@ -85,10 +85,22 @@ public class kreirajIzvjestajGUI extends JFrame {
 		
 		JMenu pomocMenu = new JMenu("Pomoæ");
 		glavniMenuBar.add(pomocMenu);		
-		JMenuItem oNamaItem = new JMenuItem("O nama");
-		pomocMenu.add(oNamaItem);		
 		JMenuItem korisnickoUputstvoItem = new JMenuItem("Korisnièko upustvo");
-		oNamaItem.add(korisnickoUputstvoItem);
+		pomocMenu.add(korisnickoUputstvoItem);
+		JMenuItem oNamaItem = new JMenuItem("O nama");
+		oNamaItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+		            public void run() {
+		                oNamaGUI ex = new oNamaGUI();
+		                ex.setSize(300, 150);
+		                ex.setLocationRelativeTo(null);
+		                ex.setVisible(true);
+		            }
+		        });
+			}
+		});
+		pomocMenu.add(oNamaItem);		
 		
 		JPanel centralniPanel = new JPanel();
 		centralniPanel.setLayout(new GridLayout(3,4,2,2));
