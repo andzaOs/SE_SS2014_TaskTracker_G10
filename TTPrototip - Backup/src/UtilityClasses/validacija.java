@@ -24,7 +24,7 @@ public class validacija {
 		} else {
 			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
 			polje.setBorder(border);
-			polje.setToolTipText(" ");
+			polje.setToolTipText(null);
 			return true;
 		}
 		
@@ -40,7 +40,7 @@ public class validacija {
 		} else {
 			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
 			polje.setBorder(border);
-			polje.setToolTipText(" ");
+			polje.setToolTipText(null);
 			return true;
 		}
 		
@@ -54,7 +54,7 @@ public class validacija {
         if ( matcher.find() ) {
 			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
 			polje.setBorder(border);
-			polje.setToolTipText(" ");
+			polje.setToolTipText(null);
 			return true;
         } else {
 			Border border = BorderFactory.createLineBorder(Color.RED, 1);
@@ -74,7 +74,7 @@ public class validacija {
         if ( matcher.find() ) {
 			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
 			polje.setBorder(border);
-			polje.setToolTipText(" ");
+			polje.setToolTipText(null);
 			return true;
         } else {
 			Border border = BorderFactory.createLineBorder(Color.RED, 1);
