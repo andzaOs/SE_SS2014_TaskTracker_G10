@@ -28,6 +28,7 @@ public class evidencijaRadaRacunovodstvoGUI extends JFrame{
 
 	/* ovo je neki glupi komentar */
 	/* ovo je jos gluplji komentar jhj */
+	/* ponovo test */
 	JMenuBar menuBar = new JMenuBar();
 	setJMenuBar(menuBar);
 	
