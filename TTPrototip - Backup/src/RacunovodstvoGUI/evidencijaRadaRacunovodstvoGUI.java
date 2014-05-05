@@ -26,7 +26,7 @@ public class evidencijaRadaRacunovodstvoGUI extends JFrame{
 	public evidencijaRadaRacunovodstvoGUI() {
 		setTitle("Pregled evidencije rada");
 
-	
+	/* ovo je neki glupi komentar */
 	JMenuBar menuBar = new JMenuBar();
 	setJMenuBar(menuBar);
 	
