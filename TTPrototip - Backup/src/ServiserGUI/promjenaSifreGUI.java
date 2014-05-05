@@ -23,7 +23,7 @@ public class promjenaSifreGUI {
 	public promjenaSifreGUI(JFrame frmPromjenaifre) {
 		initialize(frmPromjenaifre);
 	}
-
+	//komentar za test commit
 	
 	private void initialize(JFrame frmPromjenaifre) {
 		
