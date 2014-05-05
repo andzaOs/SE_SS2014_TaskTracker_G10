@@ -1,6 +1,9 @@
 package RacunovodstvoGUI;
 
 import java.awt.BorderLayout;
+
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -49,6 +52,20 @@ public class pocetnaRacunovodstvoGUI extends JFrame {
 		});
 		mojRacunMenu.add(promijeniSifruItem);
 		JMenuItem odjavaItem = new JMenuItem("Odjavi se");
+		odjavaItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() 
+				{
+					public void run() 
+					{
+						odjaviSeGUI ex = new odjaviSeGUI();
+			             ex.setSize(600, 150);
+			             ex.setLocationRelativeTo(null);
+			             ex.setVisible(true);
+					}
+				});
+			}
+		});
 		mojRacunMenu.add(odjavaItem);
 		
 		JMenu alatiMenu = new JMenu("Alati");
@@ -71,9 +88,26 @@ public class pocetnaRacunovodstvoGUI extends JFrame {
 		JMenu pomocMenu = new JMenu("Pomoæ");
 		glavniMenuBar.add(pomocMenu);		
 		JMenuItem oNamaItem = new JMenuItem("O nama");
+		oNamaItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+		            public void run() {
+		                oNamaGUI ex = new oNamaGUI();
+		                ex.setSize(300, 150);
+		                ex.setLocationRelativeTo(null);
+		                ex.setVisible(true);
+		            }
+		        });
+			}
+		});
 		pomocMenu.add(oNamaItem);		
 		JMenuItem korisnickoUputstvoItem = new JMenuItem("Korisnièko upustvo");
-		oNamaItem.add(korisnickoUputstvoItem);
+		korisnickoUputstvoItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Opcija æe ponuditi preuzimanje .pdf dokumenta sa korisnièkm uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		pomocMenu.add(korisnickoUputstvoItem);
 		
 		ImageIcon logoIkona = new ImageIcon(getClass().getResource("logo.png"));
 		JLabel logoLbl = new JLabel(logoIkona);
@@ -156,15 +190,5 @@ public class pocetnaRacunovodstvoGUI extends JFrame {
 	private static void addPopup(Component component, final JPopupMenu popup) {
 	}
 	
-	public static void main(String args[]) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                pocetnaRacunovodstvoGUI ex = new pocetnaRacunovodstvoGUI();
-                ex.setSize(540, 255);
-                ex.setLocationRelativeTo(null);
-                ex.setVisible(true);
-            }
-        });
-	}
 
 }

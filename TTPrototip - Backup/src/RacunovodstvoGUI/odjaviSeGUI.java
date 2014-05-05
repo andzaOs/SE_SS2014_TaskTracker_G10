@@ -11,17 +11,17 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 
-public class izbrisiKlijentaGUI extends JFrame {
+public class odjaviSeGUI extends JFrame {
 	
-	/* komentar za finalni test commita */
 	
-	public izbrisiKlijentaGUI() {
-		setTitle("Brisanje klijenta");
+	
+	public odjaviSeGUI() {
+		setTitle("Odjava");
 		
-		JLabel naslovLbl = new JLabel("Da li ste sigurni da \u017Eelite izbrisati odabranog klijenta?");
-		naslovLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel daLiSteLbl = new JLabel("Da li ste sigurni da se \u017Eelite odjaviti?");
+		daLiSteLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		getContentPane().add(naslovLbl, BorderLayout.CENTER);
+		getContentPane().add(daLiSteLbl, BorderLayout.CENTER);
 		
 		JPanel juzniPanel = new JPanel();
 		juzniPanel.setBorder(BorderFactory.createEmptyBorder(0, 1, 15, 1));
@@ -34,7 +34,7 @@ public class izbrisiKlijentaGUI extends JFrame {
 		juzniPanel.add(label_2);
 		JButton odustaniBtn = new JButton("Odustani");
 		juzniPanel.add(odustaniBtn);
-		JButton obrisiBtn = new JButton("Obriši");
+		JButton obrisiBtn = new JButton("Odjavi se");
 		juzniPanel.add(obrisiBtn);
 		
 		JLabel label_3 = new JLabel("");
