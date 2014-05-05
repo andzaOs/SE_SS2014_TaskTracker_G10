@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 
 public class izbrisiKlijentaGUI extends JFrame {
 	
-	
+	/* komentar za finalni test commita */
 	
 	public izbrisiKlijentaGUI() {
 		setTitle("Brisanje klijenta");
