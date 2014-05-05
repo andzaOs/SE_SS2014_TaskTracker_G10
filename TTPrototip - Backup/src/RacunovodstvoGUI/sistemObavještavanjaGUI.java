@@ -7,10 +7,14 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 
 import net.miginfocom.swing.MigLayout;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class sistemObavještavanjaGUI extends JFrame
@@ -36,28 +40,6 @@ public class sistemObavještavanjaGUI extends JFrame
 		
 		this.setSize(404, 296);
 		setLocationRelativeTo(null);
-		
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JMenu mojRacunMenu = new JMenu("Moj ra\u010Dun");
-		menuBar.add(mojRacunMenu);
-		
-		JMenuItem promijeniSifruItem = new JMenuItem("Promijeni \u0161ifru");
-		mojRacunMenu.add(promijeniSifruItem);
-		
-		JMenuItem odjaviSeItem = new JMenuItem("Odjavi se");
-		mojRacunMenu.add(odjaviSeItem);
-		
-		JMenu pomocMenu = new JMenu("Pomo\u0107");
-		menuBar.add(pomocMenu);
-		
-		JMenuItem korisnikoUpustvoItem = new JMenuItem("Korisni\u010Dko upustvo");
-		pomocMenu.add(korisnikoUpustvoItem);
-		
-		JMenuItem oNamaItem = new JMenuItem("O nama");
-		pomocMenu.add(oNamaItem);
 		getContentPane().setLayout(new MigLayout("", "[][][170.00,grow]", "[][3.00][28.00][grow][]"));
 		
 		JLabel krajnjiRokZaUnosLbl = new JLabel("Krajnji rok za unos obavljenog posla:");
@@ -91,7 +73,12 @@ public class sistemObavještavanjaGUI extends JFrame
 		getContentPane().add(obavijestiTxt, "cell 2 3,grow");
 		
 		JButton spremiBtn = new JButton("Spremi");
-		getContentPane().add(spremiBtn, "cell 2 4,alignx right");
+		spremiBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Nije implementirano", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		getContentPane().add(spremiBtn, "cell 2 4,growx");
 		
 		
 		

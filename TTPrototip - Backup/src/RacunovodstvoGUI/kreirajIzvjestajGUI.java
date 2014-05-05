@@ -50,6 +50,20 @@ public class kreirajIzvjestajGUI extends JFrame {
 		});
 		mojRacunMenu.add(promijeniSifruItem);
 		JMenuItem odjavaItem = new JMenuItem("Odjavi se");
+		odjavaItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() 
+				{
+					public void run() 
+					{
+						odjaviSeGUI ex = new odjaviSeGUI();
+			             ex.setSize(600, 150);
+			             ex.setLocationRelativeTo(null);
+			             ex.setVisible(true);
+					}
+				});
+			}
+		});
 		mojRacunMenu.add(odjavaItem);
 		
 		JMenu alatiMenu = new JMenu("Alati");

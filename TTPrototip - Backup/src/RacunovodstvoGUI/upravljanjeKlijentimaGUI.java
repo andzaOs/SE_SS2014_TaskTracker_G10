@@ -202,6 +202,20 @@ public class upravljanjeKlijentimaGUI extends JFrame{
 		mojRacunMenu.add(promijeniSifruItem);
 		
 		odjaviSeItem = new JMenuItem("Odjavi se");
+		odjaviSeItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() 
+				{
+					public void run() 
+					{
+						odjaviSeGUI ex = new odjaviSeGUI();
+			             ex.setSize(600, 150);
+			             ex.setLocationRelativeTo(null);
+			             ex.setVisible(true);
+					}
+				});
+			}
+		});
 		mojRacunMenu.add(odjaviSeItem);
 		
 		alatiMenu = new JMenu("Alati");

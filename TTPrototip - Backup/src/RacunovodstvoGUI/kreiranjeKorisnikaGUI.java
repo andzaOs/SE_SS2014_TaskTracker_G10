@@ -3,6 +3,8 @@ package RacunovodstvoGUI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,6 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class kreiranjeKorisnikaGUI extends JFrame {
 	private JFrame frmKreiranjeKorisnika;
@@ -32,12 +35,24 @@ public class kreiranjeKorisnikaGUI extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);		
 		JMenu mojRacunMenu = new JMenu("Moj ra\u010Dun");
-		menuBar.add(mojRacunMenu);		
-		JMenuBar menuBar_1 = new JMenuBar();
-		mojRacunMenu.add(menuBar_1);		
+		menuBar.add(mojRacunMenu);
 		JMenuItem promijeniSifruItem = new JMenuItem("Promijeni \u0161ifru");
 		mojRacunMenu.add(promijeniSifruItem);		
 		JMenuItem odjaviSeItem = new JMenuItem("Odjavi se");
+		odjaviSeItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() 
+				{
+					public void run() 
+					{
+						odjaviSeGUI ex = new odjaviSeGUI();
+			             ex.setSize(600, 150);
+			             ex.setLocationRelativeTo(null);
+			             ex.setVisible(true);
+					}
+				});
+			}
+		});
 		mojRacunMenu.add(odjaviSeItem);
 		
 		JMenu alatiMenu = new JMenu("Alati");

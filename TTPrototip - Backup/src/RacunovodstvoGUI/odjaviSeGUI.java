@@ -7,8 +7,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class odjaviSeGUI extends JFrame {
@@ -35,6 +39,11 @@ public class odjaviSeGUI extends JFrame {
 		JButton odustaniBtn = new JButton("Odustani");
 		juzniPanel.add(odustaniBtn);
 		JButton obrisiBtn = new JButton("Odjavi se");
+		obrisiBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Nije implementirano", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 		juzniPanel.add(obrisiBtn);
 		
 		JLabel label_3 = new JLabel("");
