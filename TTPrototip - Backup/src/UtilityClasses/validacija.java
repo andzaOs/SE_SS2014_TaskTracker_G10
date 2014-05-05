@@ -22,8 +22,9 @@ public class validacija {
 			polje.setToolTipText("Polje mora biti ispunjeno. ");
 			return false;
 		} else {
-			polje.setBackground(Color.WHITE);
-			polje.setToolTipText("");
+			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+			polje.setBorder(border);
+			polje.setToolTipText(" ");
 			return true;
 		}
 		
@@ -37,8 +38,9 @@ public class validacija {
 			polje.setToolTipText("Polje mora imati minimalno " + duzina + " znaka.");
 			return false;
 		} else {
-			polje.setBackground(Color.WHITE);
-			polje.setToolTipText("");
+			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+			polje.setBorder(border);
+			polje.setToolTipText(" ");
 			return true;
 		}
 		
@@ -50,8 +52,9 @@ public class validacija {
         Matcher matcher = EMAIL_ADDRESS_REGEX .matcher(polje.getText());
 
         if ( matcher.find() ) {
-			polje.setBackground(Color.WHITE);
-			polje.setToolTipText("");
+			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+			polje.setBorder(border);
+			polje.setToolTipText(" ");
 			return true;
         } else {
 			Border border = BorderFactory.createLineBorder(Color.RED, 1);
@@ -69,8 +72,9 @@ public class validacija {
         Matcher matcher = EMAIL_ADDRESS_REGEX .matcher(polje.getText());
 
         if ( matcher.find() ) {
-			polje.setBackground(Color.WHITE);
-			polje.setToolTipText("");
+			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+			polje.setBorder(border);
+			polje.setToolTipText(" ");
 			return true;
         } else {
 			Border border = BorderFactory.createLineBorder(Color.RED, 1);

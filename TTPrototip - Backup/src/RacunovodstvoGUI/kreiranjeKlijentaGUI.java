@@ -15,6 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import UtilityClasses.validacija;
+import javax.swing.JOptionPane;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class kreiranjeKlijentaGUI extends JFrame {
 	private JFrame frmKreiranjeKlijenta;
 
@@ -57,25 +63,25 @@ public class kreiranjeKlijentaGUI extends JFrame {
 		
 		JLabel nazivLbl = new JLabel("Naziv klijenta*:");
 		nazivLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		JTextField nazivTxt = new JTextField();
+		final JTextField nazivTxt = new JTextField();
 		centralniPanel.add(nazivLbl);
 		centralniPanel.add(nazivTxt);
 		
 		JLabel adresaLbl = new JLabel("Adresa:");
 		adresaLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		JTextField adresaTxt = new JTextField();
+		final JTextField adresaTxt = new JTextField();
 		centralniPanel.add(adresaLbl);
 		centralniPanel.add(adresaTxt);
 				
 		JLabel emailLbl = new JLabel("E-mail*:");
 		emailLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		JTextField emailTxt = new JTextField();
+		final JTextField emailTxt = new JTextField();
 		centralniPanel.add(emailLbl);
 		centralniPanel.add(emailTxt);
 		
 		JLabel brojTelefonaLbl = new JLabel("Broj telefona:");
 		brojTelefonaLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		JTextField brojTelefonaTxt = new JTextField();
+		final JTextField brojTelefonaTxt = new JTextField();
 		centralniPanel.add(brojTelefonaLbl);
 		centralniPanel.add(brojTelefonaTxt);		
 		
@@ -83,6 +89,27 @@ public class kreiranjeKlijentaGUI extends JFrame {
 		juzniPanel.setBorder(BorderFactory.createEmptyBorder(2, 1, 2, 1));
 		juzniPanel.setLayout(new GridLayout(1,2,1,1));
 		JButton kreirajBtn = new JButton("Kreiraj");
+		kreirajBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				validacija v = new validacija();
+				Boolean uslov1 = v.praznoPolje(nazivTxt);
+				Boolean uslov2 = v.emailAdresa(emailTxt);
+				
+				if(uslov1 && uslov2) {
+					nazivTxt.setText("");
+					emailTxt.setText("");
+					adresaTxt.setText("");
+					brojTelefonaTxt.setText("");
+					
+					JOptionPane.showMessageDialog(frmKreiranjeKlijenta,
+						    "Novi klijent je uspješno dodan.",
+						    "Dodavanje klijenta",
+						    JOptionPane.INFORMATION_MESSAGE);
+					
+				}
+				
+			}
+		});
 		JButton odustaniBtn = new JButton("Odustani");
 		juzniPanel.add(odustaniBtn);
 		juzniPanel.add(kreirajBtn);
