@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -271,11 +270,6 @@ public class upravljanjeKorisnicimaGUI extends JFrame{
 		glavniMenuBar.add(pomocMenu);
 		
 		korisnickoUputstvoItem = new JMenuItem("Korisni\u010Dko uputstvo");
-		korisnickoUputstvoItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Opcija æe ponuditi preuzimanje .pdf dokumenta sa korisnièkm uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
 		pomocMenu.add(korisnickoUputstvoItem);
 		
 		oNamaItem = new JMenuItem("O nama");

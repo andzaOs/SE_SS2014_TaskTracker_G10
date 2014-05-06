@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -87,11 +86,6 @@ public class kreirajIzvjestajGUI extends JFrame {
 		JMenu pomocMenu = new JMenu("Pomoæ");
 		glavniMenuBar.add(pomocMenu);		
 		JMenuItem korisnickoUputstvoItem = new JMenuItem("Korisnièko upustvo");
-		korisnickoUputstvoItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Opcija æe ponuditi preuzimanje .pdf dokumenta sa korisnièkm uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
 		pomocMenu.add(korisnickoUputstvoItem);
 		JMenuItem oNamaItem = new JMenuItem("O nama");
 		oNamaItem.addActionListener(new ActionListener() {
