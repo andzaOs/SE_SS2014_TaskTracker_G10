@@ -30,6 +30,8 @@ public class validacija {
 		
 	}
 	
+	//Comment test test
+	
 	public Boolean minimalnaDuzina(JTextField polje, int duzina) {
 		
 		if (polje.getText().length() <= duzina) {
