@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -80,6 +81,11 @@ public class kreiranjeZadatkaGUI extends JFrame {
 		menuBar.add(oNamaMenu);
 		
 		JMenuItem korisnikoUputstvoItem = new JMenuItem("Korisni\u010Dko upustvo");
+		korisnikoUputstvoItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Opcija æe ponuditi preuzimanje .pdf dokumenta sa korisnièkm uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 		oNamaMenu.add(korisnikoUputstvoItem);
 		
 		JMenuItem oNamaItem = new JMenuItem("O nama");
