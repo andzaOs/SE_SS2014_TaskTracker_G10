@@ -12,7 +12,7 @@ import javax.swing.SwingConstants;
 
 
 public class izbrisiKorisnikaGUI extends JFrame {
-	//neki komentar Mirha
+	
 	
 	
 	public izbrisiKorisnikaGUI() {

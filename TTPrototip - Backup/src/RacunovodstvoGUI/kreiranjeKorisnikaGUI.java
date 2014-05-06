@@ -2,34 +2,22 @@ package RacunovodstvoGUI;
 
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-
-import UtilityClasses.validacija;
 
 public class kreiranjeKorisnikaGUI extends JFrame {
 	private JFrame frmKreiranjeKorisnika;
@@ -76,6 +64,11 @@ public class kreiranjeKorisnikaGUI extends JFrame {
 		JMenu oNamaMenu = new JMenu("Pomo\u0107");
 		menuBar.add(oNamaMenu);		
 		JMenuItem korisnikoUputstvoItem = new JMenuItem("Korisni\u010Dko upustvo");
+		korisnikoUputstvoItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(rootPane, "Opcija Êe ponuditi preuzimanje .pdf dokumenta sa korisniËkm uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 		oNamaMenu.add(korisnikoUputstvoItem);		
 		JMenuItem oNamaItem = new JMenuItem("O nama");
 		oNamaItem.addActionListener(new ActionListener() {
@@ -97,68 +90,67 @@ public class kreiranjeKorisnikaGUI extends JFrame {
 		
 		JLabel imeLbl = new JLabel("Ime*:");
 		imeLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField imeTxt = new JTextField();
+		JTextField imeTxt = new JTextField();
 		centralniPanel.add(imeLbl);
 		centralniPanel.add(imeTxt);
 		
 		JLabel prezimeLbl = new JLabel("Prezime*:");
 		prezimeLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField prezimeTxt = new JTextField();
+		JTextField prezimeTxt = new JTextField();
 		centralniPanel.add(prezimeLbl);
 		centralniPanel.add(prezimeTxt);
 				
 		JLabel jmbgLbl = new JLabel("JMBG*:");
 		jmbgLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField jmbgTxt = new JTextField();
+		JTextField jmbgTxt = new JTextField();
 		centralniPanel.add(jmbgLbl);
 		centralniPanel.add(jmbgTxt);
 		
-		JLabel brojLKLbl = new JLabel("Broj liƒçne karte:");
+		JLabel brojLKLbl = new JLabel("Broj liËne karte:");
 		brojLKLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField brojLKTxt = new JTextField();
+		JTextField brojLKTxt = new JTextField();
 		centralniPanel.add(brojLKLbl);
 		centralniPanel.add(brojLKTxt);		
 		
 		JLabel adresaLbl = new JLabel("Adresa:");
 		adresaLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField adresaTxt = new JTextField();
+		JTextField adresaTxt = new JTextField();
 		centralniPanel.add(adresaLbl);
 		centralniPanel.add(adresaTxt);	
 		
 		JLabel telefonLbl = new JLabel("Telefon:");
 		telefonLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField telefonTxt = new JTextField();
+		JTextField telefonTxt = new JTextField();
 		centralniPanel.add(telefonLbl);
 		centralniPanel.add(telefonTxt);	
 		
 		JLabel emailLbl = new JLabel("E-mail:");
 		emailLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField emailTxt = new JTextField();
+		JTextField emailTxt = new JTextField();
 		centralniPanel.add(emailLbl);
 		centralniPanel.add(emailTxt);	
 		
 		JLabel datumZaposlenjaLbl = new JLabel("Datum zaposlenja:");
 		datumZaposlenjaLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		DateFormat format = new SimpleDateFormat("dd/mm/yyyy");
-		final JFormattedTextField datumZaposlenjaTxt = new JFormattedTextField(format);
+		JTextField datumZaposlenjaTxt = new JTextField();
 		centralniPanel.add(datumZaposlenjaLbl);
 		centralniPanel.add(datumZaposlenjaTxt);	
 		
 		JLabel korisnickoImeLbl = new JLabel("Korisnicko ime:");
 		korisnickoImeLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField korisnickoImeTxt = new JTextField();
+		JTextField korisnickoImeTxt = new JTextField();
 		centralniPanel.add(korisnickoImeLbl);
 		centralniPanel.add(korisnickoImeTxt);	
 		
-		JLabel sifraLbl = new JLabel("≈†ifra:");
+		JLabel sifraLbl = new JLabel("äifra:");
 		sifraLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField sifraTxt = new JTextField();
+		JTextField sifraTxt = new JTextField();
 		centralniPanel.add(sifraLbl);
 		centralniPanel.add(sifraTxt);	
 
 		JLabel tipKorisnikaLbl = new JLabel("Tip korisnika:");
 		tipKorisnikaLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField tipKorisnikaTxt = new JTextField();
+		JTextField tipKorisnikaTxt = new JTextField();
 		centralniPanel.add(tipKorisnikaLbl);
 		centralniPanel.add(tipKorisnikaTxt);
 		
@@ -173,158 +165,6 @@ public class kreiranjeKorisnikaGUI extends JFrame {
 		
 		getContentPane().add(centralniPanel, BorderLayout.CENTER);
 		getContentPane().add(juzniPanel, BorderLayout.SOUTH);
-		
-		
-		 final validacija v = new validacija();
-		 
-		
-
-		//Validacija imena
-	
-		 imeTxt.addFocusListener(
-		          new FocusListener() {
-		             public void focusGained(FocusEvent e) {};
-
-		             public void focusLost(FocusEvent e) {
-//		            	 validacija v = new validacija();
-		            	 v.minimalnaDuzina(imeTxt, 3);
-		             }
-		      });
-		 
-		 //Validacija prezime
-		 
-		prezimeTxt.addFocusListener(
-		          new FocusListener() {
-			             public void focusGained(FocusEvent e) {};
-
-			             public void focusLost(FocusEvent e) {
-//			            	 validacija v = new validacija();
-			            	 v.minimalnaDuzina(prezimeTxt, 3);
-			            	 
-			             }
-			      });
-		
-		//Validacija JMBG
-		
-		jmbgTxt.addFocusListener(
-		          new FocusListener() {
-			             public void focusGained(FocusEvent e) {};
-
-			             public void focusLost(FocusEvent e) {
-//			            	 validacija v = new validacija();
-			            	 v.JMBG(jmbgTxt);
-			             }
-			      });
-		
-		//Validacija liƒçne karte
-		
-		brojLKTxt.addFocusListener(
-		          new FocusListener() {
-			             public void focusGained(FocusEvent e) {};
-
-			             public void focusLost(FocusEvent e) {
-//			            	 validacija v = new validacija();
-			            	 v.minimalnaDuzina(brojLKTxt, 6);
-			            	 
-			             }
-			      });
-		
-		
-		//Validacija adrese
-		
-		adresaTxt.addFocusListener(
-		          new FocusListener() {
-			             public void focusGained(FocusEvent e) {};
-
-			             public void focusLost(FocusEvent e) {
-//			            	 validacija v = new validacija();
-			            	 v.minimalnaDuzina(adresaTxt, 3);
-			             }
-			      });
-		
-		//Validacija telefona
-		
-		telefonTxt.addFocusListener(
-		          new FocusListener() {
-			             public void focusGained(FocusEvent e) {};
-
-			             public void focusLost(FocusEvent e) {
-//			            	 validacija v = new validacija();
-			            	 v.brojTelefona(telefonTxt);
-			             }
-			      });
-		
-		//Validacija email-a
-		
-		emailTxt.addFocusListener(
-		          new FocusListener() {
-			             public void focusGained(FocusEvent e) {};
-
-			             public void focusLost(FocusEvent e) {
-//			            	 validacija v = new validacija();
-			            	 v.emailAdresa(emailTxt);
-			             }
-			      });
-		
-		//Validacija datuma zaposlenja
-		
-		datumZaposlenjaTxt.addFocusListener(
-		          new FocusListener() {
-			             public void focusGained(FocusEvent e) {};
-
-			             public void focusLost(FocusEvent e) {
-			            	 validacija v = new validacija();
-//			            	 v.datum(datumZaposlenjaTxt); baca null exception
-			             }
-			      });
-		
-		
-		//Validacija tip korisnika
-		
-		tipKorisnikaTxt.addFocusListener(
-		          new FocusListener() {
-			             public void focusGained(FocusEvent e) {};
-
-			             public void focusLost(FocusEvent e) {
-			            	 v.minimalnaDuzina(tipKorisnikaTxt, 8);
-		             }
-		      });
-		
-		//Validacija korisniƒçkog imena
-		
-		korisnickoImeTxt.addFocusListener(
-		          new FocusListener() {
-			             public void focusGained(FocusEvent e) {};
-
-			             public void focusLost(FocusEvent e) {
-			            	 v.minimalnaDuzina(korisnickoImeTxt, 0);
-		             }
-		      });
-		
-		sifraTxt.addFocusListener(
-		          new FocusListener() {
-			             public void focusGained(FocusEvent e) {};
-
-			             public void focusLost(FocusEvent e) {
-			            	 v.minimalnaDuzina(sifraTxt, 0);
-		             }
-		      });
-		
-		kreirajBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() 
-				{
-					public void run() 
-					{
-						if(v.isUspjesna()==true)
-						{
-							
-						}
-					}
-				});
-			}
-		});
-		
 	}
 
 }
