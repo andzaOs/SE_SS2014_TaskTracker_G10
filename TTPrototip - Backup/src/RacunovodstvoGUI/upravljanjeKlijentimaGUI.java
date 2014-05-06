@@ -255,6 +255,7 @@ public class upravljanjeKlijentimaGUI extends JFrame{
 		        });
 			}
 		});
+		//testa
 		pomocMenu.add(oNamaItem);
 
 	
