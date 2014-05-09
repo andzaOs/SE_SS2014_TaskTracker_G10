@@ -3,17 +3,10 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated May 9, 2014 11:39:30 AM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="DAO.CRUD" table="CRUD" abstract="true">
+    <class name="ba.unsa.etf.si.tim10.task_tracker.ArrrayList" table="ARRRAYLIST">
         <id name="id" type="java.lang.Long">
             <column name="ID" />
             <generator class="assigned" />
         </id>
-        <list name="all" inverse="false" table="CRUD" lazy="true">
-            <key></key>
-            <list-index></list-index>
-            <element type="T">
-                <column name="ALL" />
-            </element>
-        </list>
     </class>
 </hibernate-mapping>

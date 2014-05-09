@@ -10,5 +10,6 @@
   <property name="hibernate.hbm2ddl.auto">update</property>
   <mapping resource="Entity/Klijent.hbm.xml"/>
   <mapping class="Entity.Korisnik" resource="Entity/Korisnik.hbm.xml"/>
+  <mapping class="Entity.RadniZadatak" resource="Entity/RadniZadatak.hbm.xml"/>
  </session-factory>
 </hibernate-configuration>

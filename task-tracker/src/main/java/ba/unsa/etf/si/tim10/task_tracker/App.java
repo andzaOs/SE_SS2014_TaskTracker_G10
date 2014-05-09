@@ -1,44 +1,57 @@
 package ba.unsa.etf.si.tim10.task_tracker;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import DAO.KlijentDAO;
 import DAO.KorisnikDAO;
+import DAO.RadniZadatakDAO;
+import Entity.Klijent;
 import Entity.Korisnik;
+import Entity.RadniZadatak;
  
 public class App 
 {
     public static void main( String[] args )
     {
     	
-//    	 KlijentDAO kDAO = new KlijentDAO();
-//    	 List<Klijent> klijenti = new ArrayList<Klijent>();
-//
-//       	 klijenti = kDAO.getByNaziv("Bosnalijek");
-//
-//       	 for(int i=0; i<klijenti.size(); i++){
-//       		 System.out.println( klijenti.get(i).getNaziv() + "\n" );
-//       	 }
+   	
     	
-    	Korisnik k = new Korisnik();
-    	k.setIme("Anela");
-    	k.setPrezime("Osmanović");
-    	k.setAdresa("Bosanska br.3");
-    	k.setBrojLK("123456");
-    	Date now = new Date();
-    	k.setDatumZaposlenja(now);
-    	k.setEmail("osmanovic.anela@gmail.com");
-    	k.setJmbg("2912990186517");
-    	k.setKorisnickoIme("anelao");
-    	k.setSifra("anelao");
-    	k.setTelefon("0603376831");
-    	k.setTipKorisnika(0);
-    	k.setVidljivo(true);
+//   	RadniZadatak k = new RadniZadatak();
+//   	k.setOpis("Mirha");
+//   	Date now= new Date();
+//   	k.setKrajnjiDatumIzvrsenja(now);
+//   	k.setVrijemeUnosa(now);
+//   	k.setMaxBrojServisera(2);
+//       k.setStatusDodjeljenosti(2);
+//    	k.setStatusIzvrsenja(false);
+//  	k.setZadatakDodjeljen(true);
+//    	k.setVidljivo(true);
+//    	KorisnikDAO serviser= new KorisnikDAO();
+//    	Korisnik ServiserN= new Korisnik();
+//    	ServiserN=serviser.getById(1);
+//    	
+//    	k.setRacunovodja(ServiserN);
+//    	KlijentDAO klijent= new KlijentDAO();
+//    	Klijent klijentP= new Klijent();
+//    	klijentP=klijent.getById(1);
+//    	k.setKlijent(klijentP);
+//    	ArrayList<Korisnik> ko = new  ArrayList<Korisnik>();
+//    	k.setServiseri(ko);
+    	//List<RadniZadatak> zadaci = new ArrayList<RadniZadatak>();
+//   RadniZadatakDAO kDAO1 = new RadniZadatakDAO();
+//	List<RadniZadatak> zadaci = kDAO1.getAll();
+//	System.out.println(zadaci.get(2).getOpis());
+//	 
+//      	
     	
     	
-    	KorisnikDAO kDAO = new KorisnikDAO();
-    	long id = kDAO.create(k);
-    	k.setId(id);
-       	 
+//    	RadniZadatakDAO unos = new RadniZadatakDAO();
+//    	long id = unos.create(k);
+//    	k.setId(id);
+//    	
+//       	 
     }
     
     

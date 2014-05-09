@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 9, 2014 11:39:30 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="Entity.RadniZadatak" table="RADNIZADATAK">
+        <id name="id" type="long">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="opis" type="java.lang.String">
+            <column name="OPIS" />
+        </property>
+        <many-to-one name="klijent" class="Entity.Klijent" fetch="join">
+            <column name="KLIJENT" />
+        </many-to-one>
+        <property name="krajnjiDatumIzvrsenja" type="java.util.Date">
+            <column name="KRAJNJIDATUMIZVRSENJA" />
+        </property>
+        <property name="vrijemeUnosa" type="java.util.Date">
+            <column name="VRIJEMEUNOSA" />
+        </property>
+        <property name="maxBrojServisera" type="int">
+            <column name="MAXBROJSERVISERA" />
+        </property>
+        <property name="statusDodjeljenosti" type="int">
+            <column name="STATUSDODJELJENOSTI" />
+        </property>
+        <property name="statusIzvrsenja" type="java.lang.Boolean">
+            <column name="STATUSIZVRSENJA" />
+        </property>
+        <property name="zadatakDodjeljen" type="java.lang.Boolean">
+            <column name="ZADATAKDODJELJEN" />
+        </property>
+        <property name="vidljivo" type="java.lang.Boolean">
+            <column name="VIDLJIVO" />
+        </property>
+        <many-to-one name="racunovodja" class="Entity.Korisnik" fetch="join">
+            <column name="RACUNOVODJA" />
+        </many-to-one>
+        <list name="serviseri" inverse="false" table="KORISNIK" lazy="true">
+            <key>
+                <column name="ID" />
+            </key>
+            <list-index></list-index>
+            <one-to-many class="Entity.Korisnik" />
+        </list>
+    </class>
+</hibernate-mapping>
