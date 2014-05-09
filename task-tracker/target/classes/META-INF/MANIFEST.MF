@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: Alem Zekic
-Build-Jdk: 1.7.0_51
+Built-By: AnelaO
+Build-Jdk: 1.7.0
 Created-By: Maven Integration for Eclipse
 
