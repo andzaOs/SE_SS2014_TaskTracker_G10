@@ -1,6 +1,6 @@
 ﻿
-CREATE DATABASE IF NOT EXISTS `tasktracker5` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-USE `tasktracker5`;
+CREATE DATABASE IF NOT EXISTS `tasktracker` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+USE `tasktracker`;
 
 
 
