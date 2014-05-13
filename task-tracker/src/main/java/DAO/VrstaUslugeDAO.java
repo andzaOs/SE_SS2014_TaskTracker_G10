@@ -8,16 +8,16 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import Entity.RadniZadatak;
+import Entity.VrstaUsluge;
 import UtilClasses.HibernateUtil;
 
 
-public class RadniZadatakDAO implements CRUD<RadniZadatak> {
+public class VrstaUslugeDAO implements CRUD<VrstaUsluge> {
 
 	Session session;
 	Transaction t;
 
-	public RadniZadatakDAO() {
+	public VrstaUslugeDAO() {
     	session = HibernateUtil.getSessionFactory().openSession();
     	t = session.beginTransaction();
 	}
@@ -31,7 +31,7 @@ public class RadniZadatakDAO implements CRUD<RadniZadatak> {
         }
     }
 
-	public long create(RadniZadatak k) {
+	public long create(VrstaUsluge k) {
 
     	Long id = (Long) session.save(k); 
    	 	System.out.println("Dodan student sa IDom "+id); 
@@ -40,44 +40,44 @@ public class RadniZadatakDAO implements CRUD<RadniZadatak> {
 
 	}
 
-	public void update (RadniZadatak k) {
+	public void update (VrstaUsluge k) {
 		session.update(k);
 		t.commit();
 	}
 
-	public void delete (RadniZadatak k) {
+	public void delete (VrstaUsluge k) {
 		k.setVidljivo(false);
 		update(k);
 	}
 
-	public RadniZadatak getById(long id) {
-		RadniZadatak k = new RadniZadatak();
-		k = (RadniZadatak) session.get(RadniZadatak.class, id);
+	public VrstaUsluge getById(long id) {
+		VrstaUsluge k = new VrstaUsluge();
+		k = (VrstaUsluge) session.get(VrstaUsluge.class, id);
 		t.commit();
 		return k;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<RadniZadatak> getAll() {
-		List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+	public List<VrstaUsluge> getAll() {
+		List<VrstaUsluge> vrsteUsluga = new ArrayList<VrstaUsluge>();
 
-		radniZadaci = session.createCriteria(RadniZadatak.class).
+		vrsteUsluga = session.createCriteria(VrstaUsluge.class).
 				addOrder(Order.asc("naziv"))
 				.list(); 
 
-		return radniZadaci;
+		return vrsteUsluga;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<RadniZadatak> getByNaziv(String naziv) {
-		List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+	public List<VrstaUsluge> getByNaziv(String naziv) {
+		List<VrstaUsluge> vrsteUsluga = new ArrayList<VrstaUsluge>();
 
-		radniZadaci = session.createCriteria(RadniZadatak.class)
+		vrsteUsluga = session.createCriteria(VrstaUsluge.class)
 			    .add( Restrictions.like("naziv", naziv) )
 			    .addOrder(Order.asc("naziv") )
 			    .list();
 
-		return radniZadaci;
+		return vrsteUsluga;
 	}
 
 

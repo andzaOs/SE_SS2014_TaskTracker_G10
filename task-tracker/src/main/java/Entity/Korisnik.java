@@ -1,21 +1,31 @@
 package Entity;
 
 import java.util.Date;
+import java.util.Set;
+
+
 
 public class Korisnik implements java.io.Serializable{
-	long id;
-	String ime, prezime, jmbg, brojLK, adresa, telefon, email, sifra, korisnickoIme;
-	Date datumZaposlenja;
-	int tipKorisnika;
+	long korisnik_id;
+	String ime;
+	String prezime;
+	String jmbg;
+	String br_lk;
+	String adresa;
+	String telefon;
+	String email;
+	String korisnicko_ime;
+	String lozinka;
+	Date datum_zaposlenja;
 	Boolean vidljivo;
-	
-	public Korisnik(){}
-	
-	public long getId() {
-		return id;
+	private TipKorisnika tip_korisnika;
+	Set<RadniZadatak> dodjeljeniZadaci; // Za racunovodju zadaci koje je dodijelio
+	Set<RasporedjeniZadatak> vlastitiZadaci; // Za servisera zadaci na kojima radi (bez obzira je li ih prihvatio ili ne
+	public long getKorisnik_id() {
+		return korisnik_id;
 	}
-	public void setId(long id) {
-		this.id = id;
+	public void setKorisnik_id(long korisnik_id) {
+		this.korisnik_id = korisnik_id;
 	}
 	public String getIme() {
 		return ime;
@@ -35,11 +45,11 @@ public class Korisnik implements java.io.Serializable{
 	public void setJmbg(String jmbg) {
 		this.jmbg = jmbg;
 	}
-	public String getBrojLK() {
-		return brojLK;
+	public String getBr_lk() {
+		return br_lk;
 	}
-	public void setBrojLK(String brojLK) {
-		this.brojLK = brojLK;
+	public void setBr_lk(String br_lk) {
+		this.br_lk = br_lk;
 	}
 	public String getAdresa() {
 		return adresa;
@@ -59,29 +69,23 @@ public class Korisnik implements java.io.Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getSifra() {
-		return sifra;
+	public String getKorisnicko_ime() {
+		return korisnicko_ime;
 	}
-	public void setSifra(String sifra) {
-		this.sifra = sifra;
+	public void setKorisnicko_ime(String korisnicko_ime) {
+		this.korisnicko_ime = korisnicko_ime;
 	}
-	public String getKorisnickoIme() {
-		return korisnickoIme;
+	public String getLozinka() {
+		return lozinka;
 	}
-	public void setKorisnickoIme(String korisnickoIme) {
-		this.korisnickoIme = korisnickoIme;
+	public void setLozinka(String lozinka) {
+		this.lozinka = lozinka;
 	}
-	public Date getDatumZaposlenja() {
-		return datumZaposlenja;
+	public Date getDatum_zaposlenja() {
+		return datum_zaposlenja;
 	}
-	public void setDatumZaposlenja(Date datumZaposlenja) {
-		this.datumZaposlenja = datumZaposlenja;
-	}
-	public int getTipKorisnika() {
-		return tipKorisnika;
-	}
-	public void setTipKorisnika(int tipKorisnika) {
-		this.tipKorisnika = tipKorisnika;
+	public void setDatum_zaposlenja(Date datum_zaposlenja) {
+		this.datum_zaposlenja = datum_zaposlenja;
 	}
 	public Boolean getVidljivo() {
 		return vidljivo;
@@ -89,4 +93,23 @@ public class Korisnik implements java.io.Serializable{
 	public void setVidljivo(Boolean vidljivo) {
 		this.vidljivo = vidljivo;
 	}
+	public TipKorisnika getTip_korisnika() {
+		return tip_korisnika;
+	}
+	public void setTip_korisnika(TipKorisnika tip_korisnika) {
+		this.tip_korisnika = tip_korisnika;
+	}
+	public Set<RadniZadatak> getDodjeljeniZadaci() {
+		return dodjeljeniZadaci;
+	}
+	public void setDodjeljeniZadaci(Set<RadniZadatak> dodjeljeniZadaci) {
+		this.dodjeljeniZadaci = dodjeljeniZadaci;
+	}
+	public Set<RasporedjeniZadatak> getVlastitiZadaci() {
+		return vlastitiZadaci;
+	}
+	public void setVlastitiZadaci(Set<RasporedjeniZadatak> vlastitiZadaci) {
+		this.vlastitiZadaci = vlastitiZadaci;
+	}
 }
+

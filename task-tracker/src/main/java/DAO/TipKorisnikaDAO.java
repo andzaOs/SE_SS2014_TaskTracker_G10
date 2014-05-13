@@ -8,16 +8,16 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import Entity.RadniZadatak;
+import Entity.TipKorisnika;
 import UtilClasses.HibernateUtil;
 
 
-public class RadniZadatakDAO implements CRUD<RadniZadatak> {
+public class TipKorisnikaDAO implements CRUD<TipKorisnika> {
 
 	Session session;
 	Transaction t;
 
-	public RadniZadatakDAO() {
+	public TipKorisnikaDAO() {
     	session = HibernateUtil.getSessionFactory().openSession();
     	t = session.beginTransaction();
 	}
@@ -31,7 +31,7 @@ public class RadniZadatakDAO implements CRUD<RadniZadatak> {
         }
     }
 
-	public long create(RadniZadatak k) {
+	public long create(TipKorisnika k) {
 
     	Long id = (Long) session.save(k); 
    	 	System.out.println("Dodan student sa IDom "+id); 
@@ -40,44 +40,44 @@ public class RadniZadatakDAO implements CRUD<RadniZadatak> {
 
 	}
 
-	public void update (RadniZadatak k) {
+	public void update (TipKorisnika k) {
 		session.update(k);
 		t.commit();
 	}
 
-	public void delete (RadniZadatak k) {
+	public void delete (TipKorisnika k) {
 		k.setVidljivo(false);
 		update(k);
 	}
 
-	public RadniZadatak getById(long id) {
-		RadniZadatak k = new RadniZadatak();
-		k = (RadniZadatak) session.get(RadniZadatak.class, id);
+	public TipKorisnika getById(long id) {
+		TipKorisnika k = new TipKorisnika();
+		k = (TipKorisnika) session.get(TipKorisnika.class, id);
 		t.commit();
 		return k;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<RadniZadatak> getAll() {
-		List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+	public List<TipKorisnika> getAll() {
+		List<TipKorisnika> tipovi = new ArrayList<TipKorisnika>();
 
-		radniZadaci = session.createCriteria(RadniZadatak.class).
+		tipovi = session.createCriteria(TipKorisnika.class).
 				addOrder(Order.asc("naziv"))
 				.list(); 
 
-		return radniZadaci;
+		return tipovi;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<RadniZadatak> getByNaziv(String naziv) {
-		List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+	public List<TipKorisnika> getByNaziv(String naziv) {
+		List<TipKorisnika> tipovi = new ArrayList<TipKorisnika>();
 
-		radniZadaci = session.createCriteria(RadniZadatak.class)
+		tipovi = session.createCriteria(TipKorisnika.class)
 			    .add( Restrictions.like("naziv", naziv) )
 			    .addOrder(Order.asc("naziv") )
 			    .list();
 
-		return radniZadaci;
+		return tipovi;
 	}
 
 

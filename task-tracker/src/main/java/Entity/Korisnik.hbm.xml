@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 9, 2014 11:39:30 AM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated May 13, 2014 11:23:22 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="Entity.Korisnik" table="KORISNIK">
-        <id name="id" type="long">
-            <column name="ID" />
+        <id name="korisnik_id" type="long">
+            <column name="KORISNIK_ID" />
             <generator class="native" />
         </id>
         <property name="ime" type="java.lang.String">
@@ -17,8 +17,8 @@
         <property name="jmbg" type="java.lang.String">
             <column name="JMBG" />
         </property>
-        <property name="brojLK" type="java.lang.String">
-            <column name="BROJLK" />
+        <property name="br_lk" type="java.lang.String">
+            <column name="BR_LK" />
         </property>
         <property name="adresa" type="java.lang.String">
             <column name="ADRESA" />
@@ -29,20 +29,32 @@
         <property name="email" type="java.lang.String">
             <column name="EMAIL" />
         </property>
-        <property name="sifra" type="java.lang.String">
-            <column name="SIFRA" />
+        <property name="korisnicko_ime" type="java.lang.String">
+            <column name="KORISNICKO_IME" />
         </property>
-        <property name="korisnickoIme" type="java.lang.String">
-            <column name="KORISNICKOIME" />
+        <property name="lozinka" type="java.lang.String">
+            <column name="LOZINKA" />
         </property>
-        <property name="datumZaposlenja" type="java.util.Date">
-            <column name="DATUMZAPOSLENJA" />
-        </property>
-        <property name="tipKorisnika" type="int">
-            <column name="TIPKORISNIKA" />
+        <property name="datum_zaposlenja" type="java.util.Date">
+            <column name="DATUM_ZAPOSLENJA" />
         </property>
         <property name="vidljivo" type="java.lang.Boolean">
             <column name="VIDLJIVO" />
         </property>
+        <many-to-one name="tip_korisnika" class="Entity.TipKorisnika" fetch="join">
+            <column name="TIPKORISNIKA_ID" />
+        </many-to-one>
+        <set name="dodjeljeniZadaci" table="RADNIZADATAK" inverse="false" lazy="true">
+            <key>
+                <column name="KORISNIK_ID" />
+            </key>
+            <one-to-many class="Entity.RadniZadatak" />
+        </set>
+        <set name="vlastitiZadaci" table="RASPOREDJENIZADATAK" inverse="false" lazy="true">
+            <key>
+                <column name="KORISNIK_ID" />
+            </key>
+            <one-to-many class="Entity.RasporedjeniZadatak" />
+        </set>
     </class>
 </hibernate-mapping>

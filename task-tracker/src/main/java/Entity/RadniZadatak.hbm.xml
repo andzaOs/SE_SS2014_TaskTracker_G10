@@ -1,49 +1,51 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated May 9, 2014 11:39:30 AM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated May 13, 2014 11:23:22 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="Entity.RadniZadatak" table="RADNIZADATAK">
-        <id name="id" type="long">
-            <column name="ID" />
+        <id name="radniZadatak_id" type="long">
+            <column name="RADNIZADATAK_ID" />
             <generator class="native" />
         </id>
-        <property name="opis" type="java.lang.String">
-            <column name="OPIS" />
-        </property>
         <many-to-one name="klijent" class="Entity.Klijent" fetch="join">
-            <column name="KLIJENT" />
+            <column name="KLIJENT_ID" />
         </many-to-one>
-        <property name="krajnjiDatumIzvrsenja" type="java.util.Date">
-            <column name="KRAJNJIDATUMIZVRSENJA" />
-        </property>
-        <property name="vrijemeUnosa" type="java.util.Date">
-            <column name="VRIJEMEUNOSA" />
-        </property>
-        <property name="maxBrojServisera" type="int">
-            <column name="MAXBROJSERVISERA" />
+        <many-to-one name="kreator" class="Entity.Korisnik" fetch="join">
+            <column name="KORISNIK_ID" />
+        </many-to-one>
+        <set name="rasporedjeniZadaci" table="RASPOREDJENIZADATAK" inverse="false" lazy="true">
+            <key>
+                <column name="RADNIZADATAK_ID" />
+            </key>
+            <one-to-many class="Entity.RasporedjeniZadatak" />
+        </set>
+        <property name="brojServisera" type="int">
+            <column name="BROJSERVISERA" />
         </property>
         <property name="statusDodjeljenosti" type="int">
             <column name="STATUSDODJELJENOSTI" />
         </property>
-        <property name="statusIzvrsenja" type="java.lang.Boolean">
-            <column name="STATUSIZVRSENJA" />
+        <property name="datumUnosa" type="java.sql.Date">
+            <column name="DATUMUNOSA" />
         </property>
-        <property name="zadatakDodjeljen" type="java.lang.Boolean">
-            <column name="ZADATAKDODJELJEN" />
+        <property name="krajnjiDatumIzvrsenja" type="java.sql.Date">
+            <column name="KRAJNJIDATUMIZVRSENJA" />
+        </property>
+        <property name="potpunoDodjeljen" type="java.lang.Boolean">
+            <column name="POTPUNODODJELJEN" />
+        </property>
+        <property name="statusIzvrsenosti" type="java.lang.Boolean">
+            <column name="STATUSIZVRSENOSTI" />
         </property>
         <property name="vidljivo" type="java.lang.Boolean">
             <column name="VIDLJIVO" />
         </property>
-        <many-to-one name="racunovodja" class="Entity.Korisnik" fetch="join">
-            <column name="RACUNOVODJA" />
-        </many-to-one>
-        <list name="serviseri" inverse="false" table="KORISNIK" lazy="true">
-            <key>
-                <column name="ID" />
-            </key>
-            <list-index></list-index>
-            <one-to-many class="Entity.Korisnik" />
-        </list>
+        <property name="opis" type="java.lang.String">
+            <column name="OPIS" />
+        </property>
+        <property name="vrstaZadatka" type="java.lang.String">
+            <column name="VRSTAZADATKA" />
+        </property>
     </class>
 </hibernate-mapping>

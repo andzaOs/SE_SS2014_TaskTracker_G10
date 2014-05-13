@@ -1,44 +1,22 @@
 package Entity;
 
-
-import java.util.Date;
-import java.util.List;
-
-
+import java.sql.Date;
+import java.util.Set;
 
 public class RadniZadatak implements java.io.Serializable{
-	long id;
-	String opis;
+	long radniZadatak_id;
 	Klijent klijent;
-	Date krajnjiDatumIzvrsenja,vrijemeUnosa;
-	int maxBrojServisera,statusDodjeljenosti;
-	Boolean statusIzvrsenja, zadatakDodjeljen, vidljivo;
-	Korisnik racunovodja;
-	public Korisnik getRacunovodja() {
-		return racunovodja;
+	Korisnik kreator;
+	Set<RasporedjeniZadatak> rasporedjeniZadaci;
+	int brojServisera, statusDodjeljenosti;
+	Date datumUnosa, krajnjiDatumIzvrsenja;
+	Boolean potpunoDodjeljen, statusIzvrsenosti, vidljivo;
+	String opis, vrstaZadatka;
+	public long getRadniZadatak_id() {
+		return radniZadatak_id;
 	}
-	public void setRacunovodja(Korisnik racunovodja) {
-		this.racunovodja = racunovodja;
-	}
-	public List<Korisnik> getServiseri() {
-		return serviseri;
-	}
-	public void setServiseri(List<Korisnik> serviseri) {
-		this.serviseri = serviseri;
-	}
-	List<Korisnik> serviseri;
-	public RadniZadatak() {};
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public String getOpis() {
-		return opis;
-	}
-	public void setOpis(String opis) {
-		this.opis = opis;
+	public void setRadniZadatak_id(long radniZadatak_id) {
+		this.radniZadatak_id = radniZadatak_id;
 	}
 	public Klijent getKlijent() {
 		return klijent;
@@ -46,23 +24,23 @@ public class RadniZadatak implements java.io.Serializable{
 	public void setKlijent(Klijent klijent) {
 		this.klijent = klijent;
 	}
-	public Date getKrajnjiDatumIzvrsenja() {
-		return krajnjiDatumIzvrsenja;
+	public Korisnik getKreator() {
+		return kreator;
 	}
-	public void setKrajnjiDatumIzvrsenja(Date krajnjiDatumIzvrsenja) {
-		this.krajnjiDatumIzvrsenja = krajnjiDatumIzvrsenja;
+	public void setKreator(Korisnik kreator) {
+		this.kreator = kreator;
 	}
-	public Date getVrijemeUnosa() {
-		return vrijemeUnosa;
+	public Set<RasporedjeniZadatak> getRasporedjeniZadaci() {
+		return rasporedjeniZadaci;
 	}
-	public void setVrijemeUnosa(Date vrijemeUnosa) {
-		this.vrijemeUnosa = vrijemeUnosa;
+	public void setRasporedjeniZadaci(Set<RasporedjeniZadatak> rasporedjeniZadaci) {
+		this.rasporedjeniZadaci = rasporedjeniZadaci;
 	}
-	public int getMaxBrojServisera() {
-		return maxBrojServisera;
+	public int getBrojServisera() {
+		return brojServisera;
 	}
-	public void setMaxBrojServisera(int maxBrojServisera) {
-		this.maxBrojServisera = maxBrojServisera;
+	public void setBrojServisera(int brojServisera) {
+		this.brojServisera = brojServisera;
 	}
 	public int getStatusDodjeljenosti() {
 		return statusDodjeljenosti;
@@ -70,17 +48,29 @@ public class RadniZadatak implements java.io.Serializable{
 	public void setStatusDodjeljenosti(int statusDodjeljenosti) {
 		this.statusDodjeljenosti = statusDodjeljenosti;
 	}
-	public Boolean getStatusIzvrsenja() {
-		return statusIzvrsenja;
+	public Date getDatumUnosa() {
+		return datumUnosa;
 	}
-	public void setStatusIzvrsenja(Boolean statusIzvrsenja) {
-		this.statusIzvrsenja = statusIzvrsenja;
+	public void setDatumUnosa(Date datumUnosa) {
+		this.datumUnosa = datumUnosa;
 	}
-	public Boolean getZadatakDodjeljen() {
-		return zadatakDodjeljen;
+	public Date getKrajnjiDatumIzvrsenja() {
+		return krajnjiDatumIzvrsenja;
 	}
-	public void setZadatakDodjeljen(Boolean zadatakDodjeljen) {
-		this.zadatakDodjeljen = zadatakDodjeljen;
+	public void setKrajnjiDatumIzvrsenja(Date krajnjiDatumIzvrsenja) {
+		this.krajnjiDatumIzvrsenja = krajnjiDatumIzvrsenja;
+	}
+	public Boolean getPotpunoDodjeljen() {
+		return potpunoDodjeljen;
+	}
+	public void setPotpunoDodjeljen(Boolean potpunoDodjeljen) {
+		this.potpunoDodjeljen = potpunoDodjeljen;
+	}
+	public Boolean getStatusIzvrsenosti() {
+		return statusIzvrsenosti;
+	}
+	public void setStatusIzvrsenosti(Boolean statusIzvrsenosti) {
+		this.statusIzvrsenosti = statusIzvrsenosti;
 	}
 	public Boolean getVidljivo() {
 		return vidljivo;
@@ -88,15 +78,16 @@ public class RadniZadatak implements java.io.Serializable{
 	public void setVidljivo(Boolean vidljivo) {
 		this.vidljivo = vidljivo;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-
+	public String getOpis() {
+		return opis;
+	}
+	public void setOpis(String opis) {
+		this.opis = opis;
+	}
+	public String getVrstaZadatka() {
+		return vrstaZadatka;
+	}
+	public void setVrstaZadatka(String vrstaZadatka) {
+		this.vrstaZadatka = vrstaZadatka;
+	}
 }
-
-

@@ -8,16 +8,16 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import Entity.RadniZadatak;
+import Entity.RasporedjeniZadatak;
 import UtilClasses.HibernateUtil;
 
 
-public class RadniZadatakDAO implements CRUD<RadniZadatak> {
+public class RasporedjeniZadatakDAO implements CRUD<RasporedjeniZadatak> {
 
 	Session session;
 	Transaction t;
 
-	public RadniZadatakDAO() {
+	public RasporedjeniZadatakDAO() {
     	session = HibernateUtil.getSessionFactory().openSession();
     	t = session.beginTransaction();
 	}
@@ -31,7 +31,7 @@ public class RadniZadatakDAO implements CRUD<RadniZadatak> {
         }
     }
 
-	public long create(RadniZadatak k) {
+	public long create(RasporedjeniZadatak k) {
 
     	Long id = (Long) session.save(k); 
    	 	System.out.println("Dodan student sa IDom "+id); 
@@ -40,44 +40,44 @@ public class RadniZadatakDAO implements CRUD<RadniZadatak> {
 
 	}
 
-	public void update (RadniZadatak k) {
+	public void update (RasporedjeniZadatak k) {
 		session.update(k);
 		t.commit();
 	}
 
-	public void delete (RadniZadatak k) {
+	public void delete (RasporedjeniZadatak k) {
 		k.setVidljivo(false);
 		update(k);
 	}
 
-	public RadniZadatak getById(long id) {
-		RadniZadatak k = new RadniZadatak();
-		k = (RadniZadatak) session.get(RadniZadatak.class, id);
+	public RasporedjeniZadatak getById(long id) {
+		RasporedjeniZadatak k = new RasporedjeniZadatak();
+		k = (RasporedjeniZadatak) session.get(RasporedjeniZadatak.class, id);
 		t.commit();
 		return k;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<RadniZadatak> getAll() {
-		List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+	public List<RasporedjeniZadatak> getAll() {
+		List<RasporedjeniZadatak> rasporedjeniZadaci = new ArrayList<RasporedjeniZadatak>();
 
-		radniZadaci = session.createCriteria(RadniZadatak.class).
+		rasporedjeniZadaci = session.createCriteria(RasporedjeniZadatak.class).
 				addOrder(Order.asc("naziv"))
 				.list(); 
 
-		return radniZadaci;
+		return rasporedjeniZadaci;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<RadniZadatak> getByNaziv(String naziv) {
-		List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+	public List<RasporedjeniZadatak> getByNaziv(String naziv) {
+		List<RasporedjeniZadatak> rasporedjeniZadaci = new ArrayList<RasporedjeniZadatak>();
 
-		radniZadaci = session.createCriteria(RadniZadatak.class)
+		rasporedjeniZadaci = session.createCriteria(RasporedjeniZadatak.class)
 			    .add( Restrictions.like("naziv", naziv) )
 			    .addOrder(Order.asc("naziv") )
 			    .list();
 
-		return radniZadaci;
+		return rasporedjeniZadaci;
 	}
 
 
