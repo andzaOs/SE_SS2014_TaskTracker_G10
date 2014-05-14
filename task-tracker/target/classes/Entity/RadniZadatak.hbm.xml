@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 13, 2014 11:23:22 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="Entity.RadniZadatak" table="RADNIZADATAK">
+        <id name="radniZadatak_id" type="long">
+            <column name="RADNIZADATAK_ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="klijent" class="Entity.Klijent" fetch="join">
+            <column name="KLIJENT_ID" />
+        </many-to-one>
+        <many-to-one name="kreator" class="Entity.Korisnik" fetch="join">
+            <column name="KORISNIK_ID" />
+        </many-to-one>
+        <set name="rasporedjeniZadaci" table="RASPOREDJENIZADATAK" inverse="false" lazy="true">
+            <key>
+                <column name="RADNIZADATAK_ID" />
+            </key>
+            <one-to-many class="Entity.RasporedjeniZadatak" />
+        </set>
+        <property name="brojServisera" type="int">
+            <column name="BROJSERVISERA" />
+        </property>
+        <property name="statusDodjeljenosti" type="int">
+            <column name="STATUSDODJELJENOSTI" />
+        </property>
+        <property name="datumUnosa" type="java.sql.Date">
+            <column name="DATUMUNOSA" />
+        </property>
+        <property name="krajnjiDatumIzvrsenja" type="java.sql.Date">
+            <column name="KRAJNJIDATUMIZVRSENJA" />
+        </property>
+        <property name="potpunoDodjeljen" type="java.lang.Boolean">
+            <column name="POTPUNODODJELJEN" />
+        </property>
+        <property name="statusIzvrsenosti" type="java.lang.Boolean">
+            <column name="STATUSIZVRSENOSTI" />
+        </property>
+        <property name="vidljivo" type="java.lang.Boolean">
+            <column name="VIDLJIVO" />
+        </property>
+        <property name="opis" type="java.lang.String">
+            <column name="OPIS" />
+        </property>
+        <property name="vrstaZadatka" type="java.lang.String">
+            <column name="VRSTAZADATKA" />
+        </property>
+    </class>
+</hibernate-mapping>

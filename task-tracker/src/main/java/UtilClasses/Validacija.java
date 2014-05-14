@@ -1,0 +1,257 @@
+package UtilClasses;
+
+import java.awt.Color;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.border.Border;
+
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+
+public class Validacija {
+	
+	Date datumZaposlenja, datumTrenutni;
+	
+
+	public Boolean minimalnaDuzina(JTextField polje, int duzina) {
+		
+		if (polje.getText().equals("") || polje.getText().length() < duzina) {
+			Border border = BorderFactory.createLineBorder(Color.RED, 1);
+			polje.setBorder(border);			
+			polje.setToolTipText("Polje mora biti ispunjeno. ");
+			return false;
+		} else {
+			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+			polje.setBorder(border);
+			polje.setToolTipText(null);
+			return true;
+		}
+		
+	}
+	
+	
+	
+	public Boolean emailAdresa(JTextField polje) {
+		
+		final Pattern EMAIL_ADDRESS_REGEX =  Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = EMAIL_ADDRESS_REGEX .matcher(polje.getText());
+
+        if ( matcher.find() ) {
+			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+			polje.setBorder(border);
+			polje.setToolTipText(null);
+			return true;
+        } else {
+			Border border = BorderFactory.createLineBorder(Color.RED, 1);
+			polje.setBorder(border);	
+			polje.setToolTipText("Email adresa mora biti u validnom formatu.");
+			return false;
+        }
+        
+	}
+	
+	
+	public Boolean JMBG(JTextField polje) {
+		
+		final Pattern EMAIL_ADDRESS_REGEX =  Pattern.compile("^(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])[0-9]{9}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = EMAIL_ADDRESS_REGEX .matcher(polje.getText());
+
+        if ( matcher.find() ) {
+			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+			polje.setBorder(border);
+			polje.setToolTipText(null);
+			return true;
+        } else {
+			Border border = BorderFactory.createLineBorder(Color.RED, 1);
+			polje.setBorder(border);	
+			polje.setToolTipText("JMBG mora biti validnom formatu.");
+			return false;
+        }
+        
+	}
+	
+	public Boolean brojTelefona(JTextField polje)
+	{
+		 String regex = "^\\+?[0-9. ()-]{10,25}$";
+		 Pattern pattern = Pattern.compile(regex);
+		 Matcher matcher = pattern.matcher(polje.getText());
+		 if (matcher.matches()) {
+			 Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+				polje.setBorder(border);
+				polje.setToolTipText(null);
+				return true;
+		 } else {
+			 Border border = BorderFactory.createLineBorder(Color.RED, 1);
+				polje.setBorder(border);	
+				polje.setToolTipText("Broj telefona mora biti sljedećeg formata: xxx-xxxxxx");
+				return false;
+		 }
+		
+	}
+	
+	public Boolean datum(JTextField polje) 
+	{
+		final Pattern DATUM_ZAPOSLENJA_REGEX =  Pattern.compile("(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((19|20)\\d\\d)", Pattern.CASE_INSENSITIVE);
+		Matcher matcher = DATUM_ZAPOSLENJA_REGEX .matcher(polje.getText());
+        if(matcher.matches()){
+        	try 
+        	{
+				datumZaposlenja = new SimpleDateFormat("dd/mm/yyyy", Locale.ENGLISH).parse(polje.getText());
+				datumTrenutni = new Date();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+       	 matcher.reset();
+        
+       	 if(matcher.find()){
+        
+                    String day = matcher.group(1);
+       	     String month = matcher.group(2);
+       	     int year = Integer.parseInt(matcher.group(3));
+        
+       	     if (day.equals("31") &&  (month.equals("4") || month .equals("6") || month.equals("9") ||
+                month.equals("11") || month.equals("04") || month .equals("06") ||
+                month.equals("09"))) 
+       	     {
+       			return false; // only 1,3,5,7,8,10,12 has 31 days
+       	     }
+       	     else if (month.equals("2") || month.equals("02")) 
+       	     {
+                         //leap year
+       	    	 if(year % 4==0)
+       		  	{
+       			  if(day.equals("30") || day.equals("31"))
+       			  {
+       				  return false;
+       			  }
+       			  else
+       			  {
+       				return true;
+       			  }
+       		  	}
+       		  	else
+       		  	{
+       		        if(day.equals("29")||day.equals("30")||day.equals("31"))
+       		        {
+       				  return false;
+       		         }
+       		        else
+       		        {
+       		        	return true;
+       		        }
+       		  	}
+       	      }
+       	     else
+       	     {				 
+       	    	 return true;				 
+       	      }
+
+       	   }
+       	 else
+       	   {
+           	     return false;
+       	   }
+        }
+        else
+        {
+        	return false;
+        }	
+	}
+	
+	public Boolean tipKorisnika(JTextField polje) 
+	{
+
+		 if (polje.getText().equals("računovodstvo")|| polje.getText().equals("serviseri")) {
+			 Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+				polje.setBorder(border);
+				polje.setToolTipText(null);
+				return true;
+		 } else {
+			 Border border = BorderFactory.createLineBorder(Color.RED, 1);
+				polje.setBorder(border);	
+				polje.setToolTipText("Broj telefona mora biti sljedećeg formata: xxx-xxxxxx");
+				return false;
+		 }
+		
+	}
+
+
+
+	public Boolean praznoPoljeBolean(JTextField polje) {
+		
+		if (polje.getText().equals("")) {
+			Border border = BorderFactory.createLineBorder(Color.RED, 1);
+			polje.setBorder(border);			
+			polje.setToolTipText("Polje mora biti ispunjeno. ");
+			return false;
+		} else {
+			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+			polje.setBorder(border);
+			polje.setToolTipText(null);
+			return true;
+		}
+	}
+
+
+
+	public Boolean emailAdresaBolean(JTextField polje) {
+		final Pattern EMAIL_ADDRESS_REGEX =  Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = EMAIL_ADDRESS_REGEX .matcher(polje.getText());
+
+        if ( matcher.find() ) {
+			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+			polje.setBorder(border);
+			polje.setToolTipText(null);
+			return true;
+        } else {
+			Border border = BorderFactory.createLineBorder(Color.RED, 1);
+			polje.setBorder(border);	
+			polje.setToolTipText("Email adresa mora biti u validnom formatu.");
+			return false;
+        }
+	}
+	
+	public Boolean brojLicneKarte(JTextField polje) {
+		final Pattern BROJ_LICNE_KARTE_REGEX =  Pattern.compile("[0-9]{2}[A-Z]{3}[0-9]{4}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = BROJ_LICNE_KARTE_REGEX .matcher(polje.getText());
+
+        if ( matcher.find() ) {
+			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+			polje.setBorder(border);
+			polje.setToolTipText(null);
+			return true;
+        } else {
+			Border border = BorderFactory.createLineBorder(Color.RED, 1);
+			polje.setBorder(border);	
+			polje.setToolTipText("Broj lične karte mora biti sljedećeg formata: 2 broja, 3 slova i na kraju 4 broja.");
+			return false;
+        }
+	}
+	
+	public Boolean PoredjenjeDatuma(Date datum1, Date datum2, JDatePanelImpl datePanel)
+	{
+		if(datum1.after(datum2) || datum1.equals(datum2)) return true;
+		else
+			{
+			Border border = BorderFactory.createLineBorder(Color.RED, 1);
+			datePanel.setBackground(Color.red);;	
+			datePanel.setToolTipText("Datum izvršenja ne smije biti manji od datuma unosa radnog zadatka.");
+			return false;
+			}
+	}
+
+	}
+
+

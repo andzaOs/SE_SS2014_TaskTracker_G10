@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 13, 2014 11:23:22 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="Entity.ObavljeniPosao" table="OBAVLJENIPOSAO">
+        <id name="obavljeniPosao_id" type="long">
+            <column name="OBAVLJENIPOSAO_ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="pripadajuciZadatak" class="Entity.RasporedjeniZadatak" fetch="join">
+            <column name="RASPOREDJENIZADATAK_ID" />
+        </many-to-one>
+        <many-to-one name="vrstaUsluge" class="Entity.VrstaUsluge" fetch="join">
+            <column name="VRSTAUSLUGE_ID" />
+        </many-to-one>
+        <property name="brojSati" type="int">
+            <column name="BROJSATI" />
+        </property>
+        <property name="datumUnosa" type="java.sql.Date">
+            <column name="DATUMUNOSA" />
+        </property>
+        <property name="datumObavljanja" type="java.sql.Date">
+            <column name="DATUMOBAVLJANJA" />
+        </property>
+        <property name="opisa" type="java.lang.String">
+            <column name="OPISA" />
+        </property>
+        <property name="vidljivo" type="java.lang.Boolean">
+            <column name="VIDLJIVO" />
+        </property>
+    </class>
+</hibernate-mapping>
