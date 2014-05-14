@@ -10,52 +10,53 @@ import DAO.TipKorisnikaDAO;
 import Entity.Klijent;
 import Entity.Korisnik;
 import Entity.RadniZadatak;
+import Entity.TipKorisnika;
  
 public class App 
 {
     public static void main( String[] args )
     {
-    	Klijent kl = new Klijent();
-    	kl.setNaziv("BBS");
-    	kl.setBroj_telefona("033/123-456");
-    	kl.setAdresa("Lozionicka 22");
-    	kl.setEmail("bbs@bbs.ba");
+//    	Klijent kl = new Klijent();
+//    	kl.setNaziv("BBS");
+//    	kl.setBroj_telefona("033/123-456");
+//    	kl.setAdresa("Lozionicka 22");
+//    	kl.setEmail("bbs@bbs.ba");
+//    	
+//    	KlijentDAO klDAO=new KlijentDAO();
+//    	long idKlijent = klDAO.create(kl);
+//    	kl.setKlijent_id(idKlijent);
+//    	
+//    	RadniZadatak r = new RadniZadatak();
+//    	r.setBrojServisera(3);
+//    	r.setDatumUnosa(null);
+//    	r.setKlijent(kl);
+//    	r.setKrajnjiDatumIzvrsenja(null);
+//        	
+//    	KorisnikDAO k2DAO = new KorisnikDAO();
+//    	Korisnik test = k2DAO.getById(1);
+//    	
+//    	r.setKreator(test);
+//    	r.setOpis("OPIS");
+//    	r.setPotpunoDodjeljen(false);
+//    	r.setDatumUnosa(null);
+//    	r.setStatusDodjeljenosti(0);
+//    	r.setStatusIzvrsenosti(false);
+//    	r.setVidljivo(true);
+//    	
+//    	RadniZadatakDAO rDAO = new RadniZadatakDAO();
+//    	long idZadatak=rDAO.create(r);
+//    	r.setRadniZadatak_id(idZadatak);
+//    	
+//    	KlijentDAO kkDAO = new KlijentDAO();
+//    	Klijent kk= kkDAO.getById(2);
+//    	Set<RadniZadatak> lista = kk.getZadaci();
+//    	
+//    	for (Iterator<RadniZadatak> it = lista.iterator(); it.hasNext(); ) {
+//            RadniZadatak f = it.next();
+//            System.out.println(f.getOpis());
+//        }
     	
-    	KlijentDAO klDAO=new KlijentDAO();
-    	long idKlijent = klDAO.create(kl);
-    	kl.setKlijent_id(idKlijent);
-    	
-    	RadniZadatak r = new RadniZadatak();
-    	r.setBrojServisera(3);
-    	r.setDatumUnosa(null);
-    	r.setKlijent(kl);
-    	r.setKrajnjiDatumIzvrsenja(null);
-        	
-    	KorisnikDAO k2DAO = new KorisnikDAO();
-    	Korisnik test = k2DAO.getById(1);
-    	
-    	r.setKreator(test);
-    	r.setOpis("OPIS");
-    	r.setPotpunoDodjeljen(false);
-    	r.setDatumUnosa(null);
-    	r.setStatusDodjeljenosti(0);
-    	r.setStatusIzvrsenosti(false);
-    	r.setVidljivo(true);
-    	
-    	RadniZadatakDAO rDAO = new RadniZadatakDAO();
-    	long idZadatak=rDAO.create(r);
-    	r.setRadniZadatak_id(idZadatak);
-    	
-    	KlijentDAO kkDAO = new KlijentDAO();
-    	Klijent kk= kkDAO.getById(2);
-    	Set<RadniZadatak> lista = kk.getZadaci();
-    	
-    	for (Iterator<RadniZadatak> it = lista.iterator(); it.hasNext(); ) {
-            RadniZadatak f = it.next();
-            System.out.println(f.getOpis());
-        }
-    	
-    	/*TipKorisnika t=new TipKorisnika();
+    	TipKorisnika t=new TipKorisnika();
     	t.setNaziv("Serviser");    	
     	t.setVidljivo(true);
     	
@@ -93,7 +94,7 @@ public class App
     	for (Iterator<Korisnik> it = lista.iterator(); it.hasNext(); ) {
             Korisnik f = it.next();
             System.out.println(f.getIme());
-        }*/
+        }
     	
     	
     }
