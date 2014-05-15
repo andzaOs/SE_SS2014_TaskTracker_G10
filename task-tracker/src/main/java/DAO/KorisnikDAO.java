@@ -62,7 +62,7 @@ public class KorisnikDAO implements CRUD<Korisnik> {
 		List<Korisnik> korisnici = new ArrayList<Korisnik>();
 
 		korisnici = session.createCriteria(Korisnik.class).
-				addOrder(Order.asc("naziv"))
+				addOrder(Order.asc("prezime"))
 				.list(); 
 
 		return korisnici;

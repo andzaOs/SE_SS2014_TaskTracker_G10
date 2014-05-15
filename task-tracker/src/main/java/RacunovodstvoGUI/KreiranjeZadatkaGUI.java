@@ -37,6 +37,7 @@ import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
 
 import DAO.KlijentDAO;
 import DAO.KorisnikDAO;
@@ -49,17 +50,21 @@ import Entity.TipKorisnika;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class KreiranjeZadatkaGUI extends JFrame {
 	
 
 	private JFrame frmKreiranjeRadnogZadatka;
 	private static List<Klijent> klijenti;
-	JComboBox nazivKlijenta;
+	private static List<Korisnik> serviseri;
+	JComboBox nazivKlijentaCmbx;
 	Validacija v = new Validacija();
-	Boolean uslov1;
+	Boolean uslov1 = false;
 	Date now = new Date();
 	Date datumIzvrsenja;
+	int maxBrojServisera;
 
 
 	public KreiranjeZadatkaGUI() {
@@ -172,22 +177,15 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		UtilDateModel model = new UtilDateModel();
 		final JDatePanelImpl datePanel = new JDatePanelImpl(model);
 		final JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
-		datePicker.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				datumIzvrsenja = (Date) datePicker.getModel().getValue();
-				uslov1= v.PoredjenjeDatuma(datumIzvrsenja, now, datePanel);
-			}
-		});
+		datePicker.setAlignmentY(MAXIMIZED_BOTH);
 		
-		
-		
-		nazivKlijenta = new JComboBox();
+		nazivKlijentaCmbx = new JComboBox();
 		klijenti = new ArrayList<Klijent>();
 		KlijentDAO kDAO=new KlijentDAO();
 		klijenti=kDAO.getAll();
 		for(int i=0; i<klijenti.size(); i++)
-		nazivKlijenta.addItem(klijenti.get(i).getNaziv());
-		centralniPanel.add(nazivKlijenta);
+		nazivKlijentaCmbx.addItem(klijenti.get(i).getNaziv());
+		centralniPanel.add(nazivKlijentaCmbx);
 		centralniPanel.add(krajnjiDatumLbl);
 		centralniPanel.add(datePicker);
 		
@@ -197,10 +195,13 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		
 		JLabel statusODodjeljenostiLbl = new JLabel("Status o dodijeljenosti:");
 		statusODodjeljenostiLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		JComboBox dodjeljenostCmbx = new JComboBox();
+		final JComboBox dodjeljenostCmbx = new JComboBox();
+		dodjeljenostCmbx.setEnabled(false);
+
 		dodjeljenostCmbx.setModel(new DefaultComboBoxModel(new String[] {"Nedodijeljen", "Dodijeljen"}));
 		
 		final JSpinner maksimalanBrojServisera = new JSpinner();
+	
 		centralniPanel.add(maksimalanBrojServisera);
 		centralniPanel.add(statusODodjeljenostiLbl);
 		centralniPanel.add(dodjeljenostCmbx);
@@ -215,26 +216,19 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		
 		JLabel serviserLbl = new JLabel("Serviser(i):");
 		serviserLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		JComboBox izaberiServiseraCmbx = new JComboBox<Object>();
-		izaberiServiseraCmbx.setModel(new DefaultComboBoxModel(new String[] {"Izaberi..", "Miki Maus", "Popaj", "Shrek"}));
+		final JComboBox izaberiServiseraCmbx = new JComboBox<Object>();
+		izaberiServiseraCmbx.setEnabled(false);
+		serviseri = new ArrayList<Korisnik>();
+		KorisnikDAO sDAO=new KorisnikDAO();
+		serviseri=sDAO.getAll();
+		for(int i=0; i<serviseri.size(); i++)
+	    izaberiServiseraCmbx.addItem(serviseri.get(i).getIme()+serviseri.get(i).getPrezime());
 		centralniPanel.add(serviserLbl);
 		centralniPanel.add(izaberiServiseraCmbx);
 		
 		JLabel lblPrazna = new JLabel("");
-		JButton dodajBtn = new JButton("Dodaj kolaboratore");
-		dodajBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 SwingUtilities.invokeLater(new Runnable() {
-			            public void run() {
-			                OdabirServiseraGUI f = new OdabirServiseraGUI();
-			                f.setTitle("Odabir servisera");
-			                f.setSize(1000, 350);
-			                f.setLocationRelativeTo(null);
-			                f.setVisible(true);
-			            }
-			     });
-			}
-		});
+		final JButton dodajBtn = new JButton("Dodaj kolaboratore");
+		dodajBtn.setEnabled(false);
 		centralniPanel.add(lblPrazna);
 		centralniPanel.add(dodajBtn);
 			
@@ -252,16 +246,89 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		
 		// Kreiranje novog radnog zadatka
 		JButton kreirajBtn = new JButton("Kreiraj");
+		
+		JButton odustaniBtn = new JButton("Odustani");
+		juzniPanel.add(odustaniBtn);
+		juzniPanel.add(kreirajBtn);
+		
+		
+		getContentPane().add(centralniPanel, BorderLayout.CENTER);
+		getContentPane().add(juzniPanel, BorderLayout.SOUTH);
+		
+
+		datePicker.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				datumIzvrsenja = (Date) datePicker.getModel().getValue();
+				uslov1= v.PoredjenjeDatuma(datumIzvrsenja, now, datePicker);
+			}
+		});
+		
+		maksimalanBrojServisera.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				if((Integer)maksimalanBrojServisera.getValue()>0)
+				{
+					dodjeljenostCmbx.setEnabled(true);
+					izaberiServiseraCmbx.setEnabled(true);
+				}
+				if((Integer)maksimalanBrojServisera.getValue()>1)
+				{
+					dodajBtn.setEnabled(true);
+				}
+			}
+		});
+		
+		dodjeljenostCmbx.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if((Integer)maksimalanBrojServisera.getValue()<1)
+				{
+					dodjeljenostCmbx.setSelectedIndex(0);
+					JOptionPane.showMessageDialog(rootPane, "Označili ste da je maksimalni broj servisera koji rade na zadatku nula.", "Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+
+		izaberiServiseraCmbx.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if((Integer)maksimalanBrojServisera.getValue()<1)
+				{
+					izaberiServiseraCmbx.setSelectedIndex(0);
+					JOptionPane.showMessageDialog(rootPane, "Označili ste da je maksimalni broj servisera koji rade na zadatku nula.", "Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		dodajBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if((Integer)maksimalanBrojServisera.getValue()<2)
+				{
+					dodajBtn.setEnabled(false);
+					JOptionPane.showMessageDialog(rootPane, "Da bi dodali kolaborate maksimalni broj servisera mora biti veći od jedan.", "Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+				 SwingUtilities.invokeLater(new Runnable() {
+			            public void run() {
+			                OdabirServiseraGUI f = new OdabirServiseraGUI();
+			                f.setTitle("Odabir servisera");
+			                f.setSize(1000, 350);
+			                f.setLocationRelativeTo(null);
+			                f.setVisible(true);
+			            }
+			     });
+				}
+			}
+		});
+		
 		kreirajBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(uslov1==true)
 				{
 				RadniZadatak rz = new RadniZadatak();
 				rz.setDatumUnosa(now);
-				int maxBrojServisera = (Integer)maksimalanBrojServisera.getValue();
+				maxBrojServisera = (Integer)maksimalanBrojServisera.getValue();
 				rz.setBrojServisera(maxBrojServisera);
 				Klijent k = new Klijent();
-				int index = nazivKlijenta.getSelectedIndex();
+				int index = nazivKlijentaCmbx.getSelectedIndex();
 				k = klijenti.get(index);
 				rz.setKlijent(k);
 				rz.setKrajnjiDatumIzvrsenja(datumIzvrsenja);
@@ -279,18 +346,13 @@ public class KreiranjeZadatkaGUI extends JFrame {
 				
 			}
 		});
-		JButton odustaniBtn = new JButton("Odustani");
+		
+
 		odustaniBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		juzniPanel.add(odustaniBtn);
-		juzniPanel.add(kreirajBtn);
-		
-		
-		getContentPane().add(centralniPanel, BorderLayout.CENTER);
-		getContentPane().add(juzniPanel, BorderLayout.SOUTH);
 	}
 	
 

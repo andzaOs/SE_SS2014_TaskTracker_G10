@@ -16,8 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 
 public class Validacija {
 	
@@ -240,14 +242,14 @@ public class Validacija {
         }
 	}
 	
-	public Boolean PoredjenjeDatuma(Date datum1, Date datum2, JDatePanelImpl datePanel)
+	public Boolean PoredjenjeDatuma(Date datum1, Date datum2, JDatePickerImpl datePicker)
 	{
 		if(datum1.after(datum2) || datum1.equals(datum2)) return true;
 		else
 			{
-			Border border = BorderFactory.createLineBorder(Color.RED, 1);
-			datePanel.setBackground(Color.red);;	
-			datePanel.setToolTipText("Datum izvršenja ne smije biti manji od datuma unosa radnog zadatka.");
+			Border etchedBorder = new EtchedBorder(Color.RED, Color.RED);
+			datePicker.setBorder(etchedBorder);	
+			datePicker.setToolTipText("Datum izvršenja ne smije biti manji od datuma unosa radnog zadatka.");
 			return false;
 			}
 	}
