@@ -28,12 +28,12 @@ public class PromjenaSifreGUI {
 	}
 
 	
-	private void initialize(JFrame frmPromjenaifre) {
+	private void initialize(JFrame frmPromjenaSifre) {
 		
-		frmPromjenaifre.setTitle("Promjena �ifre");
-		frmPromjenaifre.setBounds(100, 100, 353, 277);
+		frmPromjenaSifre.setTitle("Promjena šifre");
+		frmPromjenaSifre.setBounds(100, 100, 353, 277);
 		
-		frmPromjenaifre.getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
+		frmPromjenaSifre.getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -65,20 +65,20 @@ public class PromjenaSifreGUI {
 		staraSifraTxt = new JTextField();
 		staraSifraTxt.setForeground(Color.LIGHT_GRAY);
 		staraSifraTxt.setText("Stara \u0161ifra");
-		frmPromjenaifre.getContentPane().add(staraSifraTxt, "4, 4, 5, 1, fill, default");
+		frmPromjenaSifre.getContentPane().add(staraSifraTxt, "4, 4, 5, 1, fill, default");
 		staraSifraTxt.setColumns(10);
 		
 		novaSifraTxt = new JTextField();
 		novaSifraTxt.setText("Nova \u0161ifra");
 		novaSifraTxt.setForeground(Color.LIGHT_GRAY);
 		novaSifraTxt.setColumns(10);
-		frmPromjenaifre.getContentPane().add(novaSifraTxt, "4, 8, 5, 1, fill, default");
+		frmPromjenaSifre.getContentPane().add(novaSifraTxt, "4, 8, 5, 1, fill, default");
 		
 		potvrdaNoveSifreTxt = new JTextField();
 		potvrdaNoveSifreTxt.setForeground(Color.LIGHT_GRAY);
 		potvrdaNoveSifreTxt.setText("Potvrda nove \u0161ifre");
 		potvrdaNoveSifreTxt.setColumns(10);
-		frmPromjenaifre.getContentPane().add(potvrdaNoveSifreTxt, "4, 12, 5, 1, fill, default");
+		frmPromjenaSifre.getContentPane().add(potvrdaNoveSifreTxt, "4, 12, 5, 1, fill, default");
 		
 		final JButton promijeniBtn = new JButton("Promijeni");
 		promijeniBtn.addActionListener(new ActionListener() {
@@ -86,10 +86,10 @@ public class PromjenaSifreGUI {
 				JOptionPane.showMessageDialog(promijeniBtn, "Nije implementirano", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
-		frmPromjenaifre.getContentPane().add(promijeniBtn, "4, 16, right, default");
+		frmPromjenaSifre.getContentPane().add(promijeniBtn, "4, 16, right, default");
 		
-		frmPromjenaifre.setLocationRelativeTo(null);
-		frmPromjenaifre.setVisible(true);
+		frmPromjenaSifre.setLocationRelativeTo(null);
+		frmPromjenaSifre.setVisible(true);
 	}
 
 }

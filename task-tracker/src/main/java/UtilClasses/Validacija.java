@@ -244,7 +244,11 @@ public class Validacija {
 	
 	public Boolean PoredjenjeDatuma(Date datum1, Date datum2, JDatePickerImpl datePicker)
 	{
-		if(datum1.after(datum2) || datum1.equals(datum2)) return true;
+		if(datum1.after(datum2) || datum1.equals(datum2))
+			{
+			datePicker.setBorder(null);	
+			return true;
+			}
 		else
 			{
 			Border etchedBorder = new EtchedBorder(Color.RED, Color.RED);

@@ -1,17 +1,12 @@
 package RacunovodstvoGUI;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -28,8 +23,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.JSpinner;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import UtilClasses.Validacija;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
@@ -37,29 +30,28 @@ import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
 
 import DAO.KlijentDAO;
 import DAO.KorisnikDAO;
 import DAO.RadniZadatakDAO;
-import DAO.TipKorisnikaDAO;
 import Entity.Klijent;
 import Entity.Korisnik;
 import Entity.RadniZadatak;
-import Entity.TipKorisnika;
 
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+
+
+
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+@SuppressWarnings("serial")
 public class KreiranjeZadatkaGUI extends JFrame {
 	
 
 	private JFrame frmKreiranjeRadnogZadatka;
 	private static List<Klijent> klijenti;
 	private static List<Korisnik> serviseri;
-	JComboBox nazivKlijentaCmbx;
+	JComboBox<String> nazivKlijentaCmbx;
 	Validacija v = new Validacija();
 	Boolean uslov1 = false;
 	Date now = new Date();
@@ -87,10 +79,11 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		promijeniSifruItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EventQueue.invokeLater(new Runnable() {
+					@SuppressWarnings("unused")
 					public void run() {
 						try {
-							JFrame frmPromjenaifre = new JFrame();
-							PromjenaSifreGUI window = new PromjenaSifreGUI(frmPromjenaifre);
+							JFrame frmPromjenaSifre = new JFrame();
+							PromjenaSifreGUI window = new PromjenaSifreGUI(frmPromjenaSifre);
 							
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -163,8 +156,8 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		
 		JLabel vrstaRadnogZadatkaLbl = new JLabel("Vrsta radnog zadatka*:");
 		vrstaRadnogZadatkaLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		JComboBox zadatakCmbx = new JComboBox();
-		zadatakCmbx.setModel(new DefaultComboBoxModel(new String[] {"Hardware", "Software"}));
+		JComboBox<String> zadatakCmbx = new JComboBox<String>();
+		zadatakCmbx.setModel(new DefaultComboBoxModel<String>(new String[] {"Hardware", "Software"}));
 		centralniPanel.add(vrstaRadnogZadatkaLbl);
 		centralniPanel.add(zadatakCmbx);
 		
@@ -179,7 +172,7 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		final JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
 		datePicker.setAlignmentY(MAXIMIZED_BOTH);
 		
-		nazivKlijentaCmbx = new JComboBox();
+		nazivKlijentaCmbx = new JComboBox<String>();
 		klijenti = new ArrayList<Klijent>();
 		KlijentDAO kDAO=new KlijentDAO();
 		klijenti=kDAO.getAll();
@@ -195,10 +188,10 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		
 		JLabel statusODodjeljenostiLbl = new JLabel("Status o dodijeljenosti:");
 		statusODodjeljenostiLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JComboBox dodjeljenostCmbx = new JComboBox();
+		final JComboBox<String> dodjeljenostCmbx = new JComboBox<String>();
 		dodjeljenostCmbx.setEnabled(false);
 
-		dodjeljenostCmbx.setModel(new DefaultComboBoxModel(new String[] {"Nedodijeljen", "Dodijeljen"}));
+		dodjeljenostCmbx.setModel(new DefaultComboBoxModel<String>(new String[] {"Nedodijeljen", "Dodijeljen"}));
 		
 		final JSpinner maksimalanBrojServisera = new JSpinner();
 	
@@ -208,20 +201,20 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		
 		JLabel statusOIzvsenostiLbl = new JLabel("Status o izvršenosti:");
 		statusOIzvsenostiLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		JComboBox izvrsenostCmbx = new JComboBox();
-		izvrsenostCmbx.setModel(new DefaultComboBoxModel(new String[] {"Nije izvršen", "Procesiranje ", "Izvršen"}));
+		JComboBox<String> izvrsenostCmbx = new JComboBox<String>();
+		izvrsenostCmbx.setModel(new DefaultComboBoxModel<String>(new String[] {"Nije izvršen", "Procesiranje ", "Izvršen"}));
 		centralniPanel.add(statusOIzvsenostiLbl);
 		centralniPanel.add(izvrsenostCmbx);
 		
 		
 		JLabel serviserLbl = new JLabel("Serviser(i):");
 		serviserLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JComboBox izaberiServiseraCmbx = new JComboBox<Object>();
+		final JComboBox<String> izaberiServiseraCmbx = new JComboBox<String>();
 		izaberiServiseraCmbx.setEnabled(false);
 		serviseri = new ArrayList<Korisnik>();
 		KorisnikDAO sDAO=new KorisnikDAO();
 		serviseri=sDAO.getAll();
-		for(int i=0; i<serviseri.size(); i++)
+		for(int i=1; i<serviseri.size(); i++)
 	    izaberiServiseraCmbx.addItem(serviseri.get(i).getIme()+serviseri.get(i).getPrezime());
 		centralniPanel.add(serviserLbl);
 		centralniPanel.add(izaberiServiseraCmbx);
@@ -235,7 +228,7 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		JLabel opisLbl = new JLabel("Opis:");
 		opisLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		centralniPanel.add(opisLbl);
-		JTextField opisTxt = new JTextField();
+		final JTextField opisTxt = new JTextField();
 		opisTxt.setColumns(10);
 		centralniPanel.add(opisTxt);
 		
@@ -270,52 +263,29 @@ public class KreiranjeZadatkaGUI extends JFrame {
 					dodjeljenostCmbx.setEnabled(true);
 					izaberiServiseraCmbx.setEnabled(true);
 				}
+				else
+				{
+					dodjeljenostCmbx.setEnabled(false);
+					izaberiServiseraCmbx.setEnabled(false);
+				}
 				if((Integer)maksimalanBrojServisera.getValue()>1)
 				{
 					dodajBtn.setEnabled(true);
 				}
-			}
-		});
-		
-		dodjeljenostCmbx.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if((Integer)maksimalanBrojServisera.getValue()<1)
+				else
 				{
-					dodjeljenostCmbx.setSelectedIndex(0);
-					JOptionPane.showMessageDialog(rootPane, "Označili ste da je maksimalni broj servisera koji rade na zadatku nula.", "Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+					dodajBtn.setEnabled(false);
+
 				}
+				
 			}
 		});
 		
 
-		izaberiServiseraCmbx.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if((Integer)maksimalanBrojServisera.getValue()<1)
-				{
-					izaberiServiseraCmbx.setSelectedIndex(0);
-					JOptionPane.showMessageDialog(rootPane, "Označili ste da je maksimalni broj servisera koji rade na zadatku nula.", "Poruka o grešci", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
 		dodajBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if((Integer)maksimalanBrojServisera.getValue()<2)
-				{
-					dodajBtn.setEnabled(false);
-					JOptionPane.showMessageDialog(rootPane, "Da bi dodali kolaborate maksimalni broj servisera mora biti veći od jedan.", "Poruka o grešci", JOptionPane.ERROR_MESSAGE);
-				}
-				else
-				{
-				 SwingUtilities.invokeLater(new Runnable() {
-			            public void run() {
-			                OdabirServiseraGUI f = new OdabirServiseraGUI();
-			                f.setTitle("Odabir servisera");
-			                f.setSize(1000, 350);
-			                f.setLocationRelativeTo(null);
-			                f.setVisible(true);
-			            }
-			     });
-				}
+			public void actionPerformed(ActionEvent arg0) {
+				OdabirServiseraGUI os = new OdabirServiseraGUI();
+				os.setVisible(true);
 			}
 		});
 		
@@ -332,7 +302,7 @@ public class KreiranjeZadatkaGUI extends JFrame {
 				k = klijenti.get(index);
 				rz.setKlijent(k);
 				rz.setKrajnjiDatumIzvrsenja(datumIzvrsenja);
-				rz.setOpis("");
+				rz.setOpis(opisTxt.getText());
 				
 				RadniZadatakDAO rzDAO = new RadniZadatakDAO();
 				long idZadatak=rzDAO.create(rz);

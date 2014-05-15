@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import Entity.RadniZadatak;
+
 public class OdabirServiseraGUI extends JFrame{
 	
 	
@@ -68,7 +70,7 @@ public class OdabirServiseraGUI extends JFrame{
 						dispose();
 					}
 				});
-				JButton Vise = new JButton("Prika�i vi�e");
+				JButton Vise = new JButton("Prikaži više");
 				Vise.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						EventQueue.invokeLater(new Runnable() {
@@ -83,7 +85,7 @@ public class OdabirServiseraGUI extends JFrame{
 						});
 					}
 				});
-				JButton Zavrsi = new JButton("Zavr�i dodjelu");
+				JButton Zavrsi = new JButton("Završi dodjelu");
 				Zavrsi.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						JOptionPane.showMessageDialog(rootPane, "Nije implementirano", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
