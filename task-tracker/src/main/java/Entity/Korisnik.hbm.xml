@@ -44,13 +44,13 @@
         <many-to-one name="tip_korisnika" class="Entity.TipKorisnika" fetch="join">
             <column name="TIPKORISNIKA_ID" />
         </many-to-one>
-        <set name="dodjeljeniZadaci" table="RADNIZADATAK" inverse="false" lazy="true">
+        <set name="dodjeljeniZadaci" table="RADNIZADATAK" inverse="false" lazy="false">
             <key>
                 <column name="KORISNIK_ID" />
             </key>
             <one-to-many class="Entity.RadniZadatak" />
         </set>
-        <set name="vlastitiZadaci" table="RASPOREDJENIZADATAK" inverse="false" lazy="true">
+        <set name="vlastitiZadaci" table="RASPOREDJENIZADATAK" inverse="false" lazy="false">
             <key>
                 <column name="KORISNIK_ID" />
             </key>

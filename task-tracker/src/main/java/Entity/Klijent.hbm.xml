@@ -23,7 +23,7 @@
         <property name="vidljivo" type="java.lang.Boolean">
             <column name="VIDLJIVO" />
         </property>
-        <set name="zadaci" table="RADNIZADATAK" inverse="false" lazy="true">
+        <set name="zadaci" table="RADNIZADATAK" inverse="false" lazy="false">
             <key>
                 <column name="KLIJENT_ID" />
             </key>

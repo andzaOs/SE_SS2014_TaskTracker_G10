@@ -23,7 +23,7 @@
         <property name="datumPrihvatanja" type="java.sql.Date">
             <column name="DATUMPRIHVATANJA" />
         </property>
-        <set name="savPosao" table="OBAVLJENIPOSAO" inverse="false" lazy="true">
+        <set name="savPosao" table="OBAVLJENIPOSAO" inverse="false" lazy="false">
             <key>
                 <column name="RASPOREDJENIZADATAK_ID" />
             </key>

@@ -1,104 +1,103 @@
 package ba.unsa.etf.si.tim10.task_tracker;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import DAO.KlijentDAO;
 import DAO.KorisnikDAO;
 import DAO.RadniZadatakDAO;
 import DAO.TipKorisnikaDAO;
+import DAO.VrstaUslugeDAO;
 import Entity.Klijent;
 import Entity.Korisnik;
 import Entity.RadniZadatak;
 import Entity.TipKorisnika;
+import Entity.VrstaUsluge;
+import Izvjestaj.Izvjestaj;
+import Izvjestaj.stavkaIzvjestajaKlijent;
+import Izvjestaj.stavkaIzvjestajaRadnik;
+import Izvjestaj.stavkaIzvjestajaSat;
+import Izvjestaj.stavkaIzvjestajaUsluga;
  
 public class App 
 {
     public static void main( String[] args )
     {
-//    	Klijent kl = new Klijent();
-//    	kl.setNaziv("BBS");
-//    	kl.setBroj_telefona("033/123-456");
-//    	kl.setAdresa("Lozionicka 22");
-//    	kl.setEmail("bbs@bbs.ba");
-//    	
-//    	KlijentDAO klDAO=new KlijentDAO();
-//    	long idKlijent = klDAO.create(kl);
-//    	kl.setKlijent_id(idKlijent);
-//    	
-//    	RadniZadatak r = new RadniZadatak();
-//    	r.setBrojServisera(3);
-//    	r.setDatumUnosa(null);
-//    	r.setKlijent(kl);
-//    	r.setKrajnjiDatumIzvrsenja(null);
-//        	
-//    	KorisnikDAO k2DAO = new KorisnikDAO();
-//    	Korisnik test = k2DAO.getById(1);
-//    	
-//    	r.setKreator(test);
-//    	r.setOpis("OPIS");
-//    	r.setPotpunoDodjeljen(false);
-//    	r.setDatumUnosa(null);
-//    	r.setStatusDodjeljenosti(0);
-//    	r.setStatusIzvrsenosti(false);
-//    	r.setVidljivo(true);
-//    	
-//    	RadniZadatakDAO rDAO = new RadniZadatakDAO();
-//    	long idZadatak=rDAO.create(r);
-//    	r.setRadniZadatak_id(idZadatak);
-//    	
-//    	KlijentDAO kkDAO = new KlijentDAO();
-//    	Klijent kk= kkDAO.getById(2);
-//    	Set<RadniZadatak> lista = kk.getZadaci();
-//    	
-//    	for (Iterator<RadniZadatak> it = lista.iterator(); it.hasNext(); ) {
-//            RadniZadatak f = it.next();
-//            System.out.println(f.getOpis());
-//        }
     	
-    	TipKorisnika t=new TipKorisnika();
-    	t.setNaziv("Serviser");    	
-    	t.setVidljivo(true);
+    	/*Date pocetak = Date.valueOf("2014-05-10");
+    	Date kraj = Date.valueOf("2014-05-25");
     	
-    	TipKorisnikaDAO tDAO=new TipKorisnikaDAO();
-    	long id = tDAO.create(t);
-    	t.setTipKorisnika_id(id);
-    	
-    	Korisnik k=new Korisnik();
-    	k.setIme("Pero");
-    	k.setPrezime("Peric");
-    	k.setAdresa("Cemalusa 23");
-    	
-    	k.setBr_lk("10BND2275");
-    	k.setJmbg("0710992175025");
-    	k.setTelefon("061-123-456");
-    	k.setEmail("pero@domena.com");
-    	k.setKorisnicko_ime("peroP");
-    	k.setLozinka("123");
-    	k.setDatum_zaposlenja(null);
-    	k.setVidljivo(true);
-    	k.setTip_korisnika(t);
-    	
+    	Korisnik k = new Korisnik();
     	KorisnikDAO kDAO = new KorisnikDAO();
-    	long id2=kDAO.create(k);
-    	k.setKorisnik_id(id2);
+    	k = kDAO.getById(1);		
     	
-    	KorisnikDAO k2DAO = new KorisnikDAO();
-    	Korisnik test = k2DAO.getById(1);
-    	System.out.println(test.getTip_korisnika().getNaziv());
+    	Izvjestaj iz = new Izvjestaj();
+    	List<stavkaIzvjestajaRadnik> red = iz.vratiIzvjestajPremaRadniku(k, pocetak, kraj);
     	
-    	TipKorisnikaDAO tkDAO = new TipKorisnikaDAO();
-    	TipKorisnika tk= tkDAO.getById(1);
-    	Set<Korisnik> lista = tk.getKorisnici();
+        for(int i=0; i<red.size(); i++)
+        {
+        	System.out.println(red.get(i).getKlijent() + " " + red.get(i).getVrstaUsluge() + 
+        			" " + red.get(i).getDatum() + " " + red.get(i).getBrojSati() );
+        }*/
     	
-    	for (Iterator<Korisnik> it = lista.iterator(); it.hasNext(); ) {
-            Korisnik f = it.next();
-            System.out.println(f.getIme());
-        }
+
     	
+    	/*VrstaUsluge v = new VrstaUsluge();
+    	VrstaUslugeDAO vDAO = new VrstaUslugeDAO();
+    	v = vDAO.getById(1);
     	
+    	Izvjestaj iz = new Izvjestaj();
+    	List<stavkaIzvjestajaUsluga> red = iz.vratiIzvjestajPremaUslugi(v, pocetak, kraj);
+    	
+        for(int i=0; i<red.size(); i++)
+        {
+        	System.out.println(red.get(i).getRadnik() + " " + red.get(i).getKlijent() + 
+        			" " + red.get(i).getDatum() + " " + red.get(i).getBrojSati() );
+        }*/
+    	
+    	/*Klijent k = new Klijent();
+    	KlijentDAO kDAO = new KlijentDAO();
+    	k = kDAO.getById(1);
+    	
+    	Izvjestaj iz = new Izvjestaj();
+    	List<stavkaIzvjestajaKlijent> red = iz.vratiIzvjestajPremaKlijentu(k, pocetak, kraj);
+    	
+        for(int i=0; i<red.size(); i++)
+        {
+        	System.out.println(red.get(i).getRadnik() + " " + red.get(i).getUsluga() + 
+        			" " + red.get(i).getDatum() + " " + red.get(i).getBrojSati() );
+        }*/
+    	
+    	/*Izvjestaj iz = new Izvjestaj();
+    	List<stavkaIzvjestajaSat> red = iz.vratiIzvjestajPremaSatima(pocetak, kraj);
+    	
+        for(int i=0; i<red.size(); i++)
+        {
+        	System.out.println(red.get(i).getRadnik() + " " + red.get(i).getBrojSati() );
+        }*/
+    	
+    	/*Izvjestaj iz = new Izvjestaj();
+    	List< List<stavkaIzvjestajaRadnik> > red = iz.vratiDetaljniIzvjestaj(pocetak, kraj);
+    	
+        for(int i=0; i<red.size(); i++)
+        {
+        	for(int j=0; j<red.get(i).size(); j++) {
+            	System.out.println(red.get(i).get(j).getKlijent() + " " + red.get(i).get(j).getVrstaUsluge() + 
+            			" " + red.get(i).get(j).getDatum() + " " + red.get(i).get(j).getBrojSati() );
+        	}
+        }*/
+    	
+    	/*Korisnik k = new Korisnik();
+    	KorisnikDAO kDAO = new KorisnikDAO();
+    	k = kDAO.getByUsername("peroP");
+    	System.out.println(k.getKorisnicko_ime());*/
+    	
+    	//String s = "username";
+    	//System.out.println(s.hashCode());
+     	
     }
-    
-    
 }
 
