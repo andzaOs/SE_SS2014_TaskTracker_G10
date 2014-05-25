@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 24, 2014 12:54:10 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="Entity.PostavkaMail" table="POSTAVKAMAIL">
+        <id name="postavkamail_id" type="long">
+            <column name="POSTAVKAMAIL_ID" />
+            <generator class="native" />
+        </id>
+        <property name="rokUnos" type="int">
+            <column name="ROKUNOS" />
+        </property>
+        <property name="rokPreuzimanje" type="int">
+            <column name="ROKPREUZIMANJE" />
+        </property>
+        <property name="opomena" type="java.lang.String">
+            <column name="OPOMENA" />
+        </property>
+        <property name="obavijest" type="java.lang.String">
+            <column name="OBAVIJEST" />
+        </property>
+    </class>
+</hibernate-mapping>

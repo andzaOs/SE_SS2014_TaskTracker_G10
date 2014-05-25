@@ -10,7 +10,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
+import DAO.PostavkaMailDAO;
+import Entity.PostavkaMail;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.event.ActionListener;
@@ -37,17 +40,17 @@ public class SistemObavjestavanjaGUI extends JFrame
 	{
 		
 		//Naziv forme
-		setTitle("Pode�avanje automatskog obavje�tavanja i opominjanja korisnika");
+		setTitle("Podešavanje automatskog obavještavanja i opominjanja korisnika");
 		
-		this.setSize(404, 296);
+		this.setSize(402, 296);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new MigLayout("", "[190.00][][170.00,grow]", "[][3.00][28.00][grow][]"));
 		
 		JLabel krajnjiRokZaUnosLbl = new JLabel("Krajnji rok za unos obavljenog posla:");
 		getContentPane().add(krajnjiRokZaUnosLbl, "cell 0 0");
 		
-		JSpinner spinner = new JSpinner();
-		getContentPane().add(spinner, "cell 1 0");
+		final JSpinner rokUnosSpin = new JSpinner();
+		getContentPane().add(rokUnosSpin, "cell 1 0");
 		
 		JLabel danaLbl = new JLabel("dana");
 		getContentPane().add(danaLbl, "cell 2 0");
@@ -55,8 +58,8 @@ public class SistemObavjestavanjaGUI extends JFrame
 		JLabel krajnjiRokZaPreuzimanjeLbl = new JLabel("Krajnji rok za preuzimanje zadatka:");
 		getContentPane().add(krajnjiRokZaPreuzimanjeLbl, "cell 0 1");
 		
-		JSpinner spinner_1 = new JSpinner();
-		getContentPane().add(spinner_1, "cell 1 1");
+		final JSpinner rokPreuzimanjeSpin = new JSpinner();
+		getContentPane().add(rokPreuzimanjeSpin, "cell 1 1");
 		
 		JLabel ldana1Lbl = new JLabel("dana");
 		getContentPane().add(ldana1Lbl, "cell 2 1");
@@ -67,30 +70,65 @@ public class SistemObavjestavanjaGUI extends JFrame
 		JLabel sadrajObavijestiLbl = new JLabel("Sadr\u017Eaj obavijesti:");
 		getContentPane().add(sadrajObavijestiLbl, "cell 1 2");
 		
-		JTextArea sadrzajTxt = new JTextArea();
-		sadrzajTxt.setForeground(Color.BLACK);
-		getContentPane().add(sadrzajTxt, "cell 0 3,grow");
+		final JTextArea opomenaTxt = new JTextArea();
+		opomenaTxt.setRows(10);
+		opomenaTxt.setForeground(Color.BLACK);
+		getContentPane().add(opomenaTxt, "cell 0 3");
+		
+		final JTextArea obavijestTxt = new JTextArea();
+		getContentPane().add(obavijestTxt, "cell 1 3 2 1");
 		
 		JButton spremiBtn = new JButton("Spremi");
 		spremiBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Nije implementirano", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				
+				try {
+					PostavkaMail p = new PostavkaMail();
+					p.setRokPreuzimanje( (Integer) rokPreuzimanjeSpin.getValue() );
+					p.setRokUnos( (Integer) rokUnosSpin.getValue() );
+					p.setOpomena(opomenaTxt.getText());
+					p.setObavijest( obavijestTxt.getText() );
+					
+					PostavkaMailDAO pDAO = new PostavkaMailDAO();
+					long id = pDAO.create(p);
+					p.setPostavkamail_id(id);	
+					
+					JOptionPane.showMessageDialog(rootPane, "Promjene su spremljene", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(rootPane, ex.getMessage() , "Greška", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		
-		JTextArea textArea = new JTextArea();
-		getContentPane().add(textArea, "cell 1 3 2 1,grow");
 		getContentPane().add(spremiBtn, "cell 2 4,growx");
+
 		
 		
-		
-	
+    	PostavkaMail p = new PostavkaMail();
+    	PostavkaMailDAO pDAO = new PostavkaMailDAO();
+    	p = pDAO.vratiPostavke();
+    	
+    	obavijestTxt.setText(p.getObavijest());
+    	opomenaTxt.setText(p.getOpomena());
+    	rokUnosSpin.setValue(p.getRokUnos());
+    	rokPreuzimanjeSpin.setValue(p.getRokPreuzimanje());
+    	
 		
 		//table.setFillsViewportHeight(true);
 			
 	
 	}
-
-
+	
+	public static void main(String args[]) {
+	    SwingUtilities.invokeLater(new Runnable() {
+	        public void run() {
+	           SistemObavjestavanjaGUI ex = new SistemObavjestavanjaGUI();
+	            ex.setVisible(true);
+	        	
+	        }
+	    });
+	}
+		
 	
 }

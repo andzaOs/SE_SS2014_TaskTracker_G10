@@ -16,5 +16,7 @@
   <mapping resource="Entity/RasporedjeniZadatak.hbm.xml"/>
   <mapping resource="Entity/ObavljeniPosao.hbm.xml"/>
   <mapping resource="Entity/VrstaUsluge.hbm.xml"/>
+  <mapping resource="Entity/PostavkaMail.hbm.xml"/>
+  <mapping resource="Entity/EmailLog.hbm.xml"/>
  </session-factory>
 </hibernate-configuration>
