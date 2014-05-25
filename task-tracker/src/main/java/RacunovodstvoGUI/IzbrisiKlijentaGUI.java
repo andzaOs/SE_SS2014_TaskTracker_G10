@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import DAO.KlijentDAO;
 import Entity.Klijent;
+import Kontroleri.KlijentKontroler;
 
 
 public class IzbrisiKlijentaGUI extends JFrame {
@@ -34,8 +35,7 @@ public class IzbrisiKlijentaGUI extends JFrame {
 		
 		setTitle("Brisanje klijenta");
 		
-		KlijentDAO kDAO = new KlijentDAO();
-		final Klijent kl = kDAO.getById(id);
+		
 		
 		JLabel naslovLbl = new JLabel("Da li ste sigurni da \u017Eelite izbrisati odabranog klijenta?");
 		naslovLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -61,20 +61,23 @@ public class IzbrisiKlijentaGUI extends JFrame {
 		JButton obrisiBtn = new JButton("Obriši");
 		obrisiBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Klijent k = new Klijent();
-				k.setKlijent_id(kl.getKlijent_id());
-				k.setNaziv(kl.getNaziv());
-				k.setAdresa(kl.getAdresa());
-				k.setEmail(kl.getEmail());
-				k.setBroj_telefona(kl.getBroj_telefona());
-				k.setVidljivo(kl.getVidljivo());
-				KlijentDAO kDAO2 = new KlijentDAO();
-				kDAO2.delete(k);
-				dispose();
+				KlijentKontroler kKontroler = new KlijentKontroler();
+				try {
+					if(kKontroler.brisanjeKlijenta(id)) {
+						dispose();
+						JOptionPane.showMessageDialog(rootPane,
+							    "Klijent je uspješno obrisan.",
+							    "Brisanje klijenta",
+							    JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+				catch(Exception ex) {
 					JOptionPane.showMessageDialog(rootPane,
-						    "Klijent je uspješno obrisan.",
-						    "Brisanje klijenta",
-						    JOptionPane.INFORMATION_MESSAGE);
+						    "Greška. Pojavio se izuzetak.",
+						    "Izuzetak",
+						    JOptionPane.ERROR_MESSAGE);
+					System.exit(DISPOSE_ON_CLOSE);
+				}
 			}
 		});
 		juzniPanel.add(obrisiBtn);

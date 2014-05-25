@@ -2,17 +2,17 @@ package RacunovodstvoGUI;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import ba.unsa.etf.si.tim10.task_tracker.LoginGUI;
 
 
 public class OdjaviSeGUI extends JFrame {
@@ -20,6 +20,7 @@ public class OdjaviSeGUI extends JFrame {
 	
 	
 	public OdjaviSeGUI() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Odjava");
 		
 		JLabel daLiSteLbl = new JLabel("Da li ste sigurni da se \u017Eelite odjaviti?");
@@ -43,13 +44,17 @@ public class OdjaviSeGUI extends JFrame {
 			}
 		});
 		juzniPanel.add(odustaniBtn);
-		JButton obrisiBtn = new JButton("Odjavi se");
-		obrisiBtn.addActionListener(new ActionListener() {
+		JButton odjavaBtn = new JButton("Odjavi se");
+		odjavaBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Nije implementirano", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				java.awt.Window win[] = java.awt.Window.getWindows(); 
+				for(int i=0;i<win.length;i++){ 
+					win[i].dispose(); 
+				} 
+				LoginGUI l = new LoginGUI();
 			}
 		});
-		juzniPanel.add(obrisiBtn);
+		juzniPanel.add(odjavaBtn);
 		
 		JLabel label_3 = new JLabel("");
 		juzniPanel.add(label_3);

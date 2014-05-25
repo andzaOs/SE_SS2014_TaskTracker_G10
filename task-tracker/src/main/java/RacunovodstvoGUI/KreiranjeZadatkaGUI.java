@@ -83,7 +83,7 @@ public class KreiranjeZadatkaGUI extends JFrame {
 					public void run() {
 						try {
 							JFrame frmPromjenaSifre = new JFrame();
-							PromjenaSifreGUI window = new PromjenaSifreGUI(frmPromjenaSifre);
+							PromjenaSifreGUI window = new PromjenaSifreGUI();
 							
 						} catch (Exception e) {
 							e.printStackTrace();

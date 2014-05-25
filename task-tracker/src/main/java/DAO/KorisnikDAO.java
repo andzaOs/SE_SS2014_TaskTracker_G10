@@ -80,6 +80,14 @@ public class KorisnikDAO implements CRUD<Korisnik> {
 		return korisnici;
 	}
 
+	@SuppressWarnings("unchecked")
+	public Korisnik getByUsername(String korisnicko_ime) {
+		Korisnik korisnik = new Korisnik();
+		korisnik = (Korisnik) session.createCriteria(Korisnik.class)
+			    .add( Restrictions.like("korisnicko_ime", korisnicko_ime) )
+			    .uniqueResult();
 
+		return korisnik;
+	}
 
 }

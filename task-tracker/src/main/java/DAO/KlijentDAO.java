@@ -29,9 +29,7 @@ public class KlijentDAO implements CRUD<Klijent> {
         }catch(Throwable t){
             throw t;
         }
-        finally {
-        	super.finalize();
-        }
+      
     }
 
 	public long create(Klijent k) {

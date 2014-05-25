@@ -24,6 +24,8 @@ import javax.swing.SwingUtilities;
 
 import DAO.KlijentDAO;
 import Entity.Klijent;
+import Kontroleri.KlijentKontroler;
+import UtilClasses.KorisnickoUputstvo;
 import UtilClasses.Validacija;
  	
  	public class KreiranjeKlijentaGUI extends JFrame {
@@ -48,7 +50,7 @@ import UtilClasses.Validacija;
  			setTitle("Kreiranje novog klijenta");
  			frmKreiranjeKlijenta = new JFrame();
  			frmKreiranjeKlijenta.setTitle("Kreiranje novog korisnika");
- 			frmKreiranjeKlijenta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ 			frmKreiranjeKlijenta.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
  			
  			JMenuBar glavniMenuBar = new JMenuBar();
  			setJMenuBar(glavniMenuBar);
@@ -62,7 +64,7 @@ import UtilClasses.Validacija;
  						public void run() {
  							try {
  								JFrame frmPromjenaifre = new JFrame();
- 								PromjenaSifreGUI window = new PromjenaSifreGUI(frmPromjenaifre);
+ 								PromjenaSifreGUI window = new PromjenaSifreGUI();
  								
  							} catch (Exception e) {
  								e.printStackTrace();
@@ -125,7 +127,8 @@ import UtilClasses.Validacija;
  			JMenuItem korisnickoUputstvoItem = new JMenuItem("Korisni\u010Dko uputstvo");
  			korisnickoUputstvoItem.addActionListener(new ActionListener() {
  				public void actionPerformed(ActionEvent e) {
- 					JOptionPane.showMessageDialog(rootPane, "Opcija će ponuditi preuzimanje .pdf dokumenta sa korisničkm uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+ 					KorisnickoUputstvo kp = new KorisnickoUputstvo();
+ 					kp.dobaviUputstvo();
  				}
  			});
  			pomocMenu.add(korisnickoUputstvoItem);	
@@ -207,41 +210,30 @@ import UtilClasses.Validacija;
  			JButton kreirajBtn = new JButton("Kreiraj");
  			kreirajBtn.addActionListener(new ActionListener() {
  				public void actionPerformed(ActionEvent arg0) {
- 					uslov1 = v.praznoPoljeBolean(nazivTxt);
-	      			uslov2 = v.minimalnaDuzina(nazivTxt, 2);
-	      			uslov3 = v.praznoPoljeBolean(adresaTxt);
-	      			uslov4 = v.minimalnaDuzina(adresaTxt, 5);
-	      			uslov5 = v.emailAdresa(emailTxt);
-	      			uslov6 = v.praznoPoljeBolean(brojTelefonaTxt);
-	      			uslov7 = v.brojTelefona(brojTelefonaTxt);
-	      			final Boolean validno = (uslov1 && uslov2 && uslov3 && uslov4 && uslov5 && uslov6 && uslov7);
- 					if(validno) {
- 						
- 						Klijent kl = new Klijent();
- 						kl.setNaziv(nazivTxt.getText());
- 						kl.setAdresa(adresaTxt.getText());
- 						kl.setEmail(emailTxt.getText());
- 						kl.setBroj_telefona(brojTelefonaTxt.getText());
- 						kl.setVidljivo(true);
- 						KlijentDAO klDAO = new KlijentDAO();
- 						long id = klDAO.create(kl);
- 						nazivTxt.setText("");
- 						emailTxt.setText("");
- 						adresaTxt.setText("");
- 						brojTelefonaTxt.setText("");
- 						dispose();
- 						JOptionPane.showMessageDialog(frmKreiranjeKlijenta,
- 							    "Novi klijent je uspješno dodan.",
- 							    "Dodavanje klijenta",
- 							    JOptionPane.INFORMATION_MESSAGE);
- 						
+ 					try {
+	 					KlijentKontroler kKontroler = new KlijentKontroler();
+	 					if(kKontroler.kreiranjeKlijenta(nazivTxt, adresaTxt, emailTxt, brojTelefonaTxt)) {
+	 						dispose();
+	 						JOptionPane.showMessageDialog(frmKreiranjeKlijenta,
+	 							    "Novi klijent je uspješno dodan.",
+	 							    "Dodavanje klijenta",
+	 							    JOptionPane.INFORMATION_MESSAGE);
+	 					}
+	 					else{
+	 						JOptionPane.showMessageDialog(frmKreiranjeKlijenta,
+	 							    "Da biste spremili podatke u bazu morate unijeti ispravne podatke u označenim poljima.",
+	 							    "Poruka o greški",
+	 							    JOptionPane.ERROR_MESSAGE);
+	 					}
  					}
- 					else {
- 						JOptionPane.showMessageDialog(frmKreiranjeKlijenta,
- 							    "Da biste spremili podatke u bazu morate unijeti ispravne podatke u označenim poljima.",
- 							    "Poruka o greški",
- 							    JOptionPane.ERROR_MESSAGE);
+ 					catch (Exception e) {
+ 						JOptionPane.showMessageDialog(rootPane,
+								    "Greška. Pojavio se izuzetak.",
+								    "Izuzetak",
+								    JOptionPane.ERROR_MESSAGE);
+							System.exit(DISPOSE_ON_CLOSE);
  					}
+ 					
  					
  				}
  			});

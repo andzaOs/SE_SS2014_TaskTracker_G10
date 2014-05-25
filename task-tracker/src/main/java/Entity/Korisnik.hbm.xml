@@ -32,7 +32,7 @@
         <property name="korisnicko_ime" type="java.lang.String">
             <column name="KORISNICKO_IME" />
         </property>
-        <property name="lozinka" type="java.lang.String">
+        <property name="lozinka" type="int">
             <column name="LOZINKA" />
         </property>
         <property name="datum_zaposlenja" type="java.util.Date">

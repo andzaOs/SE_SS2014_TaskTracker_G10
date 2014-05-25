@@ -15,7 +15,7 @@ public class Korisnik implements java.io.Serializable{
 	String telefon;
 	String email;
 	String korisnicko_ime;
-	String lozinka;
+	int lozinka;
 	Date datum_zaposlenja;
 	Boolean vidljivo;
 	private TipKorisnika tip_korisnika;
@@ -75,10 +75,10 @@ public class Korisnik implements java.io.Serializable{
 	public void setKorisnicko_ime(String korisnicko_ime) {
 		this.korisnicko_ime = korisnicko_ime;
 	}
-	public String getLozinka() {
+	public int getLozinka() {
 		return lozinka;
 	}
-	public void setLozinka(String lozinka) {
+	public void setLozinka(int lozinka) {
 		this.lozinka = lozinka;
 	}
 	public Date getDatum_zaposlenja() {

@@ -24,7 +24,9 @@ import javax.swing.SwingUtilities;
 
 import DAO.KlijentDAO;
 import Entity.Klijent;
+import Kontroleri.KlijentKontroler;
 import UtilClasses.Validacija;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
  	
@@ -68,7 +70,7 @@ import java.awt.event.WindowEvent;
  						public void run() {
  							try {
  								JFrame frmPromjenaifre = new JFrame();
- 								PromjenaSifreGUI window = new PromjenaSifreGUI(frmPromjenaifre);
+ 								PromjenaSifreGUI window = new PromjenaSifreGUI();
  								
  							} catch (Exception e) {
  								e.printStackTrace();
@@ -218,41 +220,29 @@ import java.awt.event.WindowEvent;
  			JButton modifikujBtn = new JButton("Modifikuj");
  			modifikujBtn.addActionListener(new ActionListener() {
  				public void actionPerformed(ActionEvent arg0) {
- 					uslov1 = v.praznoPoljeBolean(nazivTxt);
-	      			uslov2 = v.minimalnaDuzina(nazivTxt, 2);
-	      			uslov3 = v.praznoPoljeBolean(adresaTxt);
-	      			uslov4 = v.minimalnaDuzina(adresaTxt, 5);
-	      			uslov5 = v.emailAdresa(emailTxt);
-	      			uslov6 = v.praznoPoljeBolean(brojTelefonaTxt);
-	      			uslov7 = v.brojTelefona(brojTelefonaTxt);
-	      			final Boolean validno = (uslov1 && uslov2 && uslov3 && uslov4 && uslov5 && uslov6 && uslov7);
- 					if(validno) {
- 						Klijent k = new Klijent();
- 						k.setKlijent_id(id);
- 						k.setNaziv(nazivTxt.getText());
- 						k.setAdresa(adresaTxt.getText());
- 						k.setEmail(emailTxt.getText());
- 						k.setBroj_telefona(brojTelefonaTxt.getText());
- 						k.setVidljivo(true);
- 							
- 						KlijentDAO klDAO3 = new KlijentDAO();
- 						klDAO3.update(k);
- 						dispose();
- 						
- 						JOptionPane.showMessageDialog(frmModifikovanjeKlijenta,
- 							    "Klijent je uspješno modifikovan.",
- 							    "Modifikovanje klijenta",
- 							    JOptionPane.INFORMATION_MESSAGE);
- 						
- 						
- 					}
- 					else {
- 						JOptionPane.showMessageDialog(frmModifikovanjeKlijenta,
- 							    "Da biste spremili podatke u bazu morate unijeti ispravne podatke u označenim poljima.",
- 							    "Poruka o greški",
- 							    JOptionPane.ERROR_MESSAGE);
- 					}
- 					
+ 						try {
+	 						KlijentKontroler kKontroler = new KlijentKontroler();
+	 						if(kKontroler.modifikacijaKlijenta(nazivTxt, adresaTxt, emailTxt, brojTelefonaTxt, id)) {
+		 						dispose();	 						
+		 						JOptionPane.showMessageDialog(frmModifikovanjeKlijenta,
+		 							    "Klijent je uspješno modifikovan.",
+		 							    "Modifikovanje klijenta",
+		 							    JOptionPane.INFORMATION_MESSAGE);				
+	 						}
+	 						else {
+		 						JOptionPane.showMessageDialog(frmModifikovanjeKlijenta,
+		 							    "Da biste spremili podatke u bazu morate unijeti ispravne podatke u označenim poljima.",
+		 							    "Poruka o greški",
+		 							    JOptionPane.ERROR_MESSAGE);
+	 						}
+ 						}
+ 						catch(Exception e) {
+ 							JOptionPane.showMessageDialog(rootPane,
+ 								    "Greška. Pojavio se izuzetak.",
+ 								    "Izuzetak",
+ 								    JOptionPane.ERROR_MESSAGE);
+ 							System.exit(DISPOSE_ON_CLOSE);
+ 						}
  				}
  			});
  			JButton odustaniBtn = new JButton("Odustani");

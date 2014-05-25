@@ -29,11 +29,14 @@ import javax.swing.table.DefaultTableModel;
 
 import DAO.KlijentDAO;
 import Entity.Klijent;
+import Kontroleri.KlijentKontroler;
+import UtilClasses.KorisnickoUputstvo;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+
 import java.awt.event.WindowAdapter;
 
 
@@ -55,74 +58,12 @@ public class UpravljanjeKlijentimaGUI extends JFrame{
 	private JTextField nazivTxt;
 	private JMenu alatiMenu;
 	private JMenuItem sistemObavjestavanjaItem;
-	private List<Klijent> klijenti;
-	
-	
-	public static void main(String args[]) {
-		SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-               UpravljanjeKlijentimaGUI ex = new UpravljanjeKlijentimaGUI();
-                ex.setSize(1000, 350);
-                ex.setLocationRelativeTo(null);
-                ex.setVisible(true);
-            }
-        });
-	}
-	
-	public void napuniTabelu(DefaultTableModel t) {
-		
-		KlijentDAO kDAO = new KlijentDAO();
- 		klijenti = kDAO.getAll(); 
- 		for(int i=0; i<klijenti.size(); i++) {
- 			if(klijenti.get(i).getVidljivo()) {
-				String naziv = klijenti.get(i).getNaziv(); 
-				String telefon = klijenti.get(i).getBroj_telefona(); 
-				String adresa = klijenti.get(i).getAdresa();
-				String mail = klijenti.get(i).getEmail();
-				
-				Object[] o = {naziv, telefon, adresa, mail};
-				
-				t.addRow(o);
- 			}
- 			else {
- 				klijenti.remove(i);
- 				i=i-1;;
- 			}
- 		}
-	}
-	
-	public void napuniTabeluFiltrirano(DefaultTableModel t, String n) {
-		
-		KlijentDAO kDAO = new KlijentDAO();
- 		klijenti = kDAO.getByNaziv(n); 
- 		
- 		for(int i=0; i<klijenti.size(); i++) {
- 			if(klijenti.get(i).getVidljivo()) {
-				String naziv = klijenti.get(i).getNaziv(); 
-				String telefon = klijenti.get(i).getBroj_telefona(); 
-				String adresa = klijenti.get(i).getAdresa();
-				String mail = klijenti.get(i).getEmail();
-				
-				Object[] o = {naziv, telefon, adresa, mail};
-				
-				t.addRow(o);
- 			}
- 			else {
- 				klijenti.remove(i);
- 				i=i-1;
- 			}
- 		
- 		}
-	}
+	private KlijentKontroler kKontroler = new KlijentKontroler();
 	
 	public UpravljanjeKlijentimaGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-		
-		
-		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Upravljanje klijentima");
+		
 		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("right:default"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -209,17 +150,39 @@ public class UpravljanjeKlijentimaGUI extends JFrame{
 		
 		final String imenaKolona[]=  {"Naziv", "Broj telefona", "Adresa", "E-mail"};		
 		
-		final DefaultTableModel tableModel = new DefaultTableModel(imenaKolona, 0);
+		final DefaultTableModel tableModel = new DefaultTableModel(imenaKolona, 0){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		
-		napuniTabelu(tableModel);
-	
+		try {
+			kKontroler.napuniTabelu(tableModel);
+		}
+		catch(Exception e) {
+			JOptionPane.showMessageDialog(rootPane,
+				    "Greška. Pojavio se izuzetak.",
+				    "Izuzetak",
+				    JOptionPane.ERROR_MESSAGE);
+			System.exit(DISPOSE_ON_CLOSE);
+		}
 		final JTable podaciTbl = new JTable(tableModel);
 		
 		addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent e) {
-				tableModel.setRowCount(0);
-				podaciTbl.setModel(tableModel);
-				napuniTabelu(tableModel);
+				try {
+					tableModel.setRowCount(0);
+					podaciTbl.setModel(tableModel);
+					kKontroler.napuniTabelu(tableModel);
+				}
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(rootPane,
+						    "Greška. Pojavio se izuzetak.",
+						    "Izuzetak",
+						    JOptionPane.ERROR_MESSAGE);
+					System.exit(DISPOSE_ON_CLOSE);
+				}
 			}
 			public void windowLostFocus(WindowEvent e) {
 				
@@ -228,10 +191,19 @@ public class UpravljanjeKlijentimaGUI extends JFrame{
 		
 		pretraziRadniZadatakBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tableModel.setRowCount(0);
-				podaciTbl.setModel(tableModel);
-				napuniTabeluFiltrirano(tableModel, nazivTxt.getText());
-				nazivTxt.setText("");
+				try {
+					tableModel.setRowCount(0);
+					podaciTbl.setModel(tableModel);
+					kKontroler.napuniTabeluFiltrirano(tableModel, nazivTxt.getText());
+					nazivTxt.setText("");
+				}
+				catch (Exception e)  {
+					JOptionPane.showMessageDialog(rootPane,
+						    "Greška. Pojavio se izuzetak.",
+						    "Izuzetak",
+						    JOptionPane.ERROR_MESSAGE);
+					System.exit(DISPOSE_ON_CLOSE);
+				}
 			}
 		});
 		
@@ -253,11 +225,8 @@ public class UpravljanjeKlijentimaGUI extends JFrame{
 		            		JOptionPane.showMessageDialog(rootPane, "Označite klijenta!", "Upozorenje", JOptionPane.WARNING_MESSAGE);
 		            	}
 	 		        	else {
-		 		        	Klijent selektovani = klijenti.get(podaciTbl.convertRowIndexToModel(podaciTbl.getSelectedRow()));		 		        	
-		 		            ModifikovanjeKlijentaGUI ex = ModifikovanjeKlijentaGUI.dajInstancu(selektovani.getKlijent_id());
-		 		            ex.setSize(250,200);
-		 		            ex.setVisible(true);
-		 		            ex.setLocationRelativeTo(null);
+	 		        		int i = podaciTbl.convertRowIndexToModel(podaciTbl.getSelectedRow());
+	 		        		kKontroler.otvoriModifikaciju(i);
 	 		        	}
 	 		        }
 	 		    });
@@ -274,11 +243,8 @@ public class UpravljanjeKlijentimaGUI extends JFrame{
 		            		JOptionPane.showMessageDialog(rootPane, "Označite klijenta!", "Upozorenje", JOptionPane.WARNING_MESSAGE);
 		            	}
 		            	else {
-			            	Klijent selektovani = klijenti.get(podaciTbl.convertRowIndexToModel(podaciTbl.getSelectedRow()));
-			                IzbrisiKlijentaGUI ex = new IzbrisiKlijentaGUI(selektovani.getKlijent_id());
-			                ex.setSize(600, 150);
-			                ex.setLocationRelativeTo(null);
-			                ex.setVisible(true);
+		            		int i = podaciTbl.convertRowIndexToModel(podaciTbl.getSelectedRow());
+	 		        		kKontroler.otvoriBrisanje(i);
 		            	}
 		            }
 		        });
@@ -298,8 +264,8 @@ public class UpravljanjeKlijentimaGUI extends JFrame{
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							JFrame frmPromjenaifre = new JFrame();
-							PromjenaSifreGUI window = new PromjenaSifreGUI(frmPromjenaifre);
+							
+							PromjenaSifreGUI window = new PromjenaSifreGUI();
 														
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -367,7 +333,8 @@ public class UpravljanjeKlijentimaGUI extends JFrame{
 		korisnickoUputstvoItem = new JMenuItem("Korisni\u010Dko uputstvo");
 		korisnickoUputstvoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Opcija će ponuditi preuzimanje .pdf dokumenta sa korisničkm uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				KorisnickoUputstvo kp = new KorisnickoUputstvo();
+				kp.dobaviUputstvo();
 			}
 		});
 		pomocMenu.add(korisnickoUputstvoItem);
