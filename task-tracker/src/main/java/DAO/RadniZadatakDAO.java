@@ -63,9 +63,7 @@ public class RadniZadatakDAO implements CRUD<RadniZadatak> {
 	public List<RadniZadatak> getAll() {
 		List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
 
-		radniZadaci = session.createCriteria(RadniZadatak.class).
-				addOrder(Order.asc("naziv"))
-				.list(); 
+		radniZadaci = session.createCriteria(RadniZadatak.class).list(); 
 
 		return radniZadaci;
 	}

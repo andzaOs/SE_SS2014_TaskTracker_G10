@@ -64,9 +64,7 @@ public class RasporedjeniZadatakDAO implements CRUD<RasporedjeniZadatak> {
 	public List<RasporedjeniZadatak> getAll() {
 		List<RasporedjeniZadatak> rasporedjeniZadaci = new ArrayList<RasporedjeniZadatak>();
 
-		rasporedjeniZadaci = session.createCriteria(RasporedjeniZadatak.class).
-				addOrder(Order.asc("naziv"))
-				.list(); 
+		rasporedjeniZadaci = session.createCriteria(RasporedjeniZadatak.class).list(); 
 
 		return rasporedjeniZadaci;
 	}
