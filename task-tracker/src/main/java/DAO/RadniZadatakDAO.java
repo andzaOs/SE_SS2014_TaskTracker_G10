@@ -1,6 +1,7 @@
 package DAO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -8,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import Entity.Klijent;
 import Entity.RadniZadatak;
 import UtilClasses.HibernateUtil;
 
@@ -68,18 +70,147 @@ public class RadniZadatakDAO implements CRUD<RadniZadatak> {
 		return radniZadaci;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<RadniZadatak> getByNaziv(String naziv) {
-		List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+	
+		@SuppressWarnings("unchecked")
+		public List<RadniZadatak> getByRestrictions(Date pocetniDatum, Klijent klijent)
+		{
+			List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
 
-		radniZadaci = session.createCriteria(RadniZadatak.class)
-			    .add( Restrictions.like("naziv", naziv) )
-			    .addOrder(Order.asc("naziv") )
-			    .list();
+			radniZadaci = session.createCriteria(RadniZadatak.class)
+					    .add( Restrictions.and(Restrictions.like( "klijent", klijent)) )
+					    .list();
 
-		return radniZadaci;
-	}
+			return radniZadaci;
+		}
+	 
+		@SuppressWarnings("unchecked")
+		public List<RadniZadatak> getByKlijent(Klijent klijent)
+		{
+			List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
 
+			radniZadaci = session.createCriteria(RadniZadatak.class)
+				    .add( Restrictions.like("klijent", klijent) )
+				    .list();
+
+			return radniZadaci;
+		}
+		
+		 
+			@SuppressWarnings("unchecked")
+			public List<RadniZadatak> getByStatusIzvrsenosti(Boolean statusIzvrsenosti)
+			{
+				List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+
+				radniZadaci = session.createCriteria(RadniZadatak.class)
+					    .add( Restrictions.like("statusIzvrsenosti", statusIzvrsenosti) )
+					    .list();
+
+				return radniZadaci;
+			}
+		
+		
+		@SuppressWarnings("unchecked")
+		public List<RadniZadatak> getByPeriod(Date pocetniDatum, Date krajnjiDatum)
+		{
+			List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+
+			radniZadaci = session.createCriteria(RadniZadatak.class)
+					 	.add( Restrictions.between("datumUnosa", pocetniDatum, krajnjiDatum) )
+					    .list();
+
+			return radniZadaci;
+		}
+		
+		
+			@SuppressWarnings("unchecked")
+			public List<RadniZadatak> getByDatumUnosa(Date datumUnosa)
+			{
+				List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+
+				radniZadaci = session.createCriteria(RadniZadatak.class)
+						 	.add( Restrictions.like("datumUnosa", datumUnosa) )
+						    .list();
+
+				return radniZadaci;
+			}
+			
+			
+			@SuppressWarnings("unchecked")
+			public List<RadniZadatak> getByRestrictions1(Date datumUnosa, Date krajnjiDatumIzvrsenja, Klijent klijent)
+			{
+				List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+
+				radniZadaci = session.createCriteria(RadniZadatak.class)
+						.add( Restrictions.like("datumUnosa", datumUnosa) )
+						.add( Restrictions.and(Restrictions.like( "krajnjiDatumIzvrsenja", krajnjiDatumIzvrsenja)) )
+					    .add( Restrictions.and(Restrictions.like( "klijent", klijent)) )
+						    .list();
+
+				return radniZadaci;
+			}
+			
+			@SuppressWarnings("unchecked")
+			public List<RadniZadatak> getByRestrictions2(Date datumUnosa, Klijent klijent)
+			{
+				List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+
+				radniZadaci = session.createCriteria(RadniZadatak.class)
+						.add( Restrictions.like("datumUnosa", datumUnosa) )
+					    .add( Restrictions.and(Restrictions.like( "klijent", klijent)) )
+						    .list();
+
+				return radniZadaci;
+			}
+			
+			@SuppressWarnings("unchecked")
+			public List<RadniZadatak> getByRestrictions3(Date krajnjiDatumIzvrsenja, Klijent klijent)
+			{
+				List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+
+				radniZadaci = session.createCriteria(RadniZadatak.class)
+						.add( Restrictions.like("krajnjiDatumIzvrsenja", krajnjiDatumIzvrsenja) )
+					    .add( Restrictions.and(Restrictions.like( "klijent", klijent)) )					    .list();
+
+				return radniZadaci;
+			}
+			
+			@SuppressWarnings("unchecked")
+			public List<RadniZadatak> getByRestrictions4(Date krajnjiDatumIzvrsenja, Date datumUnosa)
+			{
+				List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+
+				radniZadaci = session.createCriteria(RadniZadatak.class)
+						.add( Restrictions.like("krajnjiDatumIzvrsenja", krajnjiDatumIzvrsenja) )
+					    .add( Restrictions.and(Restrictions.like( "datumUnosa", datumUnosa)) )	
+						    .list();
+
+				return radniZadaci;
+			}
+			
+			@SuppressWarnings("unchecked")
+			public List<RadniZadatak> getByKrajnjiDatumIzvrsenja(Date krajnjiDatumIzvrsenja)
+			{
+				List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+
+				radniZadaci = session.createCriteria(RadniZadatak.class)
+						.add( Restrictions.like("krajnjiDatumIzvrsenja", krajnjiDatumIzvrsenja) )
+						    .list();
+
+				return radniZadaci;
+			}
+			
+			@SuppressWarnings("unchecked")
+			public List<RadniZadatak> getByIzvrsenIKlijent(Klijent klijent, Boolean statusIzvrsenosti)
+			{
+				List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+
+				radniZadaci = session.createCriteria(RadniZadatak.class)
+						.add( Restrictions.like("klijent", klijent) )
+						.add( Restrictions.and(Restrictions.like( "statusIzvrsenosti", statusIzvrsenosti)) )	
+						    .list();
+
+				return radniZadaci;
+			}
 
 
 }

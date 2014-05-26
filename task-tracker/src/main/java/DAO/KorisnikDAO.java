@@ -89,5 +89,83 @@ public class KorisnikDAO implements CRUD<Korisnik> {
 
 		return korisnik;
 	}
+	@SuppressWarnings("unchecked")
+	public List<Korisnik> getByNaziv(String ime, String prezime) {
+		List<Korisnik> korisnici = new ArrayList<Korisnik>();
+
+		korisnici = session.createCriteria(Korisnik.class)
+			    .add( Restrictions.like("ime", ime) )
+			    .add( Restrictions.and(Restrictions.like( "prezime", prezime)))
+			    .addOrder(Order.asc("prezime") )
+			    .list();
+
+		return korisnici;
+	}
+	
+			@SuppressWarnings("unchecked")
+			public List<Korisnik> getByJmbg(String jmbg) {
+				List<Korisnik> korisnici = new ArrayList<Korisnik>();
+
+				korisnici = session.createCriteria(Korisnik.class)
+					    .add( Restrictions.like("jmbg", jmbg) )
+					    .addOrder(Order.asc("prezime") )
+					    .list();
+
+				return korisnici;
+			}
+			
+
+			@SuppressWarnings("unchecked")
+			public List<Korisnik> getByIme(String ime) {
+				List<Korisnik> korisnici = new ArrayList<Korisnik>();
+
+				korisnici = session.createCriteria(Korisnik.class)
+					    .add( Restrictions.like("ime", ime) )
+					    .addOrder(Order.asc("prezime") )
+					    .list();
+
+				return korisnici;
+			}
+			
+			@SuppressWarnings("unchecked")
+			public List<Korisnik> getByPrezime(String prezime) {
+				List<Korisnik> korisnici = new ArrayList<Korisnik>();
+
+				korisnici = session.createCriteria(Korisnik.class)
+					    .add( Restrictions.like("prezime", prezime) )
+					    .addOrder(Order.asc("prezime") )
+					    .list();
+
+				return korisnici;
+			}
+			
+		@SuppressWarnings("unchecked")
+		public List<Korisnik> getByRestrictions(String ime, String prezime, String jmbg) 
+		{
+			
+			List<Korisnik> korisnici = new ArrayList<Korisnik>();
+
+			korisnici = session.createCriteria(Korisnik.class)
+				    .add( Restrictions.like("ime", ime) )
+				    .add( Restrictions.and(Restrictions.like( "prezime", prezime)))
+					.add( Restrictions.and( Restrictions.like( "jmbg", jmbg)))
+					.addOrder(Order.asc("prezime") )
+				    .list();
+			return korisnici;
+		}
+
+		@SuppressWarnings("unchecked")
+		public List<Korisnik> getByImeIJmbg(String ime, String jmbg) 
+		{
+			
+			List<Korisnik> korisnici = new ArrayList<Korisnik>();
+
+			korisnici = session.createCriteria(Korisnik.class)
+				    .add( Restrictions.like("ime", ime) )
+					.add( Restrictions.and( Restrictions.like( "jmbg", jmbg)))
+					.addOrder(Order.asc("prezime") )
+				    .list();
+			return korisnici;
+		}
 
 }

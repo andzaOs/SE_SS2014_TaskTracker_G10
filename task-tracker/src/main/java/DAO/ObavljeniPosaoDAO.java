@@ -1,14 +1,16 @@
 package DAO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import Entity.ObavljeniPosao;
+import Entity.RasporedjeniZadatak;
+import Entity.VrstaUsluge;
 import UtilClasses.HibernateUtil;
 
 
@@ -61,25 +63,71 @@ public class ObavljeniPosaoDAO implements CRUD<ObavljeniPosao> {
 	public List<ObavljeniPosao> getAll() {
 		List<ObavljeniPosao> posao = new ArrayList<ObavljeniPosao>();
 
-		posao = session.createCriteria(ObavljeniPosao.class).
-				addOrder(Order.asc("naziv"))
+		posao = session.createCriteria(ObavljeniPosao.class)
 				.list(); 
 
 		return posao;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<ObavljeniPosao> getByNaziv(String naziv) {
+	public List<ObavljeniPosao> getByVrstaUsluge(VrstaUsluge vrstaUsluge) {
 		List<ObavljeniPosao> posao = new ArrayList<ObavljeniPosao>();
 
 		posao = session.createCriteria(ObavljeniPosao.class)
-			    .add( Restrictions.like("naziv", naziv) )
-			    .addOrder(Order.asc("naziv") )
+			    .add( Restrictions.like("vrstaUsluge", vrstaUsluge) )
 			    .list();
 
 		return posao;
 	}
+	
+		@SuppressWarnings("unchecked")
+		public List<ObavljeniPosao> getByRasporedjeniZadatak(RasporedjeniZadatak pripadajuciZadatak) {
+			List<ObavljeniPosao> posao = new ArrayList<ObavljeniPosao>();
 
+			posao = session.createCriteria(ObavljeniPosao.class)
+				    .add( Restrictions.like("pripadajuciZadatak", pripadajuciZadatak) )
+				    .list();
+
+			return posao;
+		}
+	    
+		@SuppressWarnings("unchecked")
+		public List<ObavljeniPosao> getByDatumObavljanja(Date datumObavljanja) {
+			List<ObavljeniPosao> posao = new ArrayList<ObavljeniPosao>();
+
+			posao = session.createCriteria(ObavljeniPosao.class)
+				    .add( Restrictions.like("datumObavljanja", datumObavljanja) )
+				    .list();
+
+			return posao;
+		}
+		
+			@SuppressWarnings("unchecked")
+			public List<ObavljeniPosao> getByPeriod(Date pocetniDatum, Date krajnjiDatum)
+			{
+				List<ObavljeniPosao> obavljeniPosao = new ArrayList<ObavljeniPosao>();
+
+				obavljeniPosao = session.createCriteria(ObavljeniPosao.class)
+						 	.add( Restrictions.between("datumUnosa", pocetniDatum, krajnjiDatum) )
+						    .list();
+
+				return obavljeniPosao;
+			}
+			
+			
+			@SuppressWarnings("unchecked")
+			public List<ObavljeniPosao> getByRestrictions(Date pocetniDatum, Date krajnjiDatum, VrstaUsluge vrstaUsluge)
+			{
+				List<ObavljeniPosao> obavljeniPosao = new ArrayList<ObavljeniPosao>();
+
+				obavljeniPosao = session.createCriteria(ObavljeniPosao.class)
+						 	.add( Restrictions.between("datumUnosa", pocetniDatum, krajnjiDatum) )
+						 	.add( Restrictions.and(Restrictions.like( "vrstaUsluge", vrstaUsluge)) )
+						    .list();
+
+				return obavljeniPosao;
+			}
+	
 
 
 }

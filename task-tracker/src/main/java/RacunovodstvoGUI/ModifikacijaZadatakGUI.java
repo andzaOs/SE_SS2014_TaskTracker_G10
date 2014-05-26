@@ -7,8 +7,13 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -21,49 +26,42 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.JSpinner;
+import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-import UtilClasses.Validacija;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
-
-import java.util.List;
-
-import Entity.*;
 import Kontroleri.*;
-
-import javax.swing.SpinnerNumberModel;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.border.Border;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.io.File;
-import java.io.IOException;
+import Entity.Korisnik;
+import Entity.RadniZadatak;
+import UtilClasses.Validacija;
 
 
 @SuppressWarnings("serial")
-public class KreiranjeZadatkaGUI extends JFrame {
+public class ModifikacijaZadatakGUI extends JFrame {
 
 	private JFrame frmKreiranjeRadnogZadatka;
 	private List<Korisnik> selektovaniServiseri = new ArrayList<Korisnik>();
-	private KreiranjeZadatkaGUI mySelf;
+	private RadniZadatak radniZadatak;
+	private ModifikacijaZadatakGUI mySelf;
 	private Validacija v = new Validacija();
-	private Boolean uslov1 = false, serviserSelektovan = false, klijentOdabran=false;
-	private Date datumIzvrsenja = null;
-	private int maxBrojServisera = 1, indexKlijent;
-	private String opis = "", vrstaZadatka = "";
-
+	private Boolean uslov1 = true, uslov2=true, serviserSelektovan = false, klijentOdabran=false, brojServiseraOdabran=false,
+			datumIzvrsenjaOdabran=false, vrstaZadatkaOdabrana=false, opisOdabran=false;
+	private Date datumIzvrsenja;
 	// Konstruktor
-	public KreiranjeZadatkaGUI() {
-		initialize();
+	public ModifikacijaZadatakGUI(RadniZadatak radniZadatak) {
+
+		this.radniZadatak=radniZadatak;
 		mySelf = this;
+		initialize();
 	}
 
 	// Metoda potrebna za postavljanje liste servisera preko forme Odabir
@@ -84,15 +82,11 @@ public class KreiranjeZadatkaGUI extends JFrame {
 
 	private void initialize() {
 		//Kontroler nam je potreban radi testiranja
-		KreiranjeZadatkaControler controler1 = new KreiranjeZadatkaControler();
+		ModifikacijaZadatakControler controler1 = new ModifikacijaZadatakControler();
 		
-		final Border crveno = BorderFactory.createLineBorder(Color.RED, 1);
-		final Border bezBoje = BorderFactory.createLineBorder(Color.GRAY, 1);
-		final Date now = new Date();
-		
-		setTitle("Kreiranje radnog zadatka");
+		setTitle("Modifikacija radnog zadatka");
 		frmKreiranjeRadnogZadatka = new JFrame();
-		frmKreiranjeRadnogZadatka.setTitle("Kreiranje radnog zadatka");
+		frmKreiranjeRadnogZadatka.setTitle("Modifikacija radnog zadatka");
 		frmKreiranjeRadnogZadatka
 				.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -188,7 +182,9 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		vrstaRadnogZadatkaLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		final JComboBox<String> vrstaZadatkaCmbx = new JComboBox<String>();
 		vrstaZadatkaCmbx.setModel(new DefaultComboBoxModel<String>(
-				new String[] {"Odaberite vrstu", "Hardver", "Softver" }));
+				new String[] {"Hardver", "Softver" }));
+
+		vrstaZadatkaCmbx.setSelectedItem(radniZadatak.getVrstaZadatka());
 		centralniPanel.add(vrstaRadnogZadatkaLbl);
 		centralniPanel.add(vrstaZadatkaCmbx);
 
@@ -201,12 +197,16 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		UtilDateModel model = new UtilDateModel();
 		final JDatePanelImpl datePanel = new JDatePanelImpl(model);
 		final JDatePickerImpl datumIzvrsenjaDP = new JDatePickerImpl(datePanel);
+		datumIzvrsenjaDP.getJFormattedTextField().setText(radniZadatak.getKrajnjiDatumIzvrsenja().toString());
+		datumIzvrsenja=radniZadatak.getKrajnjiDatumIzvrsenja();
+		
+		
 		final JComboBox<String> nazivKlijentaCmbx = new JComboBox<String>();
 		//Punimo combobox na osnovu podataka iz baze, a preko kontrolera
 		controler1.setKlijenti();
 		for (int i = 0; i < controler1.getKlijente().size(); i++)
 			nazivKlijentaCmbx.addItem(controler1.getKlijente().get(i).getNaziv());
-		
+		nazivKlijentaCmbx.setSelectedItem(radniZadatak.getKlijent().getNaziv());
 		centralniPanel.add(nazivKlijentaCmbx);
 		centralniPanel.add(krajnjiDatumLbl);
 		centralniPanel.add(datumIzvrsenjaDP);
@@ -219,6 +219,7 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		centralniPanel.add(scrollPane);
 
 		final JTextArea opisTxt = new JTextArea();
+		opisTxt.setText(radniZadatak.getOpis());
 		opisTxt.setLineWrap(true);
 		opisTxt.setColumns(1);
 		scrollPane.setViewportView(opisTxt);
@@ -229,7 +230,8 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		centralniPanel.add(maksimalanBrojServiseraLbl);
 
 		final JSpinner maksimalanBrojServisera = new JSpinner();
-		maksimalanBrojServisera.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
+		maksimalanBrojServisera.setModel(new SpinnerNumberModel(new Integer(radniZadatak.getStatusDodjeljenosti()), null, null, new Integer(1)));
+		maksimalanBrojServisera.setValue(radniZadatak.getBrojServisera());
 		centralniPanel.add(maksimalanBrojServisera);
 
 		JLabel lblPrazna = new JLabel("");
@@ -241,29 +243,26 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		juzniPanel.setBorder(BorderFactory.createEmptyBorder(2, 1, 2, 1));
 		juzniPanel.setLayout(new GridLayout(1, 2, 1, 1));
 
-		// Kreiranje novog radnog zadatka
-		JButton kreirajBtn = new JButton("Kreiraj");
+		JButton modifikujBtn = new JButton("Modifikuj");
 
 		JButton odustaniBtn = new JButton("Odustani");
 		juzniPanel.add(odustaniBtn);
-		juzniPanel.add(kreirajBtn);
+		juzniPanel.add(modifikujBtn);
 
 		getContentPane().add(centralniPanel, BorderLayout.CENTER);
 		getContentPane().add(juzniPanel, BorderLayout.SOUTH);
 		
 
+		
 		vrstaZadatkaCmbx.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vrstaZadatka = (String)vrstaZadatkaCmbx.getSelectedItem();
-				vrstaZadatkaCmbx.setBorder(bezBoje);
+				vrstaZadatkaOdabrana=true;
 			}
 		});
 
 		nazivKlijentaCmbx.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				indexKlijent = (int)nazivKlijentaCmbx.getSelectedIndex();
 				klijentOdabran=true;
-				nazivKlijentaCmbx.setBorder(bezBoje);
 			}
 		});
 		
@@ -271,26 +270,33 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		opisTxt.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				opis = opisTxt.getText();
+				opisOdabran=true;
 			}
 		});
 
 		maksimalanBrojServisera.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				maxBrojServisera = (Integer) maksimalanBrojServisera
-						.getValue();
-				if(maxBrojServisera>0)maksimalanBrojServisera.setBorder(bezBoje);
-				else maksimalanBrojServisera.setBorder(crveno);
-				
+				brojServiseraOdabran=true;
+				if((Integer)maksimalanBrojServisera.getValue()<radniZadatak.getStatusDodjeljenosti())
+				{
+					Border border = BorderFactory.createLineBorder(Color.RED, 1);
+					maksimalanBrojServisera.setBorder(border);
+					uslov2=false;
+				}
+				else
+				{
+					Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
+					maksimalanBrojServisera.setBorder(border);
+					uslov2=true;
+				}
 			}
 		});
 		
 		datumIzvrsenjaDP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				datumIzvrsenja = (Date) datumIzvrsenjaDP.getModel().getValue();
-				// Provjeravamo da li je krajnji datum za izvršenje manji od
-				// datuma kreiranja radnog zadatka
-				uslov1 = v.PoredjenjeDatuma(datumIzvrsenja, now, datumIzvrsenjaDP);
+				datumIzvrsenja=(Date)datumIzvrsenjaDP.getModel().getValue();
+				uslov1 = v.PoredjenjeDatuma(datumIzvrsenja, radniZadatak.getDatumUnosa(), datumIzvrsenjaDP);
+				datumIzvrsenjaOdabran=true;
 			}
 		});
 
@@ -298,55 +304,65 @@ public class KreiranjeZadatkaGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// Pozivamo novu dijalošku formu u kojoj će korisnik dodijeliti
 				// zadatak serviserima
-				
-				OdabirServiseraGUI os = new OdabirServiseraGUI(mySelf,null,null, (Integer)maksimalanBrojServisera.getValue());
-				os.setVisible(true);
-				os.setSize(1000, 350);
+				if(radniZadatak.getStatusDodjeljenosti() < (Integer)maksimalanBrojServisera.getValue())
+				{
+					OdabirServiseraModifikacijaGUI os = new OdabirServiseraModifikacijaGUI(mySelf, radniZadatak,(Integer)maksimalanBrojServisera.getValue());
+					os.setVisible(true);
+					os.setSize(1000, 350);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(rootPane,
+							"Maksimalan broj servisera je već odabran.",
+							"Poruka o uspješnosti operacije",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 
-		kreirajBtn.addActionListener(new ActionListener() {
+		modifikujBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				KreiranjeZadatkaControler controler2 = new KreiranjeZadatkaControler();
-				
-				if (uslov1 == true && vrstaZadatka!="" && klijentOdabran!=false) 
+				if(vrstaZadatkaOdabrana!=true && serviserSelektovan!=true && datumIzvrsenjaOdabran!=true
+						&& klijentOdabran!=true && opisOdabran!=true && brojServiseraOdabran!=true)
 				{
-					
-					controler2.KreirajRadniZadatak(maxBrojServisera, datumIzvrsenja, indexKlijent, opis, vrstaZadatka, getServiserSelektovan(), selektovaniServiseri);
-					
 					JOptionPane.showMessageDialog(rootPane,
-							"Radni zadatak je uspješno kreiran.",
+							"Niste promijenili nijedan podatak o radnom zadatku.",
 							"Poruka o uspješnosti operacije",
 							JOptionPane.INFORMATION_MESSAGE);
-					
-					vrstaZadatkaCmbx.setSelectedIndex(0);
-					vrstaZadatka="";
-					nazivKlijentaCmbx.setSelectedIndex(0);
-					klijentOdabran=false;
-					maksimalanBrojServisera.setValue(0);
-					maxBrojServisera=0;
-					datumIzvrsenjaDP.getJFormattedTextField().setText("");
-					datumIzvrsenja=null;
-					opisTxt.setText("");
-					opis="";
 				}
-
-				else 
+				else
 				{
-					if(indexKlijent==0) nazivKlijentaCmbx.setBorder(crveno);
-					if(maxBrojServisera==0) maksimalanBrojServisera.setBorder(crveno);
-					if(datumIzvrsenja==null) datumIzvrsenjaDP.setBorder(crveno);
-					if(vrstaZadatka=="") vrstaZadatkaCmbx.setBorder(crveno);
-					
-					JOptionPane
-							.showMessageDialog(
-									rootPane,
-									"Da biste spremili podatke u bazu morate unijeti vrijednosti u označena polja.",
-									"Poruka o grešci",
+					if(uslov1!=true || uslov2!=true)
+					{
+						JOptionPane.showMessageDialog(rootPane,
+								"Niste unijeli ispravne vrijednosti u naznačenim poljima.",
+								"Poruka o uspješnosti operacije",
+								JOptionPane.INFORMATION_MESSAGE);
+						
+					}
+					else
+					{
+						ModifikacijaZadatakControler controler2 = new ModifikacijaZadatakControler();
+						Boolean modifikovanZadatak = controler2.ModifikujRadniZadatak(radniZadatak,(Integer)maksimalanBrojServisera.getValue(), datumIzvrsenja, 
+								(Integer)nazivKlijentaCmbx.getSelectedIndex(), opisTxt.getText(), (String)vrstaZadatkaCmbx.getSelectedItem(), getServiserSelektovan(), selektovaniServiseri);
+				
+						if(modifikovanZadatak)	
+						{
+							JOptionPane.showMessageDialog(rootPane,
+									"Radni zadatak je uspješno modifikovan.",
+									"Poruka o uspješnosti operacije",
+									JOptionPane.INFORMATION_MESSAGE);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(rootPane,
+									"Možete dodati sljedeći broj servisera: "+controler2.getMaxBrojServiseraZaDodjelu(),
+									"Poruka o uspješnosti operacije",
 									JOptionPane.ERROR_MESSAGE);
+						}
+					}
 				}
-
 
 			}
 		});
@@ -358,14 +374,5 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		});
 	}
 
-	public static void main(String args[]) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				KreiranjeZadatkaGUI ex = new KreiranjeZadatkaGUI();
-				ex.setVisible(true);
-
-			}
-		});
-	}
 
 }

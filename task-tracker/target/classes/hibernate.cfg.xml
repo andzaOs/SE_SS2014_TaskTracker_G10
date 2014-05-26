@@ -8,6 +8,7 @@
   <property name="hibernate.connection.username">root</property>
   <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
   <property name="hibernate.hbm2ddl.auto">update</property>
+  <property name="hibernate.transaction.auto_close_session">true</property>
   <mapping resource="Entity/Korisnik.hbm.xml"/>
   <mapping resource="Entity/TipKorisnika.hbm.xml"/>
   <mapping resource="Entity/Klijent.hbm.xml"/>
@@ -15,5 +16,7 @@
   <mapping resource="Entity/RasporedjeniZadatak.hbm.xml"/>
   <mapping resource="Entity/ObavljeniPosao.hbm.xml"/>
   <mapping resource="Entity/VrstaUsluge.hbm.xml"/>
+  <mapping resource="Entity/PostavkaMail.hbm.xml"/>
+  <mapping resource="Entity/EmailLog.hbm.xml"/>
  </session-factory>
 </hibernate-configuration>
