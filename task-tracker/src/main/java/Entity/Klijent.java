@@ -49,5 +49,9 @@ public class Klijent implements java.io.Serializable{
 	public void setZadaci(Set<RadniZadatak> zadaci) {
 		this.zadaci = zadaci;
 	}
+	@Override
+	public String toString() {
+		return  naziv;
+	}
 
 }

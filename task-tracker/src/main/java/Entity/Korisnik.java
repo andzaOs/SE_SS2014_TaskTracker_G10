@@ -111,5 +111,9 @@ public class Korisnik implements java.io.Serializable{
 	public void setVlastitiZadaci(Set<RasporedjeniZadatak> vlastitiZadaci) {
 		this.vlastitiZadaci = vlastitiZadaci;
 	}
+	@Override
+	public String toString() {
+		return ime + " " + prezime;
+	}
 }
 

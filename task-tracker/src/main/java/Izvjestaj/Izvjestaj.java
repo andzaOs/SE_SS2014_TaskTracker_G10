@@ -138,26 +138,5 @@ public class Izvjestaj {
         
         return izvjestaj;		
 	}
-
-	// funkcija radi, problem je kako poslije identifikovat radnika
-	/*public List< List<stavkaIzvjestajaRadnik> > vratiDetaljniIzvjestaj(Date pocetak, Date kraj) {
-		
-		List< List<stavkaIzvjestajaRadnik> > izvjestaj = new ArrayList< List<stavkaIzvjestajaRadnik> > ();
-		
-    	TipKorisnikaDAO tkDAO = new TipKorisnikaDAO();
-    	TipKorisnika tk= tkDAO.getById(1);
-    	Set<Korisnik> lista = tk.getKorisnici();
-    	
-    	for (Iterator<Korisnik> it = lista.iterator(); it.hasNext(); ) {
-            Korisnik k = it.next();
-
-            List<stavkaIzvjestajaRadnik> izvjestajRadnik = new ArrayList<stavkaIzvjestajaRadnik> ();
-            izvjestajRadnik = vratiIzvjestajPremaRadniku(k, pocetak, kraj);
-            
-            izvjestaj.add(izvjestajRadnik);
-        }
-		
-		return izvjestaj;
-	}*/
 	
 }

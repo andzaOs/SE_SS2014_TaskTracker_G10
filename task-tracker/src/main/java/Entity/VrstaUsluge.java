@@ -31,4 +31,8 @@ public class VrstaUsluge implements java.io.Serializable {
 	public void setVidljivo(Boolean vidljivo) {
 		this.vidljivo = vidljivo;
 	}
+	@Override
+	public String toString() {
+		return  naziv;
+	}
 }
