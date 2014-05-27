@@ -1,5 +1,7 @@
-/META-INF
-/RacunovodstvoGUI
-/Kontroleri
 /DAO
-/UtilClasses
+/Entity
+/Izvjestaj
+/Kontroleri
+/RacunovodstvoGUI
+/ServiseriGUI
+/META-INF
