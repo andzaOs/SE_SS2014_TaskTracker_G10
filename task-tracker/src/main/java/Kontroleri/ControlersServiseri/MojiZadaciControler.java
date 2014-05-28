@@ -413,7 +413,7 @@ public class MojiZadaciControler {
 
 	}
 
-	public void oznaciKaoizvrsen(int red, List<RadniZadatak> radna,
+	public String oznaciKaoizvrsen(int red, List<RadniZadatak> radna,
 			List<RasporedjeniZadatak> li) {
 
 		for (int i = 0; i < li.size(); i++) {
@@ -421,6 +421,8 @@ public class MojiZadaciControler {
 			if (li.get(i).getZadatak().getRadniZadatak_id() == radna.get(red)
 					.getRadniZadatak_id()
 					&& li.get(i).getZadatak().getStatusIzvrsenosti() == false) {
+				if(li.get(i).getStatusPrihvacenosti()==true) {
+			
 
 				Long id = li.get(i).getZadatak().getRadniZadatak_id();
 				try {
@@ -429,9 +431,12 @@ public class MojiZadaciControler {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				return "";
 
 			}
+				else {return "Niste prihvatili zadatak!";}	
 
-		}
+		}}
+		return "";
 	}
 }

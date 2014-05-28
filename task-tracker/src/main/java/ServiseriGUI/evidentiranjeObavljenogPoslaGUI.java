@@ -61,6 +61,7 @@ public class evidentiranjeObavljenogPoslaGUI extends JFrame
 	public evidentiranjeObavljenogPoslaGUI(RasporedjeniZadatak zadatak1) 
 
 	{
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		zadatak=zadatak1;
 		initUI();
 		
@@ -154,7 +155,6 @@ public class evidentiranjeObavljenogPoslaGUI extends JFrame
 				}
 			}
 		});
-		comboUsluga.setModel(new DefaultComboBoxModel(new String[] {"Instalacija OS-a", "Zamjena hard diska", "Instalcija rootera"}));
 		GridBagConstraints gbc_comboUsluga = new GridBagConstraints();
 		gbc_comboUsluga.insets = new Insets(0, 0, 5, 0);
 		gbc_comboUsluga.fill = GridBagConstraints.HORIZONTAL;
@@ -213,7 +213,9 @@ public class evidentiranjeObavljenogPoslaGUI extends JFrame
 		final JTextArea opisPoslaTxt = new JTextArea();
 		
 		
-		
+		for(int i=0;i<usluge.size();i++){
+			comboUsluga.addItem(usluge.get(i));
+		}
 		
 		JButton evidentirajPosaoBtn = new JButton("Evidentiraj obavljeni posao");
 		evidentirajPosaoBtn.addActionListener(new ActionListener() {
@@ -222,14 +224,18 @@ public class evidentiranjeObavljenogPoslaGUI extends JFrame
 					JOptionPane.showMessageDialog(rootPane, "Morate unijeti i odabrati sva polja!", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
-				ObavljeniPosao posao=new ObavljeniPosao();
-				posao.setPripadajuciZadatak(zadatak);
-				int value = (Integer) spinnVrijeme.getValue();
-				posao.setBrojSati(value);
-				java.util.Date utilDate = new java.util.Date();
-			    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-				posao.setDatumUnosa(sqlDate);
+				
 				Date d=(Date) datumObavljanja.getModel().getValue();
+				if(d.before(zadatak.getDatumPrihvatanja())){JOptionPane.showMessageDialog(rootPane, "Datum mora biti veci od datuma prihvacanja zadatka!", "Obavijest", JOptionPane.INFORMATION_MESSAGE);}
+				else if(d.before(zadatak.getZadatak().getDatumUnosa())){JOptionPane.showMessageDialog(rootPane, "Datum mora biti veci od datuma prihvacanja zadatka!", "Obavijest", JOptionPane.INFORMATION_MESSAGE);}
+				else{
+					ObavljeniPosao posao=new ObavljeniPosao();
+					posao.setPripadajuciZadatak(zadatak);
+					int value = (Integer) spinnVrijeme.getValue();
+					posao.setBrojSati(value);
+					java.util.Date utilDate = new java.util.Date();
+				    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+					posao.setDatumUnosa(sqlDate);
 				java.sql.Date sqlDate1 = new java.sql.Date(d.getTime());
 				posao.setDatumObavljanja(sqlDate1);
 				posao.setOpisa(opisPoslaTxt.getText());
@@ -239,7 +245,7 @@ public class evidentiranjeObavljenogPoslaGUI extends JFrame
 				oDAO.create(posao);
 				JOptionPane.showMessageDialog(rootPane, "Uspješno ste evidentirali posao!", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
 				
-			dispose();}
+			dispose();}}
 			}
 		});
 		

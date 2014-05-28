@@ -267,7 +267,9 @@ public pretragaRadnihZadatakaServiserGUI() {
 				int red = table.getSelectedRow();
 
 				 RadniZadaciControler controler=new RadniZadaciControler();
-				controler.preuzmiRadniZadatak(red,zadaci,lista,IdRadnika);
+				String s=controler.preuzmiRadniZadatak(red,zadaci,lista,IdRadnika);
+				 JOptionPane.showMessageDialog(rootPane, s, "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				
 			}
 		});
 		getContentPane().add(preuzmiRadniZadatakBtn, "7, 26");

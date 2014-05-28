@@ -166,7 +166,7 @@ public class prikaziDetaljnoZadatak {
 		Integer serviseri=zadatak.getBrojServisera();
 		zad_brojServisera.setText(serviseri.toString());
 		Integer status=zadatak.getStatusDodjeljenosti();
-		zad_statusDodjeljenosti.setText(status.toString());
+		zad_statusDodjeljenosti.setText(status.toString()+"/"+serviseri.toString());
 		zad_datumUnosa.setText(zadatak.getDatumUnosa().toString());
 		zad_datumIzvrsenja.setText(zadatak.getKrajnjiDatumIzvrsenja().toString());
 		String izvrsen=new String();

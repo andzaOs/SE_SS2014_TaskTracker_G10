@@ -44,6 +44,7 @@ import javax.swing.SpinnerNumberModel;
 import Entity.ObavljeniPosao;
 import Entity.RadniZadatak;
 import Entity.RasporedjeniZadatak;
+import Kontroleri.ControlersServiseri.ObavljeniPosaoControler;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -79,97 +80,7 @@ public class pretragaObavljenogPoslaServiserGUI extends JFrame{
 	
 	
 	 
-	private List<ObavljeniPosao> nadjiPoKlijentu (List<ObavljeniPosao> poslovi){
-		List<ObavljeniPosao> posaoPretraga=new ArrayList<ObavljeniPosao>();
-		for(int i=0; i<poslovi.size(); i++){
-			if( poslovi.get(i).getPripadajuciZadatak().getZadatak().getKlijent().getNaziv().equals(nazivKlijenta.getText())){
-				posaoPretraga.add(poslovi.get(i));
-			}}
-		
-			return posaoPretraga;}
-	private List<ObavljeniPosao> nadjiPoUsluzi (List<ObavljeniPosao> poslovi){
-		List<ObavljeniPosao> posaoPretraga=new ArrayList<ObavljeniPosao>();
-		for(int i=0; i<poslovi.size(); i++){
-			if(poslovi.get(i).getVrstaUsluge().getNaziv().equals((String)comboUsluga.getSelectedItem())){posaoPretraga.add(poslovi.get(i));}
-			}
-			return posaoPretraga;}
-	
-	private List<ObavljeniPosao> nadjiPoSatima (List<ObavljeniPosao> poslovi){
-		List<ObavljeniPosao> posaoPretraga=new ArrayList<ObavljeniPosao>();
-		for(int i=0; i<poslovi.size(); i++){
-			if(poslovi.get(i).getBrojSati()==(Integer)spinnSati.getValue()){posaoPretraga.add(poslovi.get(i));}
-			}
-			return posaoPretraga;}
-	
-	private List<ObavljeniPosao> nadjiPoDatumuObavljanja (List<ObavljeniPosao> poslovi){
-		List<ObavljeniPosao> posloviPretraga=new ArrayList<ObavljeniPosao>();
-		Date datum=new Date();
-		Calendar cal = Calendar.getInstance();
-		Calendar cal1 = Calendar.getInstance();
-	    
-		for(int i=0; i<poslovi.size(); i++){
-			
-			if(poslovi.get(i).getDatumObavljanja()  !=null ){
 
-			    datum=poslovi.get(i).getDatumObavljanja();
-				Date d=(Date) datumObavljanja.getModel().getValue();
-			    cal.setTime(datum);
-			    cal1.setTime(d);
-			    int year = cal.get(Calendar.YEAR);
-			    int month = cal.get(Calendar.MONTH);
-			    int day = cal.get(Calendar.DAY_OF_MONTH);
-			    int year1 = cal1.get(Calendar.YEAR);
-			    int month1 = cal1.get(Calendar.MONTH);
-			    int day1 = cal1.get(Calendar.DAY_OF_MONTH);
-			    
-			    
-			    if(year==year1 && month==month1 && day==day1){
-			    	
-		
-				posloviPretraga.add(poslovi.get(i));}
-			}}
-			return posloviPretraga;}
-	
-	private void pronadji(){
-		if(lista.size()>0) lista.clear();
-		if(posao.size()>0) posao.clear();
-		
-		ObavljeniPosaoDAO zDAO=new ObavljeniPosaoDAO();
-		List<ObavljeniPosao> sviposlovi= new ArrayList<ObavljeniPosao>();
-		IdRadnika=1;
-		sviposlovi=zDAO.getAll();
-		if(sviposlovi.size()>0){
-			for(int i=0;i<sviposlovi.size();i++){
-				Long br= sviposlovi.get(i).getPripadajuciZadatak().getIzvrsilac().getKorisnik_id();
-				if(br.equals(IdRadnika)){
-					
-					if (sviposlovi.get(i).getPripadajuciZadatak().getZadatak().getVidljivo()==true && sviposlovi.get(i).getPripadajuciZadatak().getZadatak().getStatusIzvrsenosti()==false){	posao.add(sviposlovi.get(i));
-					}
-					
-					
-				}
-				}
-		
-			}
-		
-		
-	}
-	
-	private void Ispisi(){
-		if(posao.size()>0){
-			
-			for(int i=0; i<posao.size(); i++){
-				    
-				
-					Object[] row = { posao.get(i).getDatumObavljanja()  ,(Integer)posao.get(i).getBrojSati() ,posao.get(i).getVrstaUsluge().getNaziv()};
-					DefaultTableModel model = (DefaultTableModel) table.getModel();
-					model.addRow(row);
-
-					
-				}
-			 }
-		
-	}
 	
 	
 	private static  pretragaObavljenogPoslaServiserGUI instanca;
@@ -191,8 +102,23 @@ public class pretragaObavljenogPoslaServiserGUI extends JFrame{
 				
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				 if(model.getRowCount()>0){   model.setRowCount(0); }
-				 pronadji();
-				 Ispisi();
+				 ObavljeniPosaoControler controler=new ObavljeniPosaoControler();
+				try {
+					controler.pronadji(IdRadnika);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				posao=controler.getPosao();
+				lista=controler.getLista();
+				try {
+					if(lista.size()>0){controler.Ispisi(lista, model);}
+					else{
+					controler.Ispisi(posao,model);}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			}
 				 
 			}
 			public void windowLostFocus(WindowEvent arg0) {
@@ -239,7 +165,15 @@ public class pretragaObavljenogPoslaServiserGUI extends JFrame{
 		lista=new ArrayList<ObavljeniPosao>();
 		posao=new ArrayList<ObavljeniPosao>();
 		IdRadnika=1;
-		pronadji();
+		ObavljeniPosaoControler controler=new ObavljeniPosaoControler();
+		try {
+			controler.pronadji(IdRadnika);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		lista=controler.getLista();
+		posao=controler.getPosao();
 		
 		scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, "1, 8, 7, 17, fill, fill");
@@ -254,7 +188,8 @@ public class pretragaObavljenogPoslaServiserGUI extends JFrame{
 		));
 		table.getColumnModel().getColumn(0).setPreferredWidth(128);
 		scrollPane.setViewportView(table);
-		Ispisi();
+		DefaultTableModel model2 = (DefaultTableModel) table.getModel();
+		controler.Ispisi(posao, model2);
 
 		
 		
@@ -292,54 +227,15 @@ public class pretragaObavljenogPoslaServiserGUI extends JFrame{
 		pretraziRadniZadatakBtn.setIcon(traziIkona);
 		pretraziRadniZadatakBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				 if(model.getRowCount()>0){   model.setRowCount(0);}
-				
-					if(nazivKlijenta.getText().equals("")  && (Date) datumObavljanja.getModel().getValue()==null && comboUsluga.getSelectedIndex()==0 && spinnSati.getValue()==null ){
-						JOptionPane.showMessageDialog(rootPane, "Niste odabrali kljuc pretrage", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
-					}
-					else{
+                ObavljeniPosaoControler controler=new ObavljeniPosaoControler();
+				 String s=controler.pretraga(nazivKlijenta, datumObavljanja, comboUsluga, spinnSati, model, lista, posao);
+				if( s.equals("")){lista=controler.getLista();}
+				else{
+					JOptionPane.showMessageDialog(rootPane, s, "Obavijest", JOptionPane.INFORMATION_MESSAGE);
 					
-						if(lista.size()>0){
-							
-						    model.setRowCount(0);
-						    lista.clear();
-						}
-						
-	               
-	                        
-						
-						
-						lista=posao;
-						if(nazivKlijenta.getText().equals("")){}
-						else{
-							
-						lista= nadjiPoKlijentu(lista);
-						}
-						
-						if((Date) datumObavljanja.getModel().getValue()!=null){ lista=nadjiPoDatumuObavljanja(lista);}
-						if(comboUsluga.getSelectedIndex()>0){lista=nadjiPoUsluzi(lista);}
-						if((Integer)spinnSati.getValue()>0){lista=nadjiPoSatima(lista);}
-						
-					
-						if(lista.size()>0){
-						
-							for(int i=0; i<lista.size(); i++){
-								    
-								
-									Object[] row = { lista.get(i).getDatumObavljanja()  ,(Integer)lista.get(i).getBrojSati() ,lista.get(i).getVrstaUsluge().getNaziv()};
-									
-									model.addRow(row);
-		
-									
-								}}
-						else{
-							JOptionPane.showMessageDialog(rootPane, "Niti jedan obavljeni posao nije pronađen u bazi!", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
-							
-							
-						}
-									
-							}
+				}
 			}
 		});
 		
@@ -362,28 +258,18 @@ public class pretragaObavljenogPoslaServiserGUI extends JFrame{
 		});
 		prikaziViseBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				int red = table.getSelectedRow();
-				
-				if(red == -1) { 
-					JOptionPane.showMessageDialog(rootPane, "Niste ozna�ili red u tabeli.", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
-				}
-				else{
-				if(model.getRowCount()>0){
-				if(red > model.getRowCount() ) {
-					JOptionPane.showMessageDialog(rootPane, "Nije ozna�en ni jedan obavljeni posao.", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
-				} 
-				else {
-					ObavljeniPosao izabrani=new ObavljeniPosao();
-					if(lista.size()>0)izabrani=lista.get(red);
-					else{izabrani=posao.get(red);}
-					prikaziViseObavljenogPoslaGUI window = new prikaziViseObavljenogPoslaGUI(izabrani);
-				}}
-					
-				
-				
 
-			}}
+				 ObavljeniPosao izabrani=new ObavljeniPosao();
+				    ObavljeniPosaoControler controler=new ObavljeniPosaoControler();
+				   String s= controler.prikaziVise(	 table.getSelectedRow(),(DefaultTableModel) table.getModel() );
+				   if(s.equals("")){
+					   if(lista.size()>0)izabrani=lista.get(table.getSelectedRow());
+						else{izabrani=posao.get(table.getSelectedRow());}
+					   prikaziViseObavljenogPoslaGUI window = new prikaziViseObavljenogPoslaGUI(izabrani);}
+				   else{
+					   JOptionPane.showMessageDialog(rootPane, s, "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				   }
+				}
 		});
 		panel.add(prikaziViseBtn);
 		
@@ -406,7 +292,7 @@ public class pretragaObavljenogPoslaServiserGUI extends JFrame{
 					if (lista.size()>0){po=lista.get(red);}
 					else{po=posao.get(red);}
 				  
-					modifikacijaObavljenogPoslaGUI ex =  modifikacijaObavljenogPoslaGUI.dajInstancu(po);
+					modifikacijaObavljenogPoslaGUI ex =  new  modifikacijaObavljenogPoslaGUI(po);
 				    ex.setVisible(true);
 					
 				     

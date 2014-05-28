@@ -72,6 +72,8 @@ public class prikaziViseObavljenogPoslaGUI {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblServiser = new JLabel("Serviser:");
@@ -111,6 +113,14 @@ public class prikaziViseObavljenogPoslaGUI {
 		datum.setText(posao.getDatumObavljanja().toString());
 		Integer pom=posao.getBrojSati();
 		sati.setText(pom.toString());
+		
+		
+		JLabel lblOpis = new JLabel("Opis:");
+		frmPrijavaKorisnika.getContentPane().add(lblOpis, "1, 13");
+		
+		JLabel opis = new JLabel("");
+		frmPrijavaKorisnika.getContentPane().add(opis, "3, 13");
+		opis.setText(posao.getOpisa());
 		
 
 		

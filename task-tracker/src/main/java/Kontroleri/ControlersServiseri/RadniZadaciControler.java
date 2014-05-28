@@ -137,7 +137,7 @@ public class RadniZadaciControler {
 			RadniZadatakDAO zDAO = new RadniZadatakDAO();
 			zadaci = zDAO.getAll();
 			for (int i = 0; i < zadaci.size(); i++) {
-				if (zadaci.get(i).getVidljivo() == false) {
+				if (zadaci.get(i).getVidljivo() == false || zadaci.get(i).getPotpunoDodjeljen()==true || zadaci.get(i).getStatusIzvrsenosti()==true) {
 					zadaci.remove(i);
 				}
 			}
@@ -309,7 +309,7 @@ public class RadniZadaciControler {
 				izabrani = li.get(red);
 			} else {
 				id = zad.get(red).getRadniZadatak_id();
-				izabrani = zadaci.get(red);
+				izabrani = zad.get(red);
 			}
 
 			if (izabrani.getPotpunoDodjeljen() == false) {

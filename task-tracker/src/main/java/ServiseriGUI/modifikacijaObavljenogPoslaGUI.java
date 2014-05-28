@@ -62,6 +62,7 @@ public class modifikacijaObavljenogPoslaGUI extends JFrame
 	public modifikacijaObavljenogPoslaGUI(ObavljeniPosao posao1) 
 
 	{
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 	
 		posao=posao1;
@@ -157,7 +158,6 @@ public class modifikacijaObavljenogPoslaGUI extends JFrame
 				}
 			}
 		});
-		comboUsluga.setModel(new DefaultComboBoxModel(new String[] {"Instalacija OS-a", "Zamjena hard diska", "Instalcija rootera", "Dodaj novu vrstu usluge"}));
 		GridBagConstraints gbc_comboUsluga = new GridBagConstraints();
 		gbc_comboUsluga.insets = new Insets(0, 0, 5, 0);
 		gbc_comboUsluga.fill = GridBagConstraints.HORIZONTAL;
@@ -214,7 +214,9 @@ public class modifikacijaObavljenogPoslaGUI extends JFrame
 		gbc_opisPoslaLbl.gridy = 3;
 		getContentPane().add(opisPoslaLbl, gbc_opisPoslaLbl);
 		final JTextArea opisPoslaTxt = new JTextArea();
-		
+		 for(int i=0;i<usluge.size();i++){
+	 			comboUsluga.addItem(usluge.get(i));
+	 		}
 		spinnVrijeme.setValue(posao.getBrojSati());
 		 datumObavljanja.getJFormattedTextField().setText(posao.getDatumObavljanja().toString());
 	     opisPoslaTxt.setText(posao.getOpisa());
@@ -230,7 +232,7 @@ public class modifikacijaObavljenogPoslaGUI extends JFrame
 	    
 	    
 		
-		
+        
 		
 		
 		

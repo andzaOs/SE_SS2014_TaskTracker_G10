@@ -388,11 +388,16 @@ public class pretragaMojihRadnihZadatakaGUI extends JFrame{
 						
 						
 						 MojiZadaciControler controler1=new MojiZadaciControler();
-						controler1.oznaciKaoizvrsen(red,radna,rasporedjeniZadaci);
+						String s=controler1.oznaciKaoizvrsen(red,radna,rasporedjeniZadaci);
+						if(s.equals("")){
 
 						DefaultTableModel model = (DefaultTableModel) table.getModel();
 						model.setValueAt("izvrsen", red, 3);
-						JOptionPane.showMessageDialog(rootPane, "Označili ste kao izvršen", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(rootPane, "Označili ste kao izvršen", "Obavijest", JOptionPane.INFORMATION_MESSAGE);}
+						else{
+							JOptionPane.showMessageDialog(rootPane, s, "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+							
+						}
 						
 						
 					}
@@ -428,7 +433,7 @@ public class pretragaMojihRadnihZadatakaGUI extends JFrame{
 							}
 						}
 						if(nadjen==true){
-						evidentiranjeObavljenogPoslaGUI ex =  evidentiranjeObavljenogPoslaGUI.dajInstancu(rasporedjeniZadaci.get(in));
+						evidentiranjeObavljenogPoslaGUI ex =   new evidentiranjeObavljenogPoslaGUI(rasporedjeniZadaci.get(in));
 						ex.setVisible(true);
 						}
 						else{
