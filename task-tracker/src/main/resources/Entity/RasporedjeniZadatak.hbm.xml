@@ -12,7 +12,7 @@
             <column name="RADNIZADATAK_ID" not-null="true"/>
         </many-to-one>
         <many-to-one name="izvrsilac" class="Entity.Korisnik" fetch="join">
-            <column name="KORISNIK_ID" />
+            <column name="KORISNIK_ID" not-null="true"/>
         </many-to-one>
         <property name="statusPrihvacenosti" type="java.lang.Boolean">
             <column name="STATUSPRIHVACENOSTI" />
@@ -23,7 +23,7 @@
         <property name="datumPrihvatanja" type="java.sql.Date">
             <column name="DATUMPRIHVATANJA" />
         </property>
-        <set name="savPosao" table="OBAVLJENIPOSAO" inverse="false" lazy="false">
+        <set name="savPosao" table="OBAVLJENIPOSAO" inverse="true" lazy="false">
             <key>
                 <column name="RASPOREDJENIZADATAK_ID" />
             </key>

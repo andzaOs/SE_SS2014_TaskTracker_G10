@@ -11,7 +11,7 @@
         <property name="naziv" type="java.lang.String">
             <column name="NAZIV" />
         </property>
-        <set name="savObavljeniPosao" table="OBAVLJENIPOSAO" inverse="false" lazy="false">
+        <set name="savObavljeniPosao" table="OBAVLJENIPOSAO" inverse="true" lazy="false">
             <key>
                 <column name="VRSTAUSLUGE_ID" />
             </key>

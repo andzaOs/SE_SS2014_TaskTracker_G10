@@ -14,7 +14,7 @@
         <property name="vidljivo" type="java.lang.Boolean">
             <column name="VIDLJIVO" />
         </property>
-        <set name="korisnici" table="KORISNIK" inverse="false" lazy="false">
+        <set name="korisnici" table="KORISNIK" inverse="true" lazy="false">
             <key>
                 <column name="TIPKORISNIKA_ID" />
             </key>

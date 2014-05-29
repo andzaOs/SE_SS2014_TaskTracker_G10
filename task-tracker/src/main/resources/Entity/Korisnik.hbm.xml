@@ -42,15 +42,15 @@
             <column name="VIDLJIVO" />
         </property>
         <many-to-one name="tip_korisnika" class="Entity.TipKorisnika" fetch="join">
-            <column name="TIPKORISNIKA_ID" />
+            <column name="TIPKORISNIKA_ID" not-null="true"/>
         </many-to-one>
-        <set name="dodjeljeniZadaci" table="RADNIZADATAK" inverse="false" lazy="false">
+        <set name="dodjeljeniZadaci" table="RADNIZADATAK" inverse="true" lazy="false">
             <key>
                 <column name="KORISNIK_ID" />
             </key>
             <one-to-many class="Entity.RadniZadatak" />
         </set>
-        <set name="vlastitiZadaci" table="RASPOREDJENIZADATAK" inverse="false" lazy="false">
+        <set name="vlastitiZadaci" table="RASPOREDJENIZADATAK" inverse="true" lazy="false">
             <key>
                 <column name="KORISNIK_ID" />
             </key>

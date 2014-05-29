@@ -9,10 +9,10 @@
             <generator class="native" />
         </id>
         <many-to-one name="pripadajuciZadatak" class="Entity.RasporedjeniZadatak" fetch="join">
-            <column name="RASPOREDJENIZADATAK_ID" />
+            <column name="RASPOREDJENIZADATAK_ID" not-null="true"/>
         </many-to-one>
         <many-to-one name="vrstaUsluge" class="Entity.VrstaUsluge" fetch="join">
-            <column name="VRSTAUSLUGE_ID" />
+            <column name="VRSTAUSLUGE_ID" not-null="true"/>
         </many-to-one>
         <property name="brojSati" type="int">
             <column name="BROJSATI" />

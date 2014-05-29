@@ -9,10 +9,10 @@
             <generator class="native" />
         </id>
         <many-to-one name="klijent" class="Entity.Klijent" fetch="join">
-            <column name="KLIJENT_ID" />
+            <column name="KLIJENT_ID" not-null="true"/>
         </many-to-one>
         <many-to-one name="kreator" class="Entity.Korisnik" fetch="join">
-            <column name="KORISNIK_ID" />
+            <column name="KORISNIK_ID" not-null="true"/>
         </many-to-one>
         <set name="rasporedjeniZadaci" table="RASPOREDJENIZADATAK" inverse="true" lazy="false">
             <key>
