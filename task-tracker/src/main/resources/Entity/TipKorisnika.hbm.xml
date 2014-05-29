@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 13, 2014 11:23:22 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="Entity.TipKorisnika" table="TIPKORISNIKA">
+        <id name="tipKorisnika_id" type="long">
+            <column name="TIPKORISNIKA_ID" />
+            <generator class="native" />
+        </id>
+        <property name="naziv" type="java.lang.String">
+            <column name="NAZIV" />
+        </property>
+        <property name="vidljivo" type="java.lang.Boolean">
+            <column name="VIDLJIVO" />
+        </property>
+        <set name="korisnici" table="KORISNIK" inverse="false" lazy="false">
+            <key>
+                <column name="TIPKORISNIKA_ID" />
+            </key>
+            <one-to-many class="Entity.Korisnik" />
+        </set>
+    </class>
+</hibernate-mapping>

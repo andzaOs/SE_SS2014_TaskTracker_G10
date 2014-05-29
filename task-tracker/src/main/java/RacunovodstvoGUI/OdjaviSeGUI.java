@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Kontroleri.SessionControler;
 import ba.unsa.etf.si.tim10.task_tracker.LoginGUI;
 
 
@@ -51,6 +52,7 @@ public class OdjaviSeGUI extends JFrame {
 				for(int i=0;i<win.length;i++){ 
 					win[i].dispose(); 
 				} 
+				SessionControler.unistiInstancu();
 				LoginGUI l = new LoginGUI();
 			}
 		});

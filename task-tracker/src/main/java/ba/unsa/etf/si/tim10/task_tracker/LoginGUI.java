@@ -19,7 +19,9 @@ import javax.swing.JTextField;
 
 import DAO.KorisnikDAO;
 import Entity.Korisnik;
+import Kontroleri.KorisnikKontroler;
 import RacunovodstvoGUI.PocetnaRacunovodstvoGUI;
+import ServiseriGUI.PocetnaServiserGUI;
 
 
 public class LoginGUI {
@@ -168,19 +170,31 @@ public class LoginGUI {
 
 	@SuppressWarnings("deprecation")
 	public void Prijava() {
-		KorisnikDAO kDAO = new KorisnikDAO();
-		Korisnik k = kDAO.getByUsername(korisnickoImeTxt.getText());
-		if(sifraTxt.getText().hashCode()==k.getLozinka()) {
-			if(k.getTip_korisnika().getNaziv().equals("Racunovodstvo")) {
-				PocetnaRacunovodstvoGUI ex = new PocetnaRacunovodstvoGUI();
-                ex.setSize(540, 255);
-                ex.setLocationRelativeTo(null);
-                ex.setVisible(true);
+		try {
+			KorisnikKontroler kKontroler = new KorisnikKontroler();
+			if(kKontroler.provjeraPrijave(korisnickoImeTxt.getText(), sifraTxt.getText()).equals("Racunovodstvo")) {
+				PocetnaRacunovodstvoGUI ex = PocetnaRacunovodstvoGUI.dajInstancu();
+	            ex.setSize(540, 255);
+	            ex.setLocationRelativeTo(null);
+	            ex.setVisible(true);
 			}
-			else if(k.getTip_korisnika().getNaziv().equals("Serviser")) {System.out.println("OK2");}
-			
+			else if (kKontroler.provjeraPrijave(korisnickoImeTxt.getText(), sifraTxt.getText()).equals("Serviser")){
+				 PocetnaServiserGUI ex = new PocetnaServiserGUI();
+	                ex.setSize(540, 255);
+	                ex.setLocationRelativeTo(null);
+	                ex.setVisible(true);
+			}
+			else if (kKontroler.provjeraPrijave(korisnickoImeTxt.getText(), sifraTxt.getText()).equals("Netacna sifra")) {
+				JOptionPane.showMessageDialog(frmPrijava, "Netacna sifra!", "Greska", JOptionPane.ERROR_MESSAGE); 
+			}
+			else {
+				JOptionPane.showMessageDialog(frmPrijava, "Tip korisnika nepoznat!", "Greska", JOptionPane.ERROR_MESSAGE);
+			}
 		}
-		else  {JOptionPane.showMessageDialog(frmPrijava, "Netacna sifra!", "Greska", JOptionPane.ERROR_MESSAGE); }
+		catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(frmPrijava, "Korisnik ne postoji!", "Greska", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 }

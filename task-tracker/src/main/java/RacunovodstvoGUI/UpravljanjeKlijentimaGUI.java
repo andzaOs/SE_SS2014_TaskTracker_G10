@@ -59,8 +59,20 @@ public class UpravljanjeKlijentimaGUI extends JFrame{
 	private JMenu alatiMenu;
 	private JMenuItem sistemObavjestavanjaItem;
 	private KlijentKontroler kKontroler = new KlijentKontroler();
-	
+	private static UpravljanjeKlijentimaGUI instanca;
 	public UpravljanjeKlijentimaGUI() {
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			initialize();
+		}
+		public static UpravljanjeKlijentimaGUI dajInstancu() {
+			if(instanca==null) {
+ 			instanca=new UpravljanjeKlijentimaGUI();
+ 			
+			}
+			return instanca;
+		}
+	public static void unistiInstancu() { instanca= null; }
+	public void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Upravljanje klijentima");
 		
@@ -344,5 +356,11 @@ public class UpravljanjeKlijentimaGUI extends JFrame{
 	
 	
 }
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		unistiInstancu();
+		super.dispose();
+	}
 	
 }

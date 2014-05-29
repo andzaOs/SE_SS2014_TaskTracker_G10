@@ -16,6 +16,7 @@ import javax.swing.JPasswordField;
 
 import Entity.Korisnik;
 import Kontroleri.KorisnikKontroler;
+import Kontroleri.SessionControler;
 
 
 
@@ -203,7 +204,7 @@ public class PromjenaSifreGUI {
 	
 	@SuppressWarnings("deprecation")
 	public void Promjena() {
-		long id = 5;
+		
 		
 		if(staraSifraTxt.getText().equals("") || novaSifraTxt.getText().equals("") || potvrdaSifreTxt.getText().equals("") || staraSifraTxt.getText().equals("Stara šifra") || novaSifraTxt.getText().equals("Nova šifra") || potvrdaSifreTxt.getText().equals("Potvrda nove šifre")) {
 			JOptionPane.showMessageDialog(frmPromjenaSifre, "Sva polja moraju biti popunjena!", "Upozorenje", JOptionPane.ERROR_MESSAGE);
@@ -212,7 +213,7 @@ public class PromjenaSifreGUI {
 			KorisnikKontroler kKontroler = new KorisnikKontroler();
 			try {
 				if(novaSifraTxt.getText().equals(potvrdaSifreTxt.getText())) {
-					if(kKontroler.promjenaSifre(staraSifraTxt, novaSifraTxt, id)) {
+					if(kKontroler.promjenaSifre(staraSifraTxt, novaSifraTxt, SessionControler.getIdLog())) {
 						JOptionPane.showMessageDialog(frmPromjenaSifre, "Uspješno promjenjena šifra", "Obavijest", JOptionPane.INFORMATION_MESSAGE);					
 					}
 					else {

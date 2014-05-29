@@ -2,15 +2,12 @@ package RacunovodstvoGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,9 +36,10 @@ import javax.swing.event.ChangeListener;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
-import Kontroleri.*;
 import Entity.Korisnik;
 import Entity.RadniZadatak;
+import Kontroleri.ModifikacijaZadatakControler;
+import UtilClasses.KorisnickoUputstvo;
 import UtilClasses.Validacija;
 
 
@@ -163,14 +161,8 @@ public class ModifikacijaZadatakGUI extends JFrame {
 		JMenuItem korisnickoUputstvoItem = new JMenuItem("Korisničko uputstvo");
 		korisnickoUputstvoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				   if (Desktop.isDesktopSupported()) {
-			    	    try {
-			    	        File myFile = new File("FirstPdf.pdf");
-			    	        Desktop.getDesktop().open(myFile);
-			    	    } catch (IOException ex) {
-			    	        // no application registered for PDFs
-			    	    }
-			    	}
+				KorisnickoUputstvo kp = new KorisnickoUputstvo();
+				kp.dobaviUputstvo();
 			}
 		});
 		pomocMenu.add(korisnickoUputstvoItem);

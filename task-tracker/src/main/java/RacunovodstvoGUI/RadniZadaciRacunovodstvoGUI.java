@@ -55,7 +55,19 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	private List<RadniZadatak> zadaci = new ArrayList<RadniZadatak>();
 	private List<String> naziviServisera = new ArrayList<String>();
 	private RadniZadaciRacunovodstvoGUI mySelf;
-	
+	private static RadniZadaciRacunovodstvoGUI instanca;
+	public RadniZadaciRacunovodstvoGUI() {
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			initialize();
+		}
+		public static RadniZadaciRacunovodstvoGUI dajInstancu() {
+			if(instanca==null) {
+ 			instanca=new RadniZadaciRacunovodstvoGUI();
+ 			
+			}
+			return instanca;
+		}
+	public static void unistiInstancu() { instanca= null; }
 		// Metoda potrebna za provjeru da li je korisnik odabrao servisere putem
 		// forme Odabir servisera
 		public void setServiserSelektovan(Boolean serviserSelektovan) {
@@ -67,7 +79,7 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		}
 	
 	private static final long serialVersionUID = 1L;
-	public RadniZadaciRacunovodstvoGUI() {
+	public void initialize() {
 	mySelf = this;
 	final RadniZadaciRacunovodstvoControler controler1 = new RadniZadaciRacunovodstvoControler();
 	setTitle("Upravljanje radnim zadacima");
@@ -159,8 +171,8 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	
 	JPanel filter1Panel = new JPanel();
 	JPanel filter2Panel = new JPanel();
-	filter1Panel.setLayout(new GridLayout(1,6,1,1));
-	filter2Panel.setLayout(new GridLayout(1,6,1,1));
+	filter1Panel.setLayout(new GridLayout(1,6,2,2));
+	filter2Panel.setLayout(new GridLayout(1,6,2,2));
 		
 	JLabel imePrezimeLbl = new JLabel("Ime i prezime servisera:");
 	imePrezimeLbl .setHorizontalAlignment(SwingConstants.RIGHT);
@@ -491,13 +503,13 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		}
 	});
 }
-	public static void main(String args[]) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				RadniZadaciRacunovodstvoGUI ex = new RadniZadaciRacunovodstvoGUI();
-				ex.setVisible(true);
-			}
-		});
+
+	
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		unistiInstancu();
+		super.dispose();
 	}
 	
 }

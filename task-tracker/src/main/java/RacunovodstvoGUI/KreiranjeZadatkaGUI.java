@@ -2,13 +2,15 @@ package RacunovodstvoGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -21,31 +23,23 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.JSpinner;
+import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-import UtilClasses.Validacija;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
-
-import java.util.List;
-
-import Entity.*;
-import Kontroleri.*;
-
-import javax.swing.SpinnerNumberModel;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.border.Border;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.io.File;
-import java.io.IOException;
+import Entity.Korisnik;
+import Kontroleri.KreiranjeZadatkaControler;
+import UtilClasses.KorisnickoUputstvo;
+import UtilClasses.Validacija;
 
 
 @SuppressWarnings("serial")
@@ -169,14 +163,8 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		JMenuItem korisnickoUputstvoItem = new JMenuItem("Korisničko uputstvo");
 		korisnickoUputstvoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				   if (Desktop.isDesktopSupported()) {
-			    	    try {
-			    	        File myFile = new File("FirstPdf.pdf");
-			    	        Desktop.getDesktop().open(myFile);
-			    	    } catch (IOException ex) {
-			    	        // no application registered for PDFs
-			    	    }
-			    	}
+				KorisnickoUputstvo kp = new KorisnickoUputstvo();
+				kp.dobaviUputstvo(); 
 			}
 		});
 		pomocMenu.add(korisnickoUputstvoItem);

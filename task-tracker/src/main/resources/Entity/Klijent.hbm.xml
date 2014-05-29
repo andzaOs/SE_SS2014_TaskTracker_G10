@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 13, 2014 11:23:22 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="Entity.Klijent" table="KLIJENT">
+        <id name="klijent_id" type="long">
+            <column name="KLIJENT_ID" />
+            <generator class="native" />
+        </id>
+        <property name="naziv" type="java.lang.String">
+            <column name="NAZIV" />
+        </property>
+        <property name="adresa" type="java.lang.String">
+            <column name="ADRESA" />
+        </property>
+        <property name="broj_telefona" type="java.lang.String">
+            <column name="BROJ_TELEFONA" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="EMAIL" />
+        </property>
+        <property name="vidljivo" type="java.lang.Boolean">
+            <column name="VIDLJIVO" />
+        </property>
+        <set name="zadaci" table="RADNIZADATAK" inverse="false" lazy="false">
+            <key>
+                <column name="KLIJENT_ID" />
+            </key>
+            <one-to-many class="Entity.RadniZadatak" />
+        </set>
+    </class>
+</hibernate-mapping>

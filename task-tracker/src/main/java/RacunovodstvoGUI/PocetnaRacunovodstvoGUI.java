@@ -23,8 +23,22 @@ import javax.swing.SwingUtilities;
 import UtilClasses.KorisnickoUputstvo;
 
 public class PocetnaRacunovodstvoGUI extends JFrame {
-
+	
+	private static PocetnaRacunovodstvoGUI instanca;
 	public PocetnaRacunovodstvoGUI() {
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			initialize();
+		}
+		public static PocetnaRacunovodstvoGUI dajInstancu() {
+			if(instanca==null) {
+ 			instanca=new PocetnaRacunovodstvoGUI();
+ 			
+			}
+			return instanca;
+		}
+	public static void unistiInstancu() { instanca= null; }
+
+	public void initialize() {
 		setTitle("Meni računovodstvo");
 		getContentPane().setBackground(Color.WHITE);
 		
@@ -119,18 +133,18 @@ public class PocetnaRacunovodstvoGUI extends JFrame {
 		
 		JPanel juzniPanel = new JPanel();
 		JButton radniZadaciBtn= new JButton("Radni zadaci");
-		/*radniZadaciBtn.addActionListener(new ActionListener() {
+		radniZadaciBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
-		                RadniZadaciRacunovodstvoGUI ex = new RadniZadaciRacunovodstvoGUI();
+		                RadniZadaciRacunovodstvoGUI ex = RadniZadaciRacunovodstvoGUI.dajInstancu();
 		                ex.setSize(1000, 350);
 		                ex.setLocationRelativeTo(null);
 		                ex.setVisible(true);
 		            }
 		        });
 			}
-		});*/
+		});
 		JButton izvjestajiBtn = new JButton("Izvještaji");
 		/*izvjestajiBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -149,7 +163,7 @@ public class PocetnaRacunovodstvoGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
-		                UpravljanjeKlijentimaGUI ex = new UpravljanjeKlijentimaGUI();
+		                UpravljanjeKlijentimaGUI ex = UpravljanjeKlijentimaGUI.dajInstancu();
 		                ex.setSize(1000, 350);
 		                ex.setLocationRelativeTo(null);
 		                ex.setVisible(true);
@@ -188,6 +202,13 @@ public class PocetnaRacunovodstvoGUI extends JFrame {
 		
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
+	}
+	
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		unistiInstancu();
+		super.dispose();
 	}
 	
 

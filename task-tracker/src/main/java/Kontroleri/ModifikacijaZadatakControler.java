@@ -30,6 +30,14 @@ public class ModifikacijaZadatakControler {
 		klijenti = new ArrayList<Klijent>();;
 		KlijentDAO kDAO = new KlijentDAO();
 		klijenti = kDAO.getAll();
+		for(int i=0; i<klijenti.size(); i++) {
+	 		if(klijenti.get(i).getVidljivo()) {
+	 			}
+	 		else {
+	 			klijenti.remove(i);
+	 			i=i-1;
+	 		}
+		}
 	}
 	
 	public List<Klijent> getKlijente()
