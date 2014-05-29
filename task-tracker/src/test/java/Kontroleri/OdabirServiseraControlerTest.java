@@ -13,11 +13,11 @@ OdabirServiseraControler o;
 	public void testSetServisere() {
 		RadniZadatakDAO rDAO = new RadniZadatakDAO();
 		RadniZadatak r = new RadniZadatak();
-		r=rDAO.getById(15);
+//		r=rDAO.getById(24);
 		o = new OdabirServiseraControler();
-		o.setServisere(r);
+		o.setServisere(null);
 		//Testiramo broj servisera kojim ovaj zadatak nije dodijeljen
-		assertEquals(0, o.getServiseri().size());
+		assertEquals(2, o.getServiseri().size());
 		
 	}
 
@@ -26,8 +26,8 @@ OdabirServiseraControler o;
 		o = new OdabirServiseraControler();
 		RadniZadatakDAO rDAO = new RadniZadatakDAO();
 		RadniZadatak r = new RadniZadatak();
-		r=rDAO.getById(22);
-		o.setServisere(r);
+		r=rDAO.getById(24);
+		o.setServisere(null);
 		@SuppressWarnings("unused")
 		int size = o.getSelektoviServiseriSize(index);
 		Boolean dozvoljen = o.ProvjeriBrojServisera(4);
@@ -39,8 +39,8 @@ OdabirServiseraControler o;
 		o = new OdabirServiseraControler();
 		RadniZadatakDAO rDAO = new RadniZadatakDAO();
 		RadniZadatak r = new RadniZadatak();
-		r=rDAO.getById(22);
-		o.setServisere(r);
+		r=rDAO.getById(24);
+		o.setServisere(null);
 		int size = o.getSelektoviServiseriSize(index);
 		assertEquals(1, size);
 	}
@@ -49,8 +49,8 @@ OdabirServiseraControler o;
 		o = new OdabirServiseraControler();
 		RadniZadatakDAO rDAO = new RadniZadatakDAO();
 		RadniZadatak r = new RadniZadatak();
-		r=rDAO.getById(22);
-		o.setServisere(r);
+		r=rDAO.getById(24);
+		o.setServisere(null);
 		KorisnikDAO kDAO = new KorisnikDAO();
 		Korisnik k = new Korisnik();
 		k=kDAO.getById(3);
@@ -65,8 +65,8 @@ OdabirServiseraControler o;
 		o = new OdabirServiseraControler();
 		RadniZadatakDAO rDAO = new RadniZadatakDAO();
 		RadniZadatak r = new RadniZadatak();
-		r=rDAO.getById(22);
-		o.setServisere(r);
+		r=rDAO.getById(24);
+		o.setServisere(null);
 		int index[]={0};
 		@SuppressWarnings("unused")
 		int size = o.getSelektoviServiseriSize(index);

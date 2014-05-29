@@ -22,7 +22,7 @@ public class RadniZadaciRacunovodstvoControler {
 	private Set<RadniZadatak> raPoZadacima = new HashSet<RadniZadatak>();
 	private Boolean prServiser, prZadaci, prObavljeniPosao;
 	@SuppressWarnings({ "rawtypes" })
-	private List<List> redovi;
+	private List<List> 	redovi = new ArrayList<List>();
 
 	public RadniZadaciRacunovodstvoControler(){
 		radniZadaci.isEmpty();
@@ -94,7 +94,8 @@ public class RadniZadaciRacunovodstvoControler {
 		{
 			RasporedjeniZadatakDAO rDAO = new RasporedjeniZadatakDAO();
 			List<RasporedjeniZadatak> zadaci = new ArrayList<RasporedjeniZadatak>();
-			redovi = new ArrayList<List>();
+		
+			System.out.println(radniZadaci.size());
 			
 			for(RadniZadatak zadatak: radniZadaci)
 			{
@@ -103,9 +104,14 @@ public class RadniZadaciRacunovodstvoControler {
 				zadaci = rDAO.getByRadniZadatak(zadatak);
 				nazivServisera = new ArrayList<String>();
 				String nazivServiser = "Nije dodijeljen/Preuzet";
+				
+				if(zadaci.size()>0)
 				for(RasporedjeniZadatak z: zadaci)
-					if(zadaci.size()>0) nazivServisera.add(z.getIzvrsilac().getIme()+" "+z.getIzvrsilac().getPrezime());
-					else  nazivServisera.add(nazivServiser);
+				{
+					nazivServisera.add(z.getIzvrsilac().getIme()+" "+z.getIzvrsilac().getPrezime());
+				}
+				else nazivServisera.add(nazivServiser);
+					
 					redovi.add(Arrays.asList (
 							zadatak.getVrstaZadatka(),
 							zadatak.getOpis(),
