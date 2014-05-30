@@ -80,7 +80,7 @@ public class PrikaziDetaljnoKorisnikaGUI {
 		frmPrijavaKorisnika.getContentPane().add(lblAdresaZmajaOd, "2, 16");
 		
 		frmPrijavaKorisnika.setLocationRelativeTo(null);
-		frmPrijavaKorisnika.setSize(300,200);
+		frmPrijavaKorisnika.setSize(350,250);
 		frmPrijavaKorisnika.setVisible(true);
 	}
 }
