@@ -22,14 +22,7 @@ public class VrstaUslugeDAO implements CRUD<VrstaUsluge> {
     	t = session.beginTransaction();
 	}
 
-	@Override
-    protected void finalize() throws Throwable {
-        try{
-        	session.close();
-        }catch(Throwable t){
-            throw t;
-        }
-    }
+	
 
 	public long create(VrstaUsluge k) {
 

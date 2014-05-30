@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -179,9 +180,12 @@ public class PretragaObavljenogPoslaServiserGUI extends JFrame{
 			new String[] {
 				"Datum obavljanja", "Utro\u0161eni sati", "Vrsta usluge"
 			}
-		));
+		){public boolean isCellEditable(int row, int column) {
+			return false;
+		}});
 		table.getColumnModel().getColumn(0).setPreferredWidth(128);
 		scrollPane.setViewportView(table);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		DefaultTableModel model2 = (DefaultTableModel) table.getModel();
 		controler.Ispisi(posao, model2);
 

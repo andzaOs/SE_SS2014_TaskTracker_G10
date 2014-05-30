@@ -25,14 +25,7 @@ public class RasporedjeniZadatakDAO implements CRUD<RasporedjeniZadatak> {
     	t = session.beginTransaction();
 	}
 
-	@Override
-    protected void finalize() throws Throwable {
-        try{
-        	session.close();
-        }catch(Throwable t){
-            throw t;
-        }
-    }
+	
 
 	public long create(RasporedjeniZadatak k) {
 

@@ -24,14 +24,7 @@ public class ObavljeniPosaoDAO implements CRUD<ObavljeniPosao> {
     	t = session.beginTransaction();
 	}
 
-	@Override
-    protected void finalize() throws Throwable {
-        try{
-        	session.close();
-        }catch(Throwable t){
-            throw t;
-        }
-    }
+	
 
 	public long create(ObavljeniPosao k) {
 

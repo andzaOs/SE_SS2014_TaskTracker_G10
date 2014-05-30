@@ -30,6 +30,7 @@ import DAO.VrstaUslugeDAO;
 import Entity.ObavljeniPosao;
 import Entity.RasporedjeniZadatak;
 import Entity.VrstaUsluge;
+import Kontroleri.ControlersServiseri.evidencijaPoslaControler;
 import RacunovodstvoGUI.ONamaGUI;
 import RacunovodstvoGUI.PromjenaSifreGUI;
 
@@ -220,32 +221,17 @@ public class EvidentiranjeObavljenogPoslaGUI extends JFrame
 		JButton evidentirajPosaoBtn = new JButton("Evidentiraj obavljeni posao");
 		evidentirajPosaoBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(comboUsluga.getSelectedIndex()==-1 || datumObavljanja.getModel().getValue()==null || opisPoslaTxt.getText().equals("") || spinnVrijeme.getValue()==null ){
-					JOptionPane.showMessageDialog(rootPane, "Morate unijeti i odabrati sva polja!", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				evidencijaPoslaControler controler=new evidencijaPoslaControler();
+				String s="";
+				try {
+					
+					s = controler.evidentirajPosao(comboUsluga, opisPoslaTxt, datumObavljanja, spinnVrijeme, zadatak);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				else{
-				
-				Date d=(Date) datumObavljanja.getModel().getValue();
-				if(d.before(zadatak.getDatumPrihvatanja())){JOptionPane.showMessageDialog(rootPane, "Datum mora biti veci od datuma prihvacanja zadatka!", "Obavijest", JOptionPane.INFORMATION_MESSAGE);}
-				else if(d.before(zadatak.getZadatak().getDatumUnosa())){JOptionPane.showMessageDialog(rootPane, "Datum mora biti veci od datuma prihvacanja zadatka!", "Obavijest", JOptionPane.INFORMATION_MESSAGE);}
-				else{
-					ObavljeniPosao posao=new ObavljeniPosao();
-					posao.setPripadajuciZadatak(zadatak);
-					int value = (Integer) spinnVrijeme.getValue();
-					posao.setBrojSati(value);
-					java.util.Date utilDate = new java.util.Date();
-				    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-					posao.setDatumUnosa(sqlDate);
-				java.sql.Date sqlDate1 = new java.sql.Date(d.getTime());
-				posao.setDatumObavljanja(sqlDate1);
-				posao.setOpisa(opisPoslaTxt.getText());
-				posao.setVrstaUsluge(usluge.get(comboUsluga.getSelectedIndex()));
-				posao.setVidljivo(true);
-				ObavljeniPosaoDAO oDAO = new  ObavljeniPosaoDAO();
-				oDAO.create(posao);
-				JOptionPane.showMessageDialog(rootPane, "Uspješno ste evidentirali posao!", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
-				
-			dispose();}}
+				JOptionPane.showMessageDialog(rootPane, s, "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				dispose();
 			}
 		});
 		

@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
@@ -172,8 +173,11 @@ public PretragaRadnihZadatakaServiserGUI() {
 			new String[] {
 				"Vrsta", "Klijent", "Opis"
 			}
-		));
+		){public boolean isCellEditable(int row, int column) {
+			return false;
+		}});
 		scrollPane.setViewportView(table);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		DefaultTableModel model2 = (DefaultTableModel) table.getModel();
 	try {
 		controler.ispisi(model2, zadaci);

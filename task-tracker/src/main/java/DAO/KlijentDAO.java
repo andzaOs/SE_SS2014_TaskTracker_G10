@@ -22,15 +22,7 @@ public class KlijentDAO implements CRUD<Klijent> {
     	t = session.beginTransaction();
 	}
 
-	@Override
-    protected void finalize() throws Throwable {
-        try{
-        	session.close();
-        }catch(Throwable t){
-            throw t;
-        }
-      
-    }
+
 
 	public long create(Klijent k) {
 

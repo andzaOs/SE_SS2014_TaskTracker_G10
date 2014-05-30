@@ -22,14 +22,7 @@ public class TipKorisnikaDAO implements CRUD<TipKorisnika> {
     	t = session.beginTransaction();
 	}
 
-	@Override
-    protected void finalize() throws Throwable {
-        try{
-        	session.close();
-        }catch(Throwable t){
-            throw t;
-        }
-    }
+
 
 	public long create(TipKorisnika k) {
 

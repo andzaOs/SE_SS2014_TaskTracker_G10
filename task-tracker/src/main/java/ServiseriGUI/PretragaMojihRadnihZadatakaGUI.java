@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -190,6 +191,7 @@ public class PretragaMojihRadnihZadatakaGUI extends JFrame{
 			return false;
 		}});
 		scrollPane.setViewportView(table);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		
 		DefaultTableModel model2 = (DefaultTableModel) table.getModel();

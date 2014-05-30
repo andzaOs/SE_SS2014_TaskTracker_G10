@@ -172,16 +172,7 @@ public class PocetnaServiserGUI extends JFrame {
 	private static void addPopup(Component component, final JPopupMenu popup) {
 	}
 	
-	public static void main(String args[]) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-               PocetnaServiserGUI ex = new PocetnaServiserGUI();
-                ex.setSize(540, 255);
-                ex.setLocationRelativeTo(null);
-                ex.setVisible(true);
-            }
-        });
-	}
+
 	@Override
  	public void dispose() {
  		// TODO Auto-generated method stub
