@@ -29,6 +29,7 @@ import DAO.TipKorisnikaDAO;
 import Entity.Korisnik;
 import Entity.TipKorisnika;
 import Kontroleri.IzvjestajKontroler;
+import UtilClasses.Validacija;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
@@ -52,8 +53,8 @@ public class KreirajIzvjestajGUI extends JFrame {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							/*JFrame frmPromjenaSifre = new JFrame();
-							PromjenaSifreGUI window = new PromjenaSifreGUI(frmPromjenaSifre);*/
+							
+							PromjenaSifreGUI window = new PromjenaSifreGUI();
 							
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -207,21 +208,28 @@ public class KreirajIzvjestajGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
-		                		            	
-		            	if (pocetniDatumDP.getModel().getValue() != null && krajnjiDatumDP.getModel().getValue() != null ) {
+		                	
+		            	if (pocetniDatumDP.getModel().getValue() != null && krajnjiDatumDP.getModel().getValue() != null) {
 			            	Date d1 = (Date) pocetniDatumDP.getModel().getValue();
 			            	Date d2 = (Date) krajnjiDatumDP.getModel().getValue();
-			            	
-							try {
-								ik.otvoriFormu(unosCmbx, vrstaIzvjestajaCmbx.getSelectedItem().toString(), d1, d2);
-							}
-							catch(Exception e) {
-								JOptionPane.showMessageDialog(rootPane,
-									    "Greška. Pojavio se izuzetak.",
-									    "Izuzetak",
+			            	if(d1.after(d2) || d1.equals(d2)) {
+			            		JOptionPane.showMessageDialog(rootPane,
+									    "Molimo Vas da prvi datum bude manji od drugog.",
+									    "Obavijest",
 									    JOptionPane.ERROR_MESSAGE);
-								System.exit(DISPOSE_ON_CLOSE);
-							}
+			            	}
+			            	else {
+								try {
+									ik.otvoriFormu(unosCmbx, vrstaIzvjestajaCmbx.getSelectedItem().toString(), d1, d2);
+								}
+								catch(Exception e) {
+									JOptionPane.showMessageDialog(rootPane,
+										    "Greška. Pojavio se izuzetak.",
+										    "Izuzetak",
+										    JOptionPane.ERROR_MESSAGE);
+									System.exit(DISPOSE_ON_CLOSE);
+								}
+			            	}
 		            	} else {
 							JOptionPane.showMessageDialog(rootPane,
 								    "Molimo Vas da izaberete opseg datuma.",
@@ -250,17 +258,7 @@ public class KreirajIzvjestajGUI extends JFrame {
 							
 }
 	
-	public static void main(String args[]) {
-	    SwingUtilities.invokeLater(new Runnable() {
-	        public void run() {
-	            KreirajIzvjestajGUI ex = new KreirajIzvjestajGUI();
-	            ex.setVisible(true);
-                ex.setSize(510, 170);
-                ex.setLocationRelativeTo(null);
-                ex.setVisible(true);
-	        }
-	    });
-	}
+
 	
 }
 

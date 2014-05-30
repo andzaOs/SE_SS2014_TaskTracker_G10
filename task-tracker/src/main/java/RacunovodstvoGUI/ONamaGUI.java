@@ -32,7 +32,7 @@ public class ONamaGUI extends JFrame {
 		
 		getContentPane().add(centralniPanel, BorderLayout.CENTER);
 		
-		JLabel oNamaLbl = new JLabel("Prototip softverskog rje\u0161enja Task Tracker");
+		JLabel oNamaLbl = new JLabel("Softverskog rje\u0161enja Task Tracker v1.0");
 		oNamaLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		centralniPanel.add(oNamaLbl);
 		

@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
+import UtilClasses.Email;
 import UtilClasses.KorisnickoUputstvo;
 
 public class PocetnaRacunovodstvoGUI extends JFrame {
@@ -39,6 +40,9 @@ public class PocetnaRacunovodstvoGUI extends JFrame {
 	public static void unistiInstancu() { instanca= null; }
 
 	public void initialize() {
+		Email e = new Email();
+		e.posaljiPoruke();
+		
 		setTitle("Meni računovodstvo");
 		getContentPane().setBackground(Color.WHITE);
 		
@@ -146,18 +150,19 @@ public class PocetnaRacunovodstvoGUI extends JFrame {
 			}
 		});
 		JButton izvjestajiBtn = new JButton("Izvještaji");
-		/*izvjestajiBtn.addActionListener(new ActionListener() {
+		izvjestajiBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
-		            public void run() {
-		                kreirajIzvjestajGUI ex = new kreirajIzvjestajGUI();
-		                ex.setSize(600, 160);
+			        public void run() {
+			            KreirajIzvjestajGUI ex = new KreirajIzvjestajGUI();
+			            ex.setVisible(true);
+		                ex.setSize(510, 170);
 		                ex.setLocationRelativeTo(null);
 		                ex.setVisible(true);
-		            }
-		        });
+			        }
+			    });
 			}
-		});*/
+		});
 		JButton klijentiBtn = new JButton("Klijenti");
 		klijentiBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

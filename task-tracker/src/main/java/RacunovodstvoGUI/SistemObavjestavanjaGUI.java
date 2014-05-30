@@ -103,7 +103,7 @@ public class SistemObavjestavanjaGUI extends JFrame
 		
 		getContentPane().add(spremiBtn, "cell 2 4,growx");
 
-		
+		try {
 		
     	PostavkaMail p = new PostavkaMail();
     	PostavkaMailDAO pDAO = new PostavkaMailDAO();
@@ -113,22 +113,16 @@ public class SistemObavjestavanjaGUI extends JFrame
     	opomenaTxt.setText(p.getOpomena());
     	rokUnosSpin.setValue(p.getRokUnos());
     	rokPreuzimanjeSpin.setValue(p.getRokPreuzimanje());
-    	
+		}
+		catch (Exception e)
+		{}
 		
 		//table.setFillsViewportHeight(true);
 			
 	
 	}
 	
-	public static void main(String args[]) {
-	    SwingUtilities.invokeLater(new Runnable() {
-	        public void run() {
-	           SistemObavjestavanjaGUI ex = new SistemObavjestavanjaGUI();
-	            ex.setVisible(true);
-	        	
-	        }
-	    });
-	}
+	
 		
 	
 }

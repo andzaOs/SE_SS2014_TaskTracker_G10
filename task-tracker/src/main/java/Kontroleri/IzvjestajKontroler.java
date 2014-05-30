@@ -224,7 +224,7 @@ public class IzvjestajKontroler {
      	    
              TipKorisnika tk = new TipKorisnika();
              TipKorisnikaDAO tkDAO = new TipKorisnikaDAO();
-             tk = tkDAO.getById(1);
+             tk = tkDAO.getById(2);
                           
              Set<Korisnik> korisnici = tk.getKorisnici();		                              
      	    		            	   
@@ -233,7 +233,7 @@ public class IzvjestajKontroler {
 
              for (Iterator<Korisnik> iter = korisnici.iterator(); iter.hasNext(); ) {
                  Korisnik k = iter.next();
-                 comboBoxItems.add(k);
+                 if(k.getVidljivo()) comboBoxItems.add(k);
              }
      	    
      	    @SuppressWarnings("rawtypes")
@@ -254,7 +254,7 @@ public class IzvjestajKontroler {
 				Vector comboBoxItems=new Vector();
 
              for (int i=0; i<usluge.size(); i++ ) {
-                 comboBoxItems.add(usluge.get(i));
+                 if(usluge.get(i).getVidljivo()) comboBoxItems.add(usluge.get(i));
              }
      	    
      	    @SuppressWarnings("rawtypes")
@@ -275,7 +275,7 @@ public class IzvjestajKontroler {
 				Vector comboBoxItems=new Vector();
 
              for (int i=0; i<klijenti.size(); i++ ) {
-                 comboBoxItems.add(klijenti.get(i));
+                 if(klijenti.get(i).getVidljivo()) comboBoxItems.add(klijenti.get(i));
              }
      	    
      	    @SuppressWarnings("rawtypes")
