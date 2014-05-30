@@ -217,7 +217,7 @@ public class PromjenaSifreGUI {
 						JOptionPane.showMessageDialog(frmPromjenaSifre, "Uspješno promjenjena šifra", "Obavijest", JOptionPane.INFORMATION_MESSAGE);					
 					}
 					else {
-						JOptionPane.showMessageDialog(frmPromjenaSifre, "Netačna stara šifra!", "Greška", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(frmPromjenaSifre, "Netačna stara šifra ili nepravilan format nove! Šifra mora sadržavati bar 5 znakova.", "Greška", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				else {

@@ -9,7 +9,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,8 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import DAO.KorisnikDAO;
-import Entity.Korisnik;
 import Kontroleri.KorisnikKontroler;
 import RacunovodstvoGUI.PocetnaRacunovodstvoGUI;
 import ServiseriGUI.PocetnaServiserGUI;

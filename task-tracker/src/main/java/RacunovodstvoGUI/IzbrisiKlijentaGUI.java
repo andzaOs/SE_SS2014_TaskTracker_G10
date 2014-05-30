@@ -95,7 +95,7 @@ public class IzbrisiKlijentaGUI extends JFrame {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		unistiInstancu();
+		IzbrisiKlijentaGUI.unistiInstancu();
 		super.dispose();
 	}
 

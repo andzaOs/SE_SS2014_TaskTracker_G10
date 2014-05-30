@@ -22,7 +22,6 @@ public class KorisnikDAO implements CRUD<Korisnik> {
     	t = session.beginTransaction();
 	}
 
-	
 
 	public long create(Korisnik k) {
 
@@ -61,17 +60,6 @@ public class KorisnikDAO implements CRUD<Korisnik> {
 		return korisnici;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Korisnik> getByNaziv(String naziv) {
-		List<Korisnik> korisnici = new ArrayList<Korisnik>();
-
-		korisnici = session.createCriteria(Korisnik.class)
-			    .add( Restrictions.like("naziv", naziv) )
-			    .addOrder(Order.asc("naziv") )
-			    .list();
-
-		return korisnici;
-	}
 
 	@SuppressWarnings("unchecked")
 	public Korisnik getByUsername(String korisnicko_ime) {
@@ -95,19 +83,28 @@ public class KorisnikDAO implements CRUD<Korisnik> {
 		return korisnici;
 	}
 	
-			@SuppressWarnings("unchecked")
-			public List<Korisnik> getByJmbg(String jmbg) {
-				List<Korisnik> korisnici = new ArrayList<Korisnik>();
+	@SuppressWarnings("unchecked")
+	public Korisnik getByJmbg2(String jmbg) {
+		Korisnik korisnik = new Korisnik();
+		korisnik = (Korisnik) session.createCriteria(Korisnik.class)
+			    .add( Restrictions.like("jmbg", jmbg) )
+			    .uniqueResult();
 
-				korisnici = session.createCriteria(Korisnik.class)
-					    .add( Restrictions.like("jmbg", jmbg) )
-					    .addOrder(Order.asc("prezime") )
-					    .list();
-
-				return korisnici;
-			}
+		return korisnik;
+	}
 			
 
+	@SuppressWarnings("unchecked")
+	public List<Korisnik> getByJmbg(String jmbg) {
+		List<Korisnik> korisnici = new ArrayList<Korisnik>();
+
+		korisnici = session.createCriteria(Korisnik.class)
+			    .add( Restrictions.like("jmbg", jmbg) )
+			    .addOrder(Order.asc("prezime") )
+			    .list();
+
+		return korisnici;
+	}
 			@SuppressWarnings("unchecked")
 			public List<Korisnik> getByIme(String ime) {
 				List<Korisnik> korisnici = new ArrayList<Korisnik>();

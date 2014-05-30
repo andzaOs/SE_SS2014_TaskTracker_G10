@@ -359,7 +359,7 @@ public class UpravljanjeKlijentimaGUI extends JFrame{
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		unistiInstancu();
+		UpravljanjeKlijentimaGUI.unistiInstancu();
 		super.dispose();
 	}
 	

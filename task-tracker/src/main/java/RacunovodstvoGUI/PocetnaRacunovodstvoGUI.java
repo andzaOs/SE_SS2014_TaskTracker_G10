@@ -172,18 +172,18 @@ public class PocetnaRacunovodstvoGUI extends JFrame {
 			}
 		});
 		JButton korinsiciBtn = new JButton("Korisnici");
-		/*korinsiciBtn.addActionListener(new ActionListener() {
+		korinsiciBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
-		                upravljanjeKorisnicimaGUI ex = new upravljanjeKorisnicimaGUI();
+		                UpravljanjeKorisnicimaGUI ex = UpravljanjeKorisnicimaGUI.dajInstancu();
 		                ex.setSize(1000, 350);
 		                ex.setLocationRelativeTo(null);
 		                ex.setVisible(true);
 		            }
 		        });
 			}
-		});*/
+		});
 		
 		juzniPanel.setBorder(BorderFactory.createEmptyBorder(10, 1, 10, 1));
 		juzniPanel.setLayout(new GridLayout(1,3,3,3));

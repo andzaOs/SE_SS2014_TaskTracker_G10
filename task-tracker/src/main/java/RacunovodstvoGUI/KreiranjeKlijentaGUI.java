@@ -253,7 +253,7 @@ import UtilClasses.Validacija;
 		@Override
 		public void dispose() {
 			// TODO Auto-generated method stub
-			unistiInstancu();
+			KreiranjeKlijentaGUI.unistiInstancu();
 			super.dispose();
 		}
  		

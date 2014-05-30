@@ -262,7 +262,7 @@ import java.awt.event.WindowEvent;
 		@Override
 		public void dispose() {
 			// TODO Auto-generated method stub
-			unistiInstancu();
+			ModifikovanjeKlijentaGUI.unistiInstancu();
 			super.dispose();
 		}
  		

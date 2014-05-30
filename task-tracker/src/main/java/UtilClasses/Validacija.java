@@ -1,7 +1,6 @@
 package UtilClasses;
 
 import java.awt.Color;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,21 +9,94 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import DAO.KorisnikDAO;
+import Entity.Korisnik;
 
 public class Validacija {
 	
 	Date datumZaposlenja, datumTrenutni;
 	
+	public Boolean jedinstvenJMBG(JTextField polje) {
+		try {
+			KorisnikDAO kDAO = new KorisnikDAO();
+			if ((kDAO.getByJmbg2(polje.getText())).equals(null)) return true;
+			else {
+				Border border = BorderFactory.createLineBorder(Color.RED, 1);
+				polje.setBorder(border);			
+				polje.setToolTipText("JMBG nije jedinstven");
+				return false;
+			}
+		}
+		catch(NullPointerException ex) {
+			return true;
+		}
+	}
+	
+	public Boolean jedinstvenJMBGM(JTextField polje, long id) {
+		try {
+			KorisnikDAO kDAO = new KorisnikDAO();
+			KorisnikDAO kDAO2 = new KorisnikDAO();
+			
+			if ((kDAO.getByJmbg2(polje.getText())).equals(null)) return true;
+			else {
+				if((kDAO2.getById(id).getJmbg().equals(polje.getText()))) { 
+					return true;
+					}
+				else {
+					Border border = BorderFactory.createLineBorder(Color.RED, 1);
+					polje.setBorder(border);			
+					polje.setToolTipText("JMBG nije jedinstven");
+					return false;
+				}
+			}
+		}
+		catch(NullPointerException ex) {
+			return true;
+		}
+	}
+	
+	public Boolean jedinstvenUsername(JTextField polje) {
+		try {
+			KorisnikDAO kDAO = new KorisnikDAO();
+			if ((kDAO.getByUsername(polje.getText())).equals(null)) return true;
+			else {
+				Border border = BorderFactory.createLineBorder(Color.RED, 1);
+				polje.setBorder(border);			
+				polje.setToolTipText("Korisnicko ime nije jedinstveno");
+				return false;
+			}
+		}
+		catch(NullPointerException ex) {
+			return true;
+		}
+	}
+	
+	public Boolean jedinstvenUsernameM(JTextField polje, long id) {
+		try {
+			KorisnikDAO kDAO = new KorisnikDAO();
+			KorisnikDAO kDAO2 = new KorisnikDAO();
+			if ((kDAO.getByUsername(polje.getText())).equals(null)) return true;
+			else {
+				if((kDAO2.getById(id).getKorisnicko_ime()).equals(polje.getText())) {
+					return true;
+				}
+				else {
+					Border border = BorderFactory.createLineBorder(Color.RED, 1);
+					polje.setBorder(border);			
+					polje.setToolTipText("Korisnicko ime nije jedinstveno");
+					return false;
+				}
+			}
+		}
+		catch(NullPointerException ex) {
+			return true;
+		}
+	}
 
 	public Boolean minimalnaDuzina(JTextField polje, int duzina) {
 		
