@@ -1,11 +1,10 @@
 package Kontroleri;
 
-import java.util.Date;
+import java.sql.Date;
 
 import junit.framework.TestCase;
 
-public class RadniZadaciRacunovodstvoControlerTest extends TestCase 
-{
+public class RadniZadaciRacunovodstvoControlerTest extends TestCase {
 
 	RadniZadaciRacunovodstvoControler r;
 	public void testPronadjiRadneZadatke() throws Exception {
@@ -24,4 +23,5 @@ public class RadniZadaciRacunovodstvoControlerTest extends TestCase
 //		r.PronadjiRadneZadatke(ime, prezime, false, indexKlijent, datumKreiranja, datumPreuzimanja, datumIzvrsenja, krajnjiDatumIzvrsenja, neizvrsen, nedodjeljen, neprihvacen);
 //		assertEquals(7, r.getRadniZadaci().size());
 	}
+
 }

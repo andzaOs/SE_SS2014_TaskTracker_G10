@@ -1,10 +1,13 @@
 package Kontroleri;
 
+import java.util.Date;
+
 import junit.framework.TestCase;
 import DAO.RadniZadatakDAO;
 import Entity.RadniZadatak;
 
-public class ModifikacijaZadatakControlerTest extends TestCase {
+public class ModifikacijaZadatakControlerTest extends TestCase
+{
 ModifikacijaZadatakControler m;
 	
 	public void testSetKlijenti() throws Exception {
@@ -23,4 +26,5 @@ ModifikacijaZadatakControler m;
 //		m.ModifikujRadniZadatak(r, 4, datum, 0, "Test", "Hardver", false, null);
 //		assertEquals("Test", r.getOpis());
 	}
+
 }

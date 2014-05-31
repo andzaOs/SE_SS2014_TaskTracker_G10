@@ -1,8 +1,8 @@
 package Kontroleri;
 
+import junit.framework.TestCase;
 import DAO.RadniZadatakDAO;
 import Entity.RadniZadatak;
-import junit.framework.TestCase;
 
 public class IzbrisiZadatakControlerTest extends TestCase {
 	IzbrisiZadatakControler c;

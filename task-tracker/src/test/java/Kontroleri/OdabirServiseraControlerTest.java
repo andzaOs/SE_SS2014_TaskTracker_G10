@@ -1,10 +1,13 @@
 package Kontroleri;
 
 import junit.framework.TestCase;
+import DAO.KorisnikDAO;
 import DAO.RadniZadatakDAO;
+import Entity.Korisnik;
 import Entity.RadniZadatak;
 
-public class OdabirServiseraControlerTest extends TestCase {
+public class OdabirServiseraControlerTest extends TestCase 
+{
 OdabirServiseraControler o;
 	
 	public void testSetServisere() {

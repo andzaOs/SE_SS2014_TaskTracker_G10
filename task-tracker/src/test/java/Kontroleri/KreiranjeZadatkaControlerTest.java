@@ -7,7 +7,8 @@ import java.util.List;
 import junit.framework.TestCase;
 import Entity.Korisnik;
 
-public class KreiranjeZadatkaControlerTest extends TestCase {
+public class KreiranjeZadatkaControlerTest extends TestCase 
+{
 KreiranjeZadatkaControler k;
 	
 	public void tearDown() throws Exception {

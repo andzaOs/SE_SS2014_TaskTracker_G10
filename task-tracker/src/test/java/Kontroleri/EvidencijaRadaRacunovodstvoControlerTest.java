@@ -5,7 +5,7 @@ import java.sql.Date;
 import junit.framework.TestCase;
 
 public class EvidencijaRadaRacunovodstvoControlerTest extends TestCase {
-EvidencijaRadaRacunovodstvoControler e;
+	EvidencijaRadaRacunovodstvoControler e;
 	
 	public void testPronadjiObavljenePoslove() throws Exception {
 		e = new EvidencijaRadaRacunovodstvoControler();
@@ -24,4 +24,5 @@ EvidencijaRadaRacunovodstvoControler e;
 //		e.PronadjiObavljenePoslove(neizvrsen, ime, prezime, jmbg, klijentOdabran, indexKlijent, izvrsen, vrstaUslugeOdabrana, indexVrstaUsluge, pocetniDatum, krajnjiDatum);
 //		assertEquals(1, e.getObavljeniPosao().size());
 	}
+
 }
