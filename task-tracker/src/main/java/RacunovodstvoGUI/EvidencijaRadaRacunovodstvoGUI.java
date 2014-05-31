@@ -36,7 +36,9 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import Entity.ObavljeniPosao;
 import Kontroleri.EvidencijaRadaRacunovodstvoControler;
 import UtilClasses.DateLabelFormatter;
+import UtilClasses.KorisnickoUputstvo;
 import UtilClasses.Validacija;
+
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
 
@@ -152,11 +154,8 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 		JMenuItem korisnikoUpustvoItem = new JMenuItem("Korisničko uputstvo");
 		korisnikoUpustvoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane
-						.showMessageDialog(
-								rootPane,
-								"Opcija će ponuditi preuzimanje .pdf dokumenta sa korisni�km uputstvom",
-								"Obavijest", JOptionPane.INFORMATION_MESSAGE);
+					KorisnickoUputstvo kp = new KorisnickoUputstvo();
+					kp.dobaviUputstvo();
 			}
 		});
 		pomocMenu.add(korisnikoUpustvoItem);

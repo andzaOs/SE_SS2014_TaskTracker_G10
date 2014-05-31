@@ -23,6 +23,7 @@ import javax.swing.SwingUtilities;
 
 import RacunovodstvoGUI.ONamaGUI;
 import RacunovodstvoGUI.PromjenaSifreGUI;
+import UtilClasses.KorisnickoUputstvo;
 
 
 
@@ -98,7 +99,8 @@ public class PocetnaServiserGUI extends JFrame {
 		JMenuItem korisnickoUputstvoItem = new JMenuItem("Korisni\u010Dko upustvo");
 		korisnickoUputstvoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Opcija �e ponuditi preuzimanje .pdf dokumenta sa korisni�km uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				KorisnickoUputstvo kp = new KorisnickoUputstvo();
+				kp.dobaviUputstvoServiseri();	
 			}
 		});
 		pomocMenu.add(korisnickoUputstvoItem);

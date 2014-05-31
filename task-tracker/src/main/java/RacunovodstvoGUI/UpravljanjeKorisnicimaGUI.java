@@ -30,6 +30,7 @@ import javax.swing.table.TableModel;
 import DAO.KorisnikDAO;
 import Entity.Korisnik;
 import Kontroleri.KorisnikKontroler;
+import UtilClasses.KorisnickoUputstvo;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -378,7 +379,8 @@ final JTable podaciTbl = new JTable(tableModel);
 		korisnickoUputstvoItem = new JMenuItem("Korisničko uputstvo");
 		korisnickoUputstvoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Opcija e ponuditi preuzimanje .pdf dokumenta sa korisni�kim uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				KorisnickoUputstvo kp = new KorisnickoUputstvo();
+				kp.dobaviUputstvo();
 			}
 		});
 		pomocMenu.add(korisnickoUputstvoItem);

@@ -19,6 +19,7 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.SpinnerNumberModel;
 
 
 public class SistemObavjestavanjaGUI extends JFrame
@@ -31,6 +32,7 @@ public class SistemObavjestavanjaGUI extends JFrame
 	public SistemObavjestavanjaGUI() 
 
 	{
+		setResizable(false);
 		initUI();
 	}
 	
@@ -42,7 +44,7 @@ public class SistemObavjestavanjaGUI extends JFrame
 		//Naziv forme
 		setTitle("Podešavanje automatskog obavještavanja i opominjanja korisnika");
 		
-		this.setSize(402, 296);
+		this.setSize(428, 296);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new MigLayout("", "[190.00][][170.00,grow]", "[][3.00][28.00][grow][]"));
 		
@@ -50,6 +52,7 @@ public class SistemObavjestavanjaGUI extends JFrame
 		getContentPane().add(krajnjiRokZaUnosLbl, "cell 0 0");
 		
 		final JSpinner rokUnosSpin = new JSpinner();
+		rokUnosSpin.setModel(new SpinnerNumberModel(1, 0, 365, 1));
 		getContentPane().add(rokUnosSpin, "cell 1 0");
 		
 		JLabel danaLbl = new JLabel("dana");
@@ -59,6 +62,7 @@ public class SistemObavjestavanjaGUI extends JFrame
 		getContentPane().add(krajnjiRokZaPreuzimanjeLbl, "cell 0 1");
 		
 		final JSpinner rokPreuzimanjeSpin = new JSpinner();
+		rokPreuzimanjeSpin.setModel(new SpinnerNumberModel(2, 0, 365, 1));
 		getContentPane().add(rokPreuzimanjeSpin, "cell 1 1");
 		
 		JLabel ldana1Lbl = new JLabel("dana");
@@ -71,11 +75,16 @@ public class SistemObavjestavanjaGUI extends JFrame
 		getContentPane().add(sadrajObavijestiLbl, "cell 1 2");
 		
 		final JTextArea opomenaTxt = new JTextArea();
+		opomenaTxt.setColumns(40);
+		opomenaTxt.setLineWrap(true);
 		opomenaTxt.setRows(10);
 		opomenaTxt.setForeground(Color.BLACK);
 		getContentPane().add(opomenaTxt, "cell 0 3");
 		
 		final JTextArea obavijestTxt = new JTextArea();
+		obavijestTxt.setRows(10);
+		obavijestTxt.setColumns(40);
+		obavijestTxt.setLineWrap(true);
 		getContentPane().add(obavijestTxt, "cell 1 3 2 1");
 		
 		JButton spremiBtn = new JButton("Spremi");
@@ -103,7 +112,7 @@ public class SistemObavjestavanjaGUI extends JFrame
 		
 		getContentPane().add(spremiBtn, "cell 2 4,growx");
 
-		try {
+		
 		
     	PostavkaMail p = new PostavkaMail();
     	PostavkaMailDAO pDAO = new PostavkaMailDAO();
@@ -113,16 +122,22 @@ public class SistemObavjestavanjaGUI extends JFrame
     	opomenaTxt.setText(p.getOpomena());
     	rokUnosSpin.setValue(p.getRokUnos());
     	rokPreuzimanjeSpin.setValue(p.getRokPreuzimanje());
-		}
-		catch (Exception e)
-		{}
+    	
 		
 		//table.setFillsViewportHeight(true);
 			
 	
 	}
 	
-	
+	public static void main(String args[]) {
+	    SwingUtilities.invokeLater(new Runnable() {
+	        public void run() {
+	           SistemObavjestavanjaGUI ex = new SistemObavjestavanjaGUI();
+	            ex.setVisible(true);
+	        	
+	        }
+	    });
+	}
 		
 	
 }

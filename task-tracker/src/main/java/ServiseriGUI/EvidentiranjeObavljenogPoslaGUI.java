@@ -33,6 +33,7 @@ import Entity.VrstaUsluge;
 import Kontroleri.ControlersServiseri.evidencijaPoslaControler;
 import RacunovodstvoGUI.ONamaGUI;
 import RacunovodstvoGUI.PromjenaSifreGUI;
+import UtilClasses.KorisnickoUputstvo;
 
 public class EvidentiranjeObavljenogPoslaGUI extends JFrame
 {
@@ -115,8 +116,8 @@ public class EvidentiranjeObavljenogPoslaGUI extends JFrame
 		JMenuItem korisnickoUpustvoItem = new JMenuItem("Korisni\u010Dko upustvo");
 		korisnickoUpustvoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Opcija �e ponuditi preuzimanje .pdf dokumenta sa korisni�km uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
-				
+				KorisnickoUputstvo kp = new KorisnickoUputstvo();
+				kp.dobaviUputstvoServiseri();				
 			}
 		});
 		pomocMeni.add(korisnickoUpustvoItem);

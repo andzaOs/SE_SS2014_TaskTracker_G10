@@ -33,6 +33,7 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import DAO.TipKorisnikaDAO;
 import Entity.TipKorisnika;
 import Kontroleri.KorisnikKontroler;
+import UtilClasses.KorisnickoUputstvo;
 import UtilClasses.Validacija;
 
 public class KreiranjeKorisnikaGUI extends JFrame {
@@ -152,7 +153,8 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 		JMenuItem korisnickoUputstvoItem = new JMenuItem("Korisničko uputstvo");
 		korisnickoUputstvoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Opcija �e ponuditi preuzimanje .pdf dokumenta sa korisni�kom uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				KorisnickoUputstvo kp = new KorisnickoUputstvo();
+				kp.dobaviUputstvo();
 			}
 		});
 		pomocMenu.add(korisnickoUputstvoItem);		

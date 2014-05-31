@@ -39,6 +39,7 @@ import Kontroleri.ControlersServiseri.MojiZadaciControler;
 import RacunovodstvoGUI.ONamaGUI;
 import RacunovodstvoGUI.PromjenaSifreGUI;
 import UtilClasses.DateLabelFormatter;
+import UtilClasses.KorisnickoUputstvo;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -466,7 +467,8 @@ public class PretragaMojihRadnihZadatakaGUI extends JFrame{
 		korisnickoUpustvoItem = new JMenuItem("Korisni\u010Dko upustvo");
 		korisnickoUpustvoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Opcija �e ponuditi preuzimanje .pdf dokumenta sa korisni�km uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				KorisnickoUputstvo kp = new KorisnickoUputstvo();
+				kp.dobaviUputstvoServiseri();	
 			}
 		});
 		pomocMeni.add(korisnickoUpustvoItem);

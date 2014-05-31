@@ -25,6 +25,7 @@ import javax.swing.SwingUtilities;
 import DAO.KlijentDAO;
 import Entity.Klijent;
 import Kontroleri.KlijentKontroler;
+import UtilClasses.KorisnickoUputstvo;
 import UtilClasses.Validacija;
 
 import java.awt.event.WindowAdapter;
@@ -133,7 +134,8 @@ import java.awt.event.WindowEvent;
  			JMenuItem korisnickoUputstvoItem = new JMenuItem("Korisni\u010Dko uputstvo");
  			korisnickoUputstvoItem.addActionListener(new ActionListener() {
  				public void actionPerformed(ActionEvent e) {
- 					JOptionPane.showMessageDialog(rootPane, "Opcija će ponuditi preuzimanje .pdf dokumenta sa korisničkm uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+					KorisnickoUputstvo kp = new KorisnickoUputstvo();
+					kp.dobaviUputstvo();
  				}
  			});
  			pomocMenu.add(korisnickoUputstvoItem);	

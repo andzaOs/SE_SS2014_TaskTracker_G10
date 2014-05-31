@@ -29,6 +29,7 @@ import DAO.TipKorisnikaDAO;
 import Entity.Korisnik;
 import Entity.TipKorisnika;
 import Kontroleri.IzvjestajKontroler;
+import UtilClasses.KorisnickoUputstvo;
 import UtilClasses.Validacija;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -117,7 +118,8 @@ public class KreirajIzvjestajGUI extends JFrame {
 		JMenuItem korisnickoUputstvoItem = new JMenuItem("Korisni\u010Dko uputstvo");
 		korisnickoUputstvoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(rootPane, "Opcija će ponuditi preuzimanje .pdf dokumenta sa korisničkm uputstvom", "Obavijest", JOptionPane.INFORMATION_MESSAGE);
+				KorisnickoUputstvo kp = new KorisnickoUputstvo();
+				kp.dobaviUputstvo();
 			}
 		});
 		pomocMenu.add(korisnickoUputstvoItem);
