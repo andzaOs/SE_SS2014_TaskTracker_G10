@@ -25,8 +25,10 @@ public class ModifikacijaZadatakControler {
 		brojRasporedjenihZadataka = 0;
 	}
 
-	public void setKlijenti() 
+	public void setKlijenti() throws Exception 
 	{
+		try
+		{
 		klijenti = new ArrayList<Klijent>();;
 		KlijentDAO kDAO = new KlijentDAO();
 		klijenti = kDAO.getAll();
@@ -38,6 +40,10 @@ public class ModifikacijaZadatakControler {
 	 			i=i-1;
 	 		}
 		}
+		}
+	 catch (Exception e) {
+		throw e;
+	}
 	}
 	
 	public List<Klijent> getKlijente()
@@ -45,8 +51,10 @@ public class ModifikacijaZadatakControler {
 		return klijenti;
 	}
 	
-	public Boolean ModifikujRadniZadatak(RadniZadatak zadatak, int maksimalanBrojServisera, Date datumIzvrsenja, int indexKlijent, String opis, String vrstaZadatka, Boolean serviserSelektovan, List<Korisnik> selektovaniServiseri)
+	public Boolean ModifikujRadniZadatak(RadniZadatak zadatak, int maksimalanBrojServisera, Date datumIzvrsenja, int indexKlijent, String opis, String vrstaZadatka, Boolean serviserSelektovan, List<Korisnik> selektovaniServiseri) throws Exception
 	{
+		try
+		{
 		setKlijenti();
 		RadniZadatak radniZadatak = new RadniZadatak();
 		radniZadatak.setRadniZadatak_id(zadatak.getRadniZadatak_id());
@@ -60,25 +68,29 @@ public class ModifikacijaZadatakControler {
 		radniZadatak.setVidljivo(true);
 		radniZadatak.setVrstaZadatka(vrstaZadatka);
 		radniZadatak.setStatusIzvrsenosti(false);
-		
+		KorisnikDAO kDAO = new KorisnikDAO();
+		radniZadatak.setKreator(kDAO.getById(SessionControler.getIdLog()));
+	
 		RadniZadatakDAO radniZadatakDAO = new RadniZadatakDAO();
 		
 		if (serviserSelektovan == true) 
 		{
 			int statusDodijeljenosti = zadatak.getStatusDodjeljenosti()+selektovaniServiseri.size();
-			radniZadatak.setStatusDodjeljenosti(statusDodijeljenosti);
-			if(radniZadatak.getStatusDodjeljenosti() > maksimalanBrojServisera)
+			
+			if(statusDodijeljenosti > maksimalanBrojServisera)
 			{
-				maksimalanBrojServisera=maksimalanBrojServisera-radniZadatak.getBrojServisera();
+				maxBrojServiseraZaDodjelu=maksimalanBrojServisera-zadatak.getStatusDodjeljenosti();
 				return false;
 			}
 			
-			else if (radniZadatak.getStatusDodjeljenosti() == maksimalanBrojServisera) 
+			else if (statusDodijeljenosti == maksimalanBrojServisera) 
 			{
 				radniZadatak.setPotpunoDodjeljen(true);
 			} 
 			else
 				radniZadatak.setPotpunoDodjeljen(false);
+			
+			radniZadatak.setStatusDodjeljenosti(statusDodijeljenosti);
 			
 			for (int i = 0; i < selektovaniServiseri.size(); i++) {
 				RasporedjeniZadatak raz = new RasporedjeniZadatak();
@@ -96,10 +108,16 @@ public class ModifikacijaZadatakControler {
 		else 
 		{
 				radniZadatak.setStatusDodjeljenosti(zadatak.getStatusDodjeljenosti());
-				radniZadatak.setPotpunoDodjeljen(zadatak.getPotpunoDodjeljen());
+				if(maksimalanBrojServisera>zadatak.getStatusDodjeljenosti())
+				radniZadatak.setPotpunoDodjeljen(false);
+				else radniZadatak.setPotpunoDodjeljen(true);
 		}
 		
 		radniZadatakDAO.update(radniZadatak);
+		}
+	 catch (Exception e) {
+		throw e;
+	}
 		return true;
 		
 }

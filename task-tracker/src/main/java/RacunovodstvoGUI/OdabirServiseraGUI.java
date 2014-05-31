@@ -22,6 +22,8 @@ import Kontroleri.*;
 import Entity.RadniZadatak;
 
 import javax.swing.ListSelectionModel;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 @SuppressWarnings("serial")
 public class OdabirServiseraGUI extends JFrame {
@@ -31,7 +33,8 @@ public class OdabirServiseraGUI extends JFrame {
 	private int maxbrojServisera;
 	private JTable tabela;
 	private RadniZadatak zadatak = new RadniZadatak();
-
+	private static OdabirServiseraGUI instanca;
+	
 	public OdabirServiseraGUI(KreiranjeZadatkaGUI parent1,RadniZadaciRacunovodstvoGUI parent2, RadniZadatak zadatak, int maxBrojServisera) {
 		// Omogućavamo pristup metodama forme KreiranjeZadatkaGUI kao roditelja
 		// ove forme
@@ -40,8 +43,18 @@ public class OdabirServiseraGUI extends JFrame {
 		this.parent2=parent2;
 		this.zadatak=zadatak;
 		this.maxbrojServisera=maxBrojServisera;
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		OdaberiServiseraUI();
 	}
+	
+	public static OdabirServiseraGUI dajInstancu(KreiranjeZadatkaGUI parent1,RadniZadaciRacunovodstvoGUI parent2, RadniZadatak zadatak, int maxBrojServisera) {
+			if(instanca==null) {
+ 			instanca=new OdabirServiseraGUI(parent1, parent2, zadatak, maxBrojServisera);
+ 			
+			}
+			return instanca;
+		}
+		public static void unistiInstancu() { instanca= null; }
 
 	public final void OdaberiServiseraUI() {
 		
@@ -52,18 +65,25 @@ public class OdabirServiseraGUI extends JFrame {
 
 		// Kreiramo tabelu koja sadrži informacije o svim serviserima iz baze
 		// podataka
-		DefaultTableModel model = new DefaultTableModel();
+		final DefaultTableModel model = new DefaultTableModel();
 		tabela = new JTable(model);
 		tabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		model.addColumn("Ime");
 		model.addColumn("Prezime");
 		model.addColumn("Broj dodijeljenih zadataka");
-		
-		if(parent2!=null) controler.setServisere(zadatak);
-		else controler.setServisere(null);
 		@SuppressWarnings("rawtypes")
-		List<List> redoviTabele = new ArrayList<List>();
-		redoviTabele.addAll(controler.getRedoviTabele());
+		final List<List> redoviTabele = new ArrayList<List>();
+		
+		try {
+			controler.setServisere(zadatak);
+			redoviTabele.addAll(controler.getRedoviTabele());
+			
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(rootPane,
+					"Pojavila se greška. Pokušajte ponovo.",
+					"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+		}
+
 
 		for(int i=0; i<redoviTabele.size(); i++)
 			model.addRow(new Object[]{redoviTabele.get(i).get(0),redoviTabele.get(i).get(1), redoviTabele.get(i).get(2)});
@@ -79,6 +99,22 @@ public class OdabirServiseraGUI extends JFrame {
 					parent1.setServiseri(controler.getSelektovaniServiseri());
 				dispose();
 
+			}
+		});
+		
+		addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				try {
+					model.setRowCount(0);
+					controler.setServisere(zadatak);
+					redoviTabele.addAll(controler.getRedoviTabele());
+					
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(rootPane,
+							"Pojavila se greška. Pokušajte ponovo.",
+							"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 
@@ -132,7 +168,7 @@ public class OdabirServiseraGUI extends JFrame {
 							JOptionPane
 								.showMessageDialog(
 									rootPane,
-									"Brojj servisera koje možete odabrati je: "+maxbrojServisera,
+									"Broj servisera koje možete odabrati je: "+maxbrojServisera,
 									"Poruka o uspješnosti operacije",
 									JOptionPane.ERROR_MESSAGE);
 						}
@@ -142,7 +178,9 @@ public class OdabirServiseraGUI extends JFrame {
 					else if(parent2!=null)
 					{
 						Boolean serviseriDodijeljeni;
-						serviseriDodijeljeni = controler.DodijeliServisere(zadatak);
+						try {
+							serviseriDodijeljeni = controler.DodijeliServisere(zadatak);
+						
 						if(serviseriDodijeljeni==false)
 						{
 							int brojServisera=zadatak.getBrojServisera()-zadatak.getStatusDodjeljenosti();
@@ -161,6 +199,11 @@ public class OdabirServiseraGUI extends JFrame {
 										"Odabranim serviserima je dodijeljen radni zadatak",
 										"Poruka o uspješnosti operacije",
 										JOptionPane.INFORMATION_MESSAGE);
+						}
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(rootPane,
+									"Pojavila se greška. Pokušajte ponovo.",
+									"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
@@ -187,6 +230,12 @@ public class OdabirServiseraGUI extends JFrame {
 		getContentPane().add(naslov, BorderLayout.NORTH);
 		getContentPane().add(tabelaPane, BorderLayout.CENTER);
 		getContentPane().add(juzniPanel, BorderLayout.SOUTH);
+	}
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		unistiInstancu();
+		super.dispose();
 	}
 
 }

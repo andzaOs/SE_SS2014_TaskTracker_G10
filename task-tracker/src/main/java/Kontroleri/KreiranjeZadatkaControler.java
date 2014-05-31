@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import DAO.*;
-import Entity.*;
+import DAO.KlijentDAO;
+import DAO.KorisnikDAO;
+import DAO.RadniZadatakDAO;
+import DAO.RasporedjeniZadatakDAO;
+import Entity.Klijent;
+import Entity.Korisnik;
+import Entity.RadniZadatak;
+import Entity.RasporedjeniZadatak;
 
 public class KreiranjeZadatkaControler {
 	
 	private List<Klijent> klijenti;
-	private int brojRasporedjenihZadataka;
-	
-	public int getBrojRasporedjenihZadataka() {
-		return brojRasporedjenihZadataka;
-	}
 
-	public KreiranjeZadatkaControler(){
-		brojRasporedjenihZadataka = 0;
-	}
 
-	public void setKlijenti() 
+	public void setKlijenti() throws Exception 
 	{
+		try
+		{
 		klijenti = new ArrayList<Klijent>();;
 		KlijentDAO kDAO = new KlijentDAO();
 		klijenti = kDAO.getAll();
@@ -33,6 +33,10 @@ public class KreiranjeZadatkaControler {
 	 			i=i-1;;
 	 		}
 		}
+		}
+	 catch (Exception e) {
+		throw e;
+	}
 	}
 	
 	public List<Klijent> getKlijente()
@@ -40,22 +44,28 @@ public class KreiranjeZadatkaControler {
 		return klijenti;
 	}
 	
-	public void KreirajRadniZadatak(int maksimalanBrojServisera, Date datumIzvrsenja, int indexKlijent, String opis, String vrstaZadatka, Boolean serviserSelektovan, List<Korisnik> selektovaniServiseri)
+	public void KreirajRadniZadatak(int maksimalanBrojServisera, Date datumIzvrsenja, int indexKlijent, String opis, String vrstaZadatka, Boolean serviserSelektovan, List<Korisnik> selektovaniServiseri) throws Exception
 	{
 		setKlijenti();
 		RadniZadatak radniZadatak = new RadniZadatak();
 		Date now = new Date();
 		radniZadatak.setDatumUnosa(now);
 		radniZadatak.setBrojServisera(maksimalanBrojServisera);
-		Klijent k = new Klijent();
+		Klijent klijent = new Klijent();
 		System.out.println(indexKlijent);
-		k = klijenti.get(indexKlijent);
-		radniZadatak.setKlijent(k);
+		klijent = klijenti.get(indexKlijent);
+		radniZadatak.setKlijent(klijent);
 		radniZadatak.setKrajnjiDatumIzvrsenja(datumIzvrsenja);
 		radniZadatak.setOpis(opis);
 		radniZadatak.setVidljivo(true);
 		radniZadatak.setVrstaZadatka(vrstaZadatka);
 		radniZadatak.setStatusIzvrsenosti(false);
+		Korisnik korisnik = new Korisnik();
+		KorisnikDAO kDAO = new KorisnikDAO();
+		try
+		{
+		korisnik = kDAO.getById(SessionControler.getIdLog());
+		radniZadatak.setKreator(korisnik);
 		
 		RadniZadatakDAO radniZadatakDAO = new RadniZadatakDAO();
 
@@ -64,7 +74,7 @@ public class KreiranjeZadatkaControler {
 
 			radniZadatak.setStatusDodjeljenosti(selektovaniServiseri.size());
 			
-			if (radniZadatak.getStatusDodjeljenosti() == maksimalanBrojServisera) 
+			if (selektovaniServiseri.size() == maksimalanBrojServisera) 
 			{
 				radniZadatak.setPotpunoDodjeljen(true);
 			} 
@@ -83,7 +93,6 @@ public class KreiranjeZadatkaControler {
 				RasporedjeniZadatakDAO razDAO = new RasporedjeniZadatakDAO();
 				long idRasporedjeniZadatak = razDAO.create(raz);
 				raz.setRasporedjeniZadatak_id(idRasporedjeniZadatak);
-				brojRasporedjenihZadataka++;
 			}
 		
 		}
@@ -95,6 +104,10 @@ public class KreiranjeZadatkaControler {
 				long idZadatak = radniZadatakDAO.create(radniZadatak);
 				radniZadatak.setRadniZadatak_id(idZadatak);
 		}
+		}
+	 catch (Exception e) {
+		throw e;
+	}
 	}
 	
 	

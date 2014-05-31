@@ -53,12 +53,23 @@ public class KreiranjeZadatkaGUI extends JFrame {
 	private Date datumIzvrsenja = null;
 	private int maxBrojServisera = 1, indexKlijent;
 	private String opis = "", vrstaZadatka = "";
+	private static KreiranjeZadatkaGUI instanca;
 
 	// Konstruktor
 	public KreiranjeZadatkaGUI() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		initialize();
 		mySelf = this;
 	}
+	
+	public static KreiranjeZadatkaGUI dajInstancu() {
+			if(instanca==null) {
+ 			instanca=new KreiranjeZadatkaGUI();
+ 			
+			}
+			return instanca;
+		}
+		public static void unistiInstancu() { instanca= null; }
 
 	// Metoda potrebna za postavljanje liste servisera preko forme Odabir
 	// servisera
@@ -106,7 +117,9 @@ public class KreiranjeZadatkaGUI extends JFrame {
 							PromjenaSifreGUI window = new PromjenaSifreGUI();
 
 						} catch (Exception e) {
-							e.printStackTrace();
+							JOptionPane.showMessageDialog(rootPane,
+									"Pojavila se greška. Pokušajte ponovo.",
+									"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				});
@@ -191,7 +204,13 @@ public class KreiranjeZadatkaGUI extends JFrame {
 		final JDatePickerImpl datumIzvrsenjaDP = new JDatePickerImpl(datePanel);
 		final JComboBox<String> nazivKlijentaCmbx = new JComboBox<String>();
 		//Punimo combobox na osnovu podataka iz baze, a preko kontrolera
-		controler1.setKlijenti();
+		try {
+			controler1.setKlijenti();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(rootPane,
+					"Pojavila se greška. Pokušajte ponovo.",
+					"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+		}
 		for (int i = 0; i < controler1.getKlijente().size(); i++)
 			nazivKlijentaCmbx.addItem(controler1.getKlijente().get(i).getNaziv());
 		
@@ -301,7 +320,13 @@ public class KreiranjeZadatkaGUI extends JFrame {
 				if (uslov1 == true && vrstaZadatka!="" && klijentOdabran!=false) 
 				{
 					
-					controler2.KreirajRadniZadatak(maxBrojServisera, datumIzvrsenja, indexKlijent, opis, vrstaZadatka, getServiserSelektovan(), selektovaniServiseri);
+					try {
+						controler2.KreirajRadniZadatak(maxBrojServisera, datumIzvrsenja, indexKlijent, opis, vrstaZadatka, getServiserSelektovan(), selektovaniServiseri);
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(rootPane,
+								"Pojavila se greška. Pokušajte ponovo.",
+								"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+					}
 					
 					JOptionPane.showMessageDialog(rootPane,
 							"Radni zadatak je uspješno kreiran.",
@@ -312,8 +337,8 @@ public class KreiranjeZadatkaGUI extends JFrame {
 					vrstaZadatka="";
 					nazivKlijentaCmbx.setSelectedIndex(0);
 					klijentOdabran=false;
-					maksimalanBrojServisera.setValue(0);
-					maxBrojServisera=0;
+					maksimalanBrojServisera.setValue(1);
+					maxBrojServisera=1;
 					datumIzvrsenjaDP.getJFormattedTextField().setText("");
 					datumIzvrsenja=null;
 					opisTxt.setText("");
@@ -354,6 +379,13 @@ public class KreiranjeZadatkaGUI extends JFrame {
 
 			}
 		});
+	}
+	
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		unistiInstancu();
+		super.dispose();
 	}
 
 }

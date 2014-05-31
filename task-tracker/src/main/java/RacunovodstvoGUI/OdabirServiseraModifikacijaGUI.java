@@ -21,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
 
 import Kontroleri.*;
 import Entity.RadniZadatak;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 
 @SuppressWarnings("serial")
@@ -30,6 +32,7 @@ public class OdabirServiseraModifikacijaGUI extends JFrame {
 	private int maxbrojServisera;
 	private JTable tabela1, tabela2;
 	private RadniZadatak zadatak = new RadniZadatak();
+	private static OdabirServiseraModifikacijaGUI instanca;
 
 	public OdabirServiseraModifikacijaGUI(ModifikacijaZadatakGUI parent1, RadniZadatak zadatak, int maxBrojServisera) {
 		// Omogućavamo pristup metodama forme KreiranjeZadatkaGUI kao roditelja
@@ -38,9 +41,18 @@ public class OdabirServiseraModifikacijaGUI extends JFrame {
 		this.parent1=parent1;
 		this.zadatak=zadatak;
 		this.maxbrojServisera=maxBrojServisera;
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		OdabirServiseraModifikacijaUI();
 	}
-
+	
+	public static OdabirServiseraModifikacijaGUI dajInstancu(ModifikacijaZadatakGUI parent1, RadniZadatak zadatak, int maxBrojServisera) {
+		if(instanca==null) {
+			instanca=new OdabirServiseraModifikacijaGUI(parent1, zadatak, maxBrojServisera);
+			
+		}
+		return instanca;
+	}
+	public static void unistiInstancu() { instanca= null; }
 
 	public final void OdabirServiseraModifikacijaUI() {
 		
@@ -57,13 +69,18 @@ public class OdabirServiseraModifikacijaGUI extends JFrame {
 		model1.addColumn("Ime");
 		model1.addColumn("Prezime");
 		model1.addColumn("Broj dodijeljenih zadataka");
-		
-		controler.setDostupneServisere(zadatak);
-		controler.setPostojeceServisere(zadatak);
-		
 		@SuppressWarnings("rawtypes")
-		List<List> redoviTabele1 = new ArrayList<List>();
-		redoviTabele1.addAll(controler.getRedoviTabele(1));
+		final List<List> redoviTabele1 = new ArrayList<List>();
+		
+		try {
+			controler.setDostupneServisere(zadatak);
+			controler.setPostojeceServisere(zadatak);
+			redoviTabele1.addAll(controler.getRedoviTabele(1));
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(rootPane,
+					"Pojavila se greška. Pokušajte ponovo.",
+					"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+		}
 
 		for(int i=0; i<redoviTabele1.size(); i++)
 			model1.addRow(new Object[]{redoviTabele1.get(i).get(0),redoviTabele1.get(i).get(1), redoviTabele1.get(i).get(2)});
@@ -80,7 +97,14 @@ public class OdabirServiseraModifikacijaGUI extends JFrame {
 		
 		@SuppressWarnings("rawtypes")
 		List<List> redoviTabele2 = new ArrayList<List>();
-		redoviTabele2.addAll(controler.getRedoviTabele(2));
+		try {
+			redoviTabele2.addAll(controler.getRedoviTabele(2));
+		} 
+			 catch (Exception e1) {
+					JOptionPane.showMessageDialog(rootPane,
+							"Pojavila se greška. Pokušajte ponovo.",
+							"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+		}
 
 		for(int i=0; i<redoviTabele2.size(); i++)
 			model2.addRow(new Object[]{redoviTabele2.get(i).get(0),redoviTabele2.get(i).get(1), redoviTabele2.get(i).get(2)});
@@ -108,6 +132,23 @@ public class OdabirServiseraModifikacijaGUI extends JFrame {
 		
 				JPanel juzniPanel = new JPanel();
 				
+
+				addFocusListener(new FocusAdapter() {
+					@Override
+					public void focusGained(FocusEvent e) {
+						try {
+							model1.setRowCount(0);
+							model2.setRowCount(0);
+							controler.setDostupneServisere(zadatak);
+							controler.setPostojeceServisere(zadatak);
+							redoviTabele1.addAll(controler.getRedoviTabele(1));
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(rootPane,
+									"Pojavila se greška. Pokušajte ponovo.",
+									"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				});
 				
 				JButton Nazad = new JButton("<< Nazad");
 				Nazad.addActionListener(new ActionListener() {
@@ -197,6 +238,13 @@ public class OdabirServiseraModifikacijaGUI extends JFrame {
 										juzniPanel.add(Vise);
 										juzniPanel.add(Zavrsi);
 										getContentPane().add(juzniPanel, BorderLayout.SOUTH);
+	}
+	
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		unistiInstancu();
+		super.dispose();
 	}
 
 }

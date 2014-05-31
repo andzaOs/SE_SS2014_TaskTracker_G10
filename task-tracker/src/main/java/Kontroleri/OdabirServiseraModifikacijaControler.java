@@ -34,16 +34,24 @@ public class OdabirServiseraModifikacijaControler {
 		return serviseri;
 	}
 	
-	public void setPostojeceServisere(RadniZadatak zadatak)
+	public void setPostojeceServisere(RadniZadatak zadatak) throws Exception
 	{
+		try
+		{
 		List<RasporedjeniZadatak> rzadaci = new ArrayList<RasporedjeniZadatak>();
 		RasporedjeniZadatakDAO rDAO = new RasporedjeniZadatakDAO();
 		rzadaci = rDAO.getByRadniZadatak(zadatak);
 		for(int i=0; i<rzadaci.size(); i++)
 			odabraniServiseri.add(rzadaci.get(i).getIzvrsilac());
+		}
+	 catch (Exception e) {
+		throw e;
 	}
-	public void setDostupneServisere(RadniZadatak zadatak)
+	}
+	public void setDostupneServisere(RadniZadatak zadatak) throws Exception
 	{
+		try
+		{
 		List<Korisnik> korisnici;
 		korisnici = new ArrayList<Korisnik>();
 		kDAO = new KorisnikDAO();
@@ -69,6 +77,10 @@ public class OdabirServiseraModifikacijaControler {
 				}
 			}
 		}
+		}
+	 catch (Exception e) {
+		throw e;
+	}
 	}
 	
 	public Boolean ProvjeriBrojServisera(int maxBrojServisera)
@@ -81,11 +93,18 @@ public class OdabirServiseraModifikacijaControler {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public List<List> getRedoviTabele(int brojTabela)
+	public List<List> getRedoviTabele(int brojTabela) throws Exception
 	{
+	
 		RasporedjeniZadatakDAO rzDAO = new RasporedjeniZadatakDAO();
 		List<RasporedjeniZadatak> rasporedjeniZadaci = new ArrayList<RasporedjeniZadatak>();
+		try
+		{
 		rasporedjeniZadaci = rzDAO.getAll();
+		}
+		 catch (Exception e) {
+				throw e;
+			}
 		@SuppressWarnings("unchecked")
 		List<List> redovi = new ArrayList();
 
@@ -116,6 +135,7 @@ public class OdabirServiseraModifikacijaControler {
 			
 		}
 			return redovi;
+		
 		}
 	
 	public int getSelektoviServiseriSize(int indexServiseri[])

@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +17,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -24,25 +29,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
-
-import javax.swing.JComboBox;
-
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-
-import Kontroleri.*;
 import Entity.RadniZadatak;
-
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.ListSelectionModel;
+import Kontroleri.RadniZadaciRacunovodstvoControler;
+import UtilClasses.DateLabelFormatter;
 
 
 public class RadniZadaciRacunovodstvoGUI extends JFrame{
@@ -190,23 +189,28 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	final JTextField imePrezimeTxt = new JTextField();
 	UtilDateModel model1 = new UtilDateModel();
 	final JDatePanelImpl datePanel1 = new JDatePanelImpl(model1);
-	final JDatePickerImpl datumKreiranjaDP = new JDatePickerImpl(datePanel1);
+	final JDatePickerImpl datumKreiranjaDP = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
 	UtilDateModel model2 = new UtilDateModel();
 	final JDatePanelImpl datePanel2 = new JDatePanelImpl(model2);
-	final JDatePickerImpl datumPruzimanjaDP = new JDatePickerImpl(datePanel2);
+	final JDatePickerImpl datumPruzimanjaDP = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
 	UtilDateModel model3 = new UtilDateModel();
 	final JDatePanelImpl datePanel3 = new JDatePanelImpl(model3);
-	final JDatePickerImpl datumIzvrsenjaDP = new JDatePickerImpl(datePanel3);
+	final JDatePickerImpl datumIzvrsenjaDP = new JDatePickerImpl(datePanel3, new DateLabelFormatter());
 	UtilDateModel model4 = new UtilDateModel();
 	final JDatePanelImpl datePanel4 = new JDatePanelImpl(model4);
-	final JDatePickerImpl datumZavrsniDP = new JDatePickerImpl(datePanel4);
+	final JDatePickerImpl datumZavrsniDP = new JDatePickerImpl(datePanel4, new DateLabelFormatter());
 	
 	filter1Panel.add(imePrezimeLbl);
 	filter1Panel.add(imePrezimeTxt);
 	filter1Panel.add(nazivKlijentaLbl);
 	
 	final JComboBox<String> nazivKlijentaCmb = new JComboBox<String>();
-	controler1.setKlijenti();
+	try {
+		controler1.setKlijenti();
+	} catch (Exception e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
 	for (int i = 0; i < controler1.getKlijenti().size(); i++)
 		nazivKlijentaCmb.addItem(controler1.getKlijenti().get(i).getNaziv());
 	
@@ -294,6 +298,17 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
 	JScrollPane tabelaPane = new JScrollPane(tabela);
 	
+	try {
+		controler1.pretraziSve();
+		zadaci = controler1.getRadniZadaci();
+		Ispisi(controler1.getRedovi(controler1.getRadniZadaci()), modelTabela);
+	} catch (Exception e) {
+		JOptionPane.showMessageDialog(rootPane,
+				"Pojavila se greška. Pokušajte ponovo.",
+				"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+	}
+	
+	
 	JButton pretraziBtn = new JButton("Pretraži");
 	ImageIcon traziIkona = new ImageIcon(getClass().getResource("SearchIcon.png"));
 	pretraziBtn.setIcon(traziIkona);
@@ -343,13 +358,22 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		public void actionPerformed(ActionEvent event) {
 			 SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
-		        
-		                OdabirServiseraGUI os = new OdabirServiseraGUI(null,mySelf, controler1.GetZadatak(zadaci, indexTabela),0);
+		            	RadniZadatak zadatak = new RadniZadatak();
+		            	zadatak = controler1.GetZadatak(zadaci, indexTabela);
+		            	if(zadatak.getPotpunoDodjeljen()==false)
+		            	{
+		                OdabirServiseraGUI os = new OdabirServiseraGUI(null,mySelf, zadatak,0);
 						os.setVisible(true);
 		                os.setTitle("Odabir servisera");
 		                os.setSize(1000, 350);
 		                os.setLocationRelativeTo(null);		                
 		                os.setVisible(true);
+		            	}
+		            	else
+		            		JOptionPane.showMessageDialog(rootPane,
+		    						"Radni zadatak je već potpuno dodijeljen.",
+		    						"Poruka o grešci", JOptionPane.INFORMATION_MESSAGE);
+		            		
 		
 		          }
 		     });
@@ -385,6 +409,27 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	getContentPane().add(juzniPanel, BorderLayout.SOUTH);
 	
 
+
+	addWindowFocusListener(new WindowFocusListener() {
+		public void windowGainedFocus(WindowEvent arg0) {
+			modelTabela.setRowCount(0);
+			
+			try {
+				controler1.pretraziSve();
+				zadaci = controler1.getRadniZadaci();
+				Ispisi(controler1.getRedovi(controler1.getRadniZadaci()), modelTabela);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(rootPane,
+						"Pojavila se greška. Pokušajte ponovo.",
+						"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+			}
+			
+			
+		}
+		public void windowLostFocus(WindowEvent arg0) {
+		}
+	});
+	
 	cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
 		
 		public void valueChanged(ListSelectionEvent arg0) {
@@ -462,27 +507,24 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 			RadniZadaciRacunovodstvoControler controler2 = new RadniZadaciRacunovodstvoControler();
 			
 			Boolean radniZadaciNadjeni;
-			radniZadaciNadjeni = controler2.PronadjiRadneZadatke(ime, prezime, klijentOdabran,indexKlijent, datumKreiranja, datumPreuzimanja, 
-					datumIzvrsenja, krajnjiDatumIzvrsenja, neizvrsenZadatakChckbx.isSelected(), nedodjeljenZadatakChckbx.isSelected(), neprihvacenZadatakChckbx.isSelected());
+			try {
+				radniZadaciNadjeni = controler2.PronadjiRadneZadatke(ime, prezime, klijentOdabran,indexKlijent, datumKreiranja, datumPreuzimanja, 
+						datumIzvrsenja, krajnjiDatumIzvrsenja, neizvrsenZadatakChckbx.isSelected(), nedodjeljenZadatakChckbx.isSelected(), neprihvacenZadatakChckbx.isSelected());
 			
 			if(radniZadaciNadjeni)
 			{
-				@SuppressWarnings("rawtypes")
-				List<List> redoviTabele = new ArrayList<List>();
-				redoviTabele.addAll(controler2.getRedovi());
-
-				for(int i=0; i<redoviTabele.size(); i++)
-				modelTabela.addRow(new Object[]{redoviTabele.get(i).get(0),redoviTabele.get(i).get(1), 
-							redoviTabele.get(i).get(2), redoviTabele.get(i).get(3)});
-				
-				zadaci.addAll(controler2.getRadniZadaci());
-				naziviServisera = controler2.getNazivServisera();
+				zadaci = controler2.getRadniZadaci();
+				Ispisi(controler2.getRedovi(controler2.getRadniZadaci()), modelTabela);
 			}
 			else 
 			{
 				JOptionPane.showMessageDialog(rootPane,
 				"Ne postoji radni zadatak u bazi podataka.",
 				"Poruka o grešci", JOptionPane.INFORMATION_MESSAGE);
+			}
+			} catch (Exception e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
 			}
 			ime="";
 			prezime="";
@@ -504,7 +546,13 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	});
 }
 
-	
+	@SuppressWarnings("rawtypes")
+	public void Ispisi(List<List> redoviTabele, DefaultTableModel modelTabela)
+	{
+		for(int i=0; i<redoviTabele.size(); i++)
+		modelTabela.addRow(new Object[]{redoviTabele.get(i).get(0),redoviTabele.get(i).get(1), 
+		redoviTabele.get(i).get(2), redoviTabele.get(i).get(3)});
+	}
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub

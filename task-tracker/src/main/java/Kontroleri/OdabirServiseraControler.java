@@ -30,8 +30,10 @@ public class OdabirServiseraControler {
 	public List<Korisnik> getServiseri() {
 		return serviseri;
 	}
-	public void setServisere(RadniZadatak zadatak)
+	public void setServisere(RadniZadatak zadatak) throws Exception
 	{
+		try
+		{
 		KorisnikDAO kDAO;
 		List<Korisnik> korisnici;
 		korisnici = new ArrayList<Korisnik>();
@@ -49,6 +51,7 @@ public class OdabirServiseraControler {
 		{
 			korisnici.clear();
 			korisnici.addAll(serviseri);
+			serviseri.clear();
 			List<RasporedjeniZadatak> r = new ArrayList<RasporedjeniZadatak>();
 			RasporedjeniZadatakDAO rDAO = new RasporedjeniZadatakDAO();
 			r = rDAO.getByRadniZadatak(zadatak);
@@ -62,9 +65,15 @@ public class OdabirServiseraControler {
 					}
 				}
 			}
-			serviseri.clear();
 			serviseri.addAll(korisnici);
 		}
+		
+		
+			
+		}
+	 catch (Exception e) {
+		throw e;
+	}
 	}
 	
 	public Boolean ProvjeriBrojServisera(int maxBrojServisera)
@@ -77,11 +86,18 @@ public class OdabirServiseraControler {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public List<List> getRedoviTabele()
+	public List<List> getRedoviTabele() throws Exception
 	{
+	
 		RasporedjeniZadatakDAO rzDAO = new RasporedjeniZadatakDAO();
 		List<RasporedjeniZadatak> rasporedjeniZadaci = new ArrayList<RasporedjeniZadatak>();
+		try
+		{
 		rasporedjeniZadaci = rzDAO.getAll();
+		}
+		catch (Exception e) {
+			throw e;
+		}
 		@SuppressWarnings("unchecked")
 		List<List> redovi = new ArrayList();
 
@@ -108,6 +124,7 @@ public class OdabirServiseraControler {
 			
 		}
 			return redovi;
+		
 		}
 	
 	public int getSelektoviServiseriSize(int indexServiseri[])
@@ -127,9 +144,9 @@ public class OdabirServiseraControler {
 		selektovaniServiser = serviseri.get(indexTabela);
 		return selektovaniServiser;
 	}
-	public Boolean DodijeliServisere(RadniZadatak zadatak)
+	public Boolean DodijeliServisere(RadniZadatak zadatak) throws Exception
 	{
-		
+	
 		RadniZadatakDAO radniZadatakDAO = new RadniZadatakDAO();
 		
 		int statusDodijeljenosti = zadatak.getStatusDodjeljenosti()+selektovaniServiseri.size();
@@ -147,7 +164,8 @@ public class OdabirServiseraControler {
 				zadatak.setPotpunoDodjeljen(false);
 			
 			zadatak.setStatusDodjeljenosti(statusDodijeljenosti);
-
+			try
+			{
 			RadniZadatak z = new RadniZadatak();
 			System.out.println("ID"+zadatak.getRadniZadatak_id());
 			z.setRadniZadatak_id(zadatak.getRadniZadatak_id());
@@ -160,7 +178,11 @@ public class OdabirServiseraControler {
 			z.setStatusDodjeljenosti(zadatak.getStatusDodjeljenosti());
 			z.setStatusIzvrsenosti(zadatak.getStatusIzvrsenosti());
 			z.setVidljivo(zadatak.getVidljivo());
+			Korisnik korisnik = new Korisnik();
+			KorisnikDAO kDAO = new KorisnikDAO();
+			korisnik = kDAO.getById(SessionControler.getIdLog());
 			z.setVrstaZadatka(zadatak.getVrstaZadatka());
+			z.setKreator(korisnik);
 			radniZadatakDAO.update(z);
 		
 			for (int i = 0; i < selektovaniServiseri.size(); i++)
@@ -174,11 +196,18 @@ public class OdabirServiseraControler {
 				long idRasporedjeniZadatak = razDAO.create(raz);
 				raz.setRasporedjeniZadatak_id(idRasporedjeniZadatak);
 			}
+			}
+			 catch (Exception e) {
+				throw e;
+				}
 			return true;
 		}
 	
 	}
 
-}
+	}
+	
+
+
 
 

@@ -50,17 +50,27 @@ public class ModifikacijaZadatakGUI extends JFrame {
 	private List<Korisnik> selektovaniServiseri = new ArrayList<Korisnik>();
 	private RadniZadatak radniZadatak;
 	private ModifikacijaZadatakGUI mySelf;
+	private static ModifikacijaZadatakGUI instanca;
 	private Validacija v = new Validacija();
 	private Boolean uslov1 = true, uslov2=true, serviserSelektovan = false, klijentOdabran=false, brojServiseraOdabran=false,
 			datumIzvrsenjaOdabran=false, vrstaZadatkaOdabrana=false, opisOdabran=false;
 	private Date datumIzvrsenja;
 	// Konstruktor
 	public ModifikacijaZadatakGUI(RadniZadatak radniZadatak) {
-
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.radniZadatak=radniZadatak;
 		mySelf = this;
 		initialize();
 	}
+	
+	public static ModifikacijaZadatakGUI dajInstancu(RadniZadatak radniZadatak) {
+		if(instanca==null) {
+			instanca=new ModifikacijaZadatakGUI(radniZadatak);
+			
+		}
+		return instanca;
+	}
+	public static void unistiInstancu() { instanca= null; }
 
 	// Metoda potrebna za postavljanje liste servisera preko forme Odabir
 	// servisera
@@ -104,7 +114,9 @@ public class ModifikacijaZadatakGUI extends JFrame {
 							PromjenaSifreGUI window = new PromjenaSifreGUI();
 
 						} catch (Exception e) {
-							e.printStackTrace();
+							JOptionPane.showMessageDialog(rootPane,
+									"Pojavila se greška. Pokušajte ponovo.",
+									"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				});
@@ -195,7 +207,13 @@ public class ModifikacijaZadatakGUI extends JFrame {
 		
 		final JComboBox<String> nazivKlijentaCmbx = new JComboBox<String>();
 		//Punimo combobox na osnovu podataka iz baze, a preko kontrolera
-		controler1.setKlijenti();
+		try {
+			controler1.setKlijenti();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(rootPane,
+					"Pojavila se greška. Pokušajte ponovo.",
+					"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+		}
 		for (int i = 0; i < controler1.getKlijente().size(); i++)
 			nazivKlijentaCmbx.addItem(controler1.getKlijente().get(i).getNaziv());
 		nazivKlijentaCmbx.setSelectedItem(radniZadatak.getKlijent().getNaziv());
@@ -336,8 +354,10 @@ public class ModifikacijaZadatakGUI extends JFrame {
 					else
 					{
 						ModifikacijaZadatakControler controler2 = new ModifikacijaZadatakControler();
-						Boolean modifikovanZadatak = controler2.ModifikujRadniZadatak(radniZadatak,(Integer)maksimalanBrojServisera.getValue(), datumIzvrsenja, 
-								(Integer)nazivKlijentaCmbx.getSelectedIndex(), opisTxt.getText(), (String)vrstaZadatkaCmbx.getSelectedItem(), getServiserSelektovan(), selektovaniServiseri);
+						Boolean modifikovanZadatak;
+						try {
+							modifikovanZadatak = controler2.ModifikujRadniZadatak(radniZadatak,(Integer)maksimalanBrojServisera.getValue(), datumIzvrsenja, 
+									(Integer)nazivKlijentaCmbx.getSelectedIndex(), opisTxt.getText(), (String)vrstaZadatkaCmbx.getSelectedItem(), getServiserSelektovan(), selektovaniServiseri);
 				
 						if(modifikovanZadatak)	
 						{
@@ -345,6 +365,7 @@ public class ModifikacijaZadatakGUI extends JFrame {
 									"Radni zadatak je uspješno modifikovan.",
 									"Poruka o uspješnosti operacije",
 									JOptionPane.INFORMATION_MESSAGE);
+							dispose();
 						}
 						else
 						{
@@ -352,6 +373,11 @@ public class ModifikacijaZadatakGUI extends JFrame {
 									"Možete dodati sljedeći broj servisera: "+controler2.getMaxBrojServiseraZaDodjelu(),
 									"Poruka o uspješnosti operacije",
 									JOptionPane.ERROR_MESSAGE);
+						}
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(rootPane,
+									"Pojavila se greška. Pokušajte ponovo.",
+									"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
@@ -365,6 +391,11 @@ public class ModifikacijaZadatakGUI extends JFrame {
 			}
 		});
 	}
-
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		unistiInstancu();
+		super.dispose();
+	}
 
 }

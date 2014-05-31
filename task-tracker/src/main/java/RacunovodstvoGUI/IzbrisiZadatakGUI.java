@@ -22,9 +22,18 @@ public class IzbrisiZadatakGUI extends JFrame {
 	
 	private RadniZadatak radniZadatak = new RadniZadatak();
 	private IzbrisiZadatakGUI mySelf;
+	private static IzbrisiZadatakGUI instanca;
+	
+	public static IzbrisiZadatakGUI dajInstancu(RadniZadatak radniZadatak) {
+		if(instanca==null) {
+			instanca=new IzbrisiZadatakGUI(radniZadatak);
+		}
+		return instanca;
+	}
+	public static void unistiInstancu() { instanca= null; }
 	
 	public IzbrisiZadatakGUI (RadniZadatak zadatak) {
-	
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.mySelf=this;
 		this.radniZadatak=zadatak;
 		IzbrisiZadatakUI();
@@ -59,7 +68,13 @@ public class IzbrisiZadatakGUI extends JFrame {
 		JButton obrisiBtn = new JButton("Obriši");
 		obrisiBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controler.Izbrisi(radniZadatak);
+				try {
+					controler.Izbrisi(radniZadatak);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(rootPane,
+							"Pojavila se greška. Pokušajte ponovo.",
+							"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+				}
 				JOptionPane
 				.showMessageDialog(
 						rootPane,
@@ -81,7 +96,12 @@ public class IzbrisiZadatakGUI extends JFrame {
 	
 	}
 
-
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		unistiInstancu();
+		super.dispose();
+	}
 	
 	
 }

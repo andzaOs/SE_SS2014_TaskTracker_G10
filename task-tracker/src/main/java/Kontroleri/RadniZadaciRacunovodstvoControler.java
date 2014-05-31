@@ -2,328 +2,235 @@ package Kontroleri;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import DAO.*;
-import Entity.*;
+import DAO.KlijentDAO;
+import DAO.ObavljeniPosaoDAO;
+import DAO.RadniZadatakDAO;
+import DAO.RasporedjeniZadatakDAO;
+import Entity.Klijent;
+import Entity.ObavljeniPosao;
+import Entity.RadniZadatak;
+import Entity.RasporedjeniZadatak;
 
 public class RadniZadaciRacunovodstvoControler {
-	private List<Klijent> klijenti;
+	private List<Klijent> klijenti = new ArrayList<Klijent>();
 	private List<String> nazivServisera = new ArrayList<String>();
 	private Klijent klijent = new Klijent();
-	private Set<RasporedjeniZadatak> raPoServiserima = new HashSet<RasporedjeniZadatak>();
-	private Set<RasporedjeniZadatak> raPoObavljenomPoslu = new HashSet<RasporedjeniZadatak>();
-	private Set<RadniZadatak> radniZadaci = new HashSet<RadniZadatak>();
+	private List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
 
-	private Set<RadniZadatak> raPoZadacima = new HashSet<RadniZadatak>();
-	private Boolean prServiser, prZadaci, prObavljeniPosao;
-	@SuppressWarnings({ "rawtypes" })
-	private List<List> 	redovi = new ArrayList<List>();
-
-	public RadniZadaciRacunovodstvoControler(){
-		radniZadaci.isEmpty();
-		nazivServisera.clear();
-		raPoObavljenomPoslu.clear();
-		raPoServiserima.clear();
-		raPoZadacima.clear();
-	}
-
-	public Set<RadniZadatak> getRadniZadaci() {
+	public List<RadniZadatak> getRadniZadaci() {
 		return radniZadaci;
 	}
+
+	public RadniZadaciRacunovodstvoControler(){}
 	
 	public List<String> getNazivServisera() {
 		return nazivServisera;
 	}
 	
-	public void setKlijent(int index) {
-		this.klijent = klijenti.get(index);
-	}
 	
-	public Klijent getKlijent() {
+	
+	public Klijent getKlijent(int index) {
+		this.klijent = klijenti.get(index);
 		return klijent;
 	}
 
-	public void setKlijenti() {
-		klijenti = new ArrayList<Klijent>();;
+	public void setKlijenti() throws Exception {
+		try
+		{
+		
 		KlijentDAO kDAO = new KlijentDAO();
 		klijenti = kDAO.getAll();
+		for(int i=0; i<klijenti.size(); i++) {
+	 		if(klijenti.get(i).getVidljivo()) {
+	 			}
+	 		else {
+	 			klijenti.remove(i);
+	 			i=i-1;;
+	 		}
+		}
+		}
+		catch (Exception e) {
+			throw e;
+		}
 	}
 	
 	public List<Klijent> getKlijenti() {
 		return klijenti;
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public List<List> getRedovi() {
-		return redovi;
-	}
-
-	@SuppressWarnings("rawtypes")
+	
 	public Boolean PronadjiRadneZadatke(String ime, String prezime, Boolean klijentOdabran, int indexKlijent, Date datumKreiranja, Date datumPreuzimanja, 
-			Date datumIzvrsenja, Date krajnjiDatumIzvrsenja, Boolean neizvrsen, Boolean nedodjeljen, Boolean neprihvacen)
+			Date datumIzvrsenja, Date krajnjiDatumIzvrsenja, Boolean neizvrsen, Boolean nedodjeljen, Boolean neprihvacen) throws Exception
 	{
 		
-		UnesenaPretragaZaServisera(ime, prezime);
-		UnesenaPretrageZaRadneZadatke(klijentOdabran, indexKlijent, datumKreiranja, krajnjiDatumIzvrsenja,
-				nedodjeljen, neizvrsen);
-		UnesenaPretragaZaObavljenePoslove(datumIzvrsenja);
-		UnesenaPretragaZaRasporedjeneZadatke(datumPreuzimanja, neprihvacen);
-
-	
-		List<RadniZadatak> zzadaci = new ArrayList<RadniZadatak>();
-		zzadaci.addAll(radniZadaci);
-		radniZadaci.clear();
-		if(zzadaci.size()>0)
-		radniZadaci.add(zzadaci.get(0));
-		for(int i=1; i<zzadaci.size(); i++)
+		try
 		{
-			for(int j=0; j<i; j++)
-				if(zzadaci.get(i).getRadniZadatak_id()==zzadaci.get(j).getRadniZadatak_id())
+		List<RasporedjeniZadatak> rasZadaci = new ArrayList<RasporedjeniZadatak>();
+		RasporedjeniZadatakDAO rDAO = new RasporedjeniZadatakDAO();
+		rasZadaci = rDAO.getAll();
+		setKlijenti();
+		
+		if(ime.equals("")==false)
+		{
+			for(int i=rasZadaci.size()-1; i>=0; i--)
+			{
+				RasporedjeniZadatak r = rasZadaci.get(i);
+				if(r.getIzvrsilac().getIme().equals(ime)==false)
+					rasZadaci.remove(i);
+			}
+		}
+		if(prezime.equals("")==false)
+		{
+			for(int i=rasZadaci.size()-1; i>=0; i--)
+			{
+				RasporedjeniZadatak r = rasZadaci.get(i);
+				if(r.getIzvrsilac().getPrezime().equals(prezime)==false)
+					rasZadaci.remove(i);
+			}
+		}
+		if(klijentOdabran==true)
+		{
+			klijent = getKlijent(indexKlijent);
+			for(int i=rasZadaci.size()-1; i>=0; i--)
+			{
+				RasporedjeniZadatak r = rasZadaci.get(i);
+				if(r.getZadatak().getKlijent().getKlijent_id()!=klijent.getKlijent_id())
+					rasZadaci.remove(i);
+			}
+		}
+		if(datumKreiranja!=null)
+		{
+			for(int i=rasZadaci.size()-1; i>=0; i--)
+			{
+				RasporedjeniZadatak r = rasZadaci.get(i);
+				if(ProvjeriDatum(r.getZadatak().getDatumUnosa(), datumKreiranja)==false)
+					rasZadaci.remove(i);
+			}
+		}
+		if(krajnjiDatumIzvrsenja!=null)
+		{
+			for(int i=rasZadaci.size()-1; i>=0; i--)
+			{
+				RasporedjeniZadatak r = rasZadaci.get(i);
+				if(ProvjeriDatum(r.getZadatak().getKrajnjiDatumIzvrsenja(), krajnjiDatumIzvrsenja) == false)
+					rasZadaci.remove(i);
+			}
+		}
+		if(datumPreuzimanja!=null)
+		{
+			for(int i=rasZadaci.size()-1; i>=0; i--)
+			{
+				RasporedjeniZadatak r = rasZadaci.get(i);
+				if(ProvjeriDatum(r.getDatumPrihvatanja(), datumPreuzimanja)==false)
+					rasZadaci.remove(i);
+			}
+		}
+		if(nedodjeljen==true)
+		{
+			for(int i=rasZadaci.size()-1; i>=0; i--)
+			{
+				RasporedjeniZadatak r = rasZadaci.get(i);
+				if(r.getZadatak().getPotpunoDodjeljen().equals(true))
+					rasZadaci.remove(i);
+			}
+		}
+		if(neizvrsen==true)
+		{
+			for(int i=rasZadaci.size()-1; i>=0; i--)
+			{
+				RasporedjeniZadatak r = rasZadaci.get(i);
+				if(r.getZadatak().getStatusIzvrsenosti().equals(true))
+					rasZadaci.remove(i);
+			}
+		}
+		if(neprihvacen==true)
+		{
+			for(int i=rasZadaci.size()-1; i>=0; i--)
+			{
+				RasporedjeniZadatak r = rasZadaci.get(i);
+				if(r.getStatusPrihvacenosti()==true)
 					{
-						zzadaci.remove(i);
+						rasZadaci.remove(i);
 					}
+			}
 		}
 		
-		radniZadaci.addAll(zzadaci);
-		if(radniZadaci.size()>0)
+		if(datumIzvrsenja!=null)
 		{
-			RasporedjeniZadatakDAO rDAO = new RasporedjeniZadatakDAO();
+			List<ObavljeniPosao> posao = new ArrayList<ObavljeniPosao>();
+			ObavljeniPosaoDAO oDAO = new ObavljeniPosaoDAO();
 			List<RasporedjeniZadatak> zadaci = new ArrayList<RasporedjeniZadatak>();
-		
-			System.out.println(radniZadaci.size());
 			
-			for(RadniZadatak zadatak: radniZadaci)
+			if(rasZadaci.size()>0)
 			{
-				if(zadatak.getVidljivo()!=false)
+			for(int i=0; i<rasZadaci.size(); i++)
+			{
+				posao.addAll(oDAO.getByRasporedjeniZadatak(rasZadaci.get(i)));
+			}
+			
+			for(int i=0; i<posao.size(); i++)
+			{
+				if(ProvjeriDatum(posao.get(i).getDatumObavljanja(),datumIzvrsenja)==true)
 				{
-				zadaci = rDAO.getByRadniZadatak(zadatak);
-				nazivServisera = new ArrayList<String>();
-				String nazivServiser = "Nije dodijeljen/Preuzet";
-				
-				if(zadaci.size()>0)
-				for(RasporedjeniZadatak z: zadaci)
-				{
-					nazivServisera.add(z.getIzvrsilac().getIme()+" "+z.getIzvrsilac().getPrezime());
-				}
-				else nazivServisera.add(nazivServiser);
-					
-					redovi.add(Arrays.asList (
-							zadatak.getVrstaZadatka(),
-							zadatak.getOpis(),
-							zadatak.getKlijent().getNaziv(),
-							nazivServisera));	
+					zadaci.add(posao.get(i).getPripadajuciZadatak());
 				}
 			}
-			return true;
+			
+			for(int i=0; i<rasZadaci.size(); i++)
+			{
+				int brojac=0;
+				for(int j=0; j<zadaci.size(); j++)
+					if(rasZadaci.get(i).getZadatak().getRadniZadatak_id()==zadaci.get(j).getZadatak().getRadniZadatak_id())
+						brojac++;
+				if(brojac==0) 
+					{
+						rasZadaci.remove(i);
+					}
+			}
+			}
+			else 
+				{
+					posao.addAll(oDAO.getAll());
+					for(int i=0; i<posao.size(); i++)
+					{
+						if(ProvjeriDatum(posao.get(i).getDatumObavljanja(),datumIzvrsenja)==true)
+						{
+							zadaci.add(posao.get(i).getPripadajuciZadatak());
+						}
+					}
+					rasZadaci.addAll(zadaci);
+					
+				}
 		}
+		
+		if(rasZadaci.size()>0)
+		{
+			if(radniZadaci.size()>0) radniZadaci.clear();
+			radniZadaci.add(rasZadaci.get(0).getZadatak());
+		for(int i=1; i<rasZadaci.size(); i++)
+		{
+			int brojac=0;
+			for(int j=0; j<radniZadaci.size(); j++)
+				if(rasZadaci.get(i).getZadatak().getRadniZadatak_id()==
+				radniZadaci.get(j).getRadniZadatak_id())
+				{
+					brojac++;
+				}
+			if(brojac==0) radniZadaci.add(rasZadaci.get(i).getZadatak());
+		}
+		}
+		}
+		 catch (Exception e) {
+				throw e;
+		 }
+
+		if(radniZadaci.size()>0) return true;
 		else return false;
 	
-	}
-	public void UnesenaPretragaZaServisera(String ime, String prezime)
-	{
-		List<Korisnik> korisnici = new ArrayList<Korisnik>();
-		List<Korisnik> serviseri = new ArrayList<Korisnik>();
-		KorisnikDAO kDAO = new KorisnikDAO();
-		
-		if(ime!="" && prezime!="")
-		{
-			korisnici = kDAO.getByNaziv(ime, prezime);
-		}
-		else if(ime!="" && prezime=="")
-		{
-			korisnici=kDAO.getByIme(ime);
-		}
-		else korisnici=null;
-		if(korisnici!=null)
-		{
-			for (int i = 0; i < korisnici.size(); i++) {
-				if (korisnici.get(i).getTip_korisnika().getNaziv()
-						.equals("Serviser"))
-
-				{
-					serviseri.add(korisnici.get(i));
-				}
-			}
-			RasporedjeniZadatakDAO rasDAO = new RasporedjeniZadatakDAO();
-			for (Korisnik s : serviseri) {
-				raPoServiserima.addAll(rasDAO.getByServiser(s));
-			}
-			Set<RadniZadatak> zadaci = new HashSet<RadniZadatak>();
-			for (Iterator<RasporedjeniZadatak> it = raPoServiserima.iterator(); it.hasNext(); ) {
-						RasporedjeniZadatak f = it.next();
-				        zadaci.add(f.getZadatak());
-			}
-			radniZadaci.addAll(zadaci);
-			prServiser = true;
-		}	
-		else prServiser=false;
-	}
-	
-
-	public void UnesenaPretrageZaRadneZadatke(Boolean klijentOdabran, int indexKlijent, Date datumKreiranja, Date krajnjiDatumIzvrsenja,
-			Boolean nedodjeljen, Boolean neizvrsen)
-			{
-				RadniZadatakDAO rzDAO = new RadniZadatakDAO();
-		
-				if(klijentOdabran==true)
-				{
-					setKlijenti();
-					setKlijent(indexKlijent);
-				}
-				
-				if(klijentOdabran==true && datumKreiranja!=null && krajnjiDatumIzvrsenja!=null)
-				{
-					raPoZadacima.addAll(rzDAO.getByRestrictions1(datumKreiranja, krajnjiDatumIzvrsenja, klijent));
-				}
-				else if(klijentOdabran!=true && datumKreiranja!=null && krajnjiDatumIzvrsenja!=null)
-				{
-					raPoZadacima.addAll(rzDAO.getByRestrictions4(krajnjiDatumIzvrsenja, datumKreiranja));
-				}
-				else if(klijentOdabran==true && datumKreiranja!=null && krajnjiDatumIzvrsenja==null)
-				{
-					raPoZadacima.addAll(rzDAO.getByRestrictions2(datumKreiranja, klijent));
-				}
-				else if(klijentOdabran==true && datumKreiranja==null && krajnjiDatumIzvrsenja!=null)
-				{
-					raPoZadacima.addAll(rzDAO.getByRestrictions3(krajnjiDatumIzvrsenja, klijent));
-				}
-				else if(klijentOdabran!=true && datumKreiranja!=null && krajnjiDatumIzvrsenja==null)
-				{
-					raPoZadacima.addAll(rzDAO.getByDatumUnosa(datumKreiranja));
-				}
-				else if(klijentOdabran==false && datumKreiranja==null && krajnjiDatumIzvrsenja!=null)
-				{
-					raPoZadacima.addAll(rzDAO.getByKrajnjiDatumIzvrsenja(krajnjiDatumIzvrsenja));
-				}
-				else if(klijentOdabran==true && datumKreiranja==null && krajnjiDatumIzvrsenja==null)
-				{
-					raPoZadacima.addAll(rzDAO.getByKlijent(klijent));
-				}
-				else if(klijentOdabran==false && datumKreiranja==null && krajnjiDatumIzvrsenja==null 
-						&& neizvrsen==true && nedodjeljen==false)
-				{
-					raPoZadacima.addAll(rzDAO.getAll());
-				}
-				else if(klijentOdabran==false && datumKreiranja==null && krajnjiDatumIzvrsenja==null 
-						&& neizvrsen==false && nedodjeljen==true)
-				{
-					raPoZadacima.addAll(rzDAO.getAll());
-				}
-				else raPoZadacima=null;
-				
-				if(raPoZadacima!=null && (prServiser==false || prServiser==true && radniZadaci.size()>0 ))
-				{
-
-					if(neizvrsen==true && raPoZadacima.size()>0)
-						while(raPoZadacima.iterator().hasNext())
-						{
-							RadniZadatak element=raPoZadacima.iterator().next();
-							if(raPoZadacima.iterator().next().getStatusIzvrsenosti()==true)
-								raPoZadacima.remove(element);
-						}
-					if(nedodjeljen==true && raPoZadacima.size()>0)
-						while(raPoZadacima.iterator().hasNext())
-						{
-							RadniZadatak element=raPoZadacima.iterator().next();
-							if(raPoZadacima.iterator().next().getPotpunoDodjeljen()==true)
-								raPoZadacima.remove(element);
-						}
-					if(raPoZadacima.size()>0) radniZadaci.addAll(raPoZadacima);
-					else radniZadaci.clear();
-					prZadaci=true;
-				}
-				else prZadaci=false;
-			}
-	public void UnesenaPretragaZaObavljenePoslove(Date datumIzvrsenja)
-	{
-		if(datumIzvrsenja!=null && (prZadaci==false || (prZadaci==true && raPoZadacima.size()>0)))
-		{
-			ObavljeniPosaoDAO opDAO = new ObavljeniPosaoDAO();
-			Set<ObavljeniPosao> op = new HashSet<ObavljeniPosao>();
-			
-			op.addAll(opDAO.getByDatumObavljanja(datumIzvrsenja));
-			
-			for (ObavljeniPosao posao : op) 
-			{
-				if (raPoObavljenomPoslu.size() > 0)
-					for (RasporedjeniZadatak r : raPoObavljenomPoslu) 
-					{
-						if (posao.getPripadajuciZadatak()
-								.getRasporedjeniZadatak_id() != r
-								.getRasporedjeniZadatak_id())
-							raPoObavljenomPoslu.add(posao
-									.getPripadajuciZadatak());
-					}
-
-				else 
-				{
-					raPoObavljenomPoslu.add(posao.getPripadajuciZadatak());
-				}
-			}
-			if(raPoObavljenomPoslu.size()>0)
-			{
-				for (Iterator<RasporedjeniZadatak> it = raPoObavljenomPoslu.iterator(); it.hasNext(); ) 
-				{
-					RasporedjeniZadatak f = it.next();
-					radniZadaci.add(f.getZadatak());
-				}
-			}
-			else
-			{
-				radniZadaci.clear();
-			}
-			
-			prObavljeniPosao = true;
-		}
-		else prObavljeniPosao=false;
-	}
-	
-	public void UnesenaPretragaZaRasporedjeneZadatke(Date datumPreuzimanja, Boolean neprihvacen)
-	{
-		Set<RasporedjeniZadatak> rzadaci = new HashSet<RasporedjeniZadatak>();
-		RasporedjeniZadatakDAO rDAO = new RasporedjeniZadatakDAO();
-		
-		if(datumPreuzimanja!=null && (neprihvacen==false || neprihvacen==true))
-		{
-			rzadaci.addAll(rDAO.getByDatumPrihvatanja(datumPreuzimanja));
-		}
-
-		else if(datumPreuzimanja==null && neprihvacen==true)
-		{
-			rzadaci.addAll(rDAO.getAll());
-		}
-		else
-			rzadaci=null;
-		
-		if(rzadaci!=null && (prObavljeniPosao==false || (prObavljeniPosao==true && raPoObavljenomPoslu.size()>0)))
-		{
-			if(neprihvacen==true && rzadaci.size()>0)
-			{
-				for (Iterator<RasporedjeniZadatak> it = rzadaci.iterator(); it.hasNext(); ) 
-				{
-					RasporedjeniZadatak f = it.next();
-					if(f.getStatusPrihvacenosti()!=false)
-						rzadaci.remove(f);
-				}
-			}
-			if(rzadaci.size()>0)
-			{
-			for (Iterator<RasporedjeniZadatak> it = rzadaci.iterator(); it.hasNext(); )
-			{
-				RasporedjeniZadatak f = it.next();
-				radniZadaci.add(f.getZadatak());
-			}
-			}
-			else
-			{
-				radniZadaci.clear();
-			}
-		}
 	}
 	
 	public RadniZadatak GetZadatak(List<RadniZadatak> zadaci, int index)
@@ -332,4 +239,76 @@ public class RadniZadaciRacunovodstvoControler {
 		zadatak=zadaci.get(index);
 		return zadatak;
 	}
+	
+	public void pretraziSve() throws Exception
+	{
+		RadniZadatakDAO rDAO = new RadniZadatakDAO();
+		if(radniZadaci.size()>0)radniZadaci.clear();
+		try
+		{
+		radniZadaci= rDAO.getAll();
+		}
+		 catch (Exception e) {
+			throw e;
+		 }
+	}
+	@SuppressWarnings("rawtypes")
+	public List<List> getRedovi(List<RadniZadatak> radniZadaci) throws Exception {
+		
+		@SuppressWarnings("unchecked")
+		List<List> redovi = new ArrayList();
+		try
+		{
+		for(RadniZadatak zadatak: radniZadaci)
+		{
+			List<RasporedjeniZadatak> zadaci = new ArrayList<RasporedjeniZadatak>();
+			RasporedjeniZadatakDAO rDAO = new RasporedjeniZadatakDAO();
+			if(zadatak.getVidljivo()!=false)
+			{
+			zadaci = rDAO.getByRadniZadatak(zadatak);
+			nazivServisera = new ArrayList<String>();
+			String nazivServiser = "Nije dodijeljen/Preuzet";
+			
+			if(zadaci.size()>0)
+			for(RasporedjeniZadatak z: zadaci)
+			{
+				nazivServisera.add(z.getIzvrsilac().getIme()+" "+z.getIzvrsilac().getPrezime());
+			}
+			else nazivServisera.add(nazivServiser);
+				
+				redovi.add(Arrays.asList (
+						zadatak.getVrstaZadatka(),
+						zadatak.getOpis(),
+						zadatak.getKlijent().getNaziv(),
+						nazivServisera));	
+			}
+		}
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		
+		return redovi;
+	}
+	
+	public Boolean ProvjeriDatum(Date datumBaza, Date datumForma)
+	{
+		Date datum = new Date();
+		Calendar cal = Calendar.getInstance();
+		Calendar cal1 = Calendar.getInstance();
+
+				datum = datumBaza;
+				Date d = datumForma;
+				cal.setTime(datum);
+				cal1.setTime(d);
+				int year = cal.get(Calendar.YEAR);
+				int month = cal.get(Calendar.MONTH);
+				int day = cal.get(Calendar.DAY_OF_MONTH);
+				int year1 = cal1.get(Calendar.YEAR);
+				int month1 = cal1.get(Calendar.MONTH);
+				int day1 = cal1.get(Calendar.DAY_OF_MONTH);
+
+				if (year == year1 && month == month1 && day == day1) return true;
+				else return false;
+}
 }

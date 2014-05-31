@@ -5,7 +5,8 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -23,21 +25,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
-import Kontroleri.*;
+import Entity.ObavljeniPosao;
+import Kontroleri.EvidencijaRadaRacunovodstvoControler;
 import UtilClasses.DateLabelFormatter;
 import UtilClasses.Validacija;
-
-import javax.swing.JComboBox;
-import javax.swing.table.DefaultTableModel;
-
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
 
 public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 
@@ -51,11 +52,23 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 	private Date pocetniDatum = null, krajnjiDatum = null;
 	private Boolean klijentOdabran = false, vrstaUslugeOdabrana = false;
 	private int indexKlijent, indexVrstaUsluge;
-	
-
 	private JTable tabela;
-
+	private static EvidencijaRadaRacunovodstvoGUI instanca;
+	
 	public EvidencijaRadaRacunovodstvoGUI() {
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			initialize();
+		}
+	public static  EvidencijaRadaRacunovodstvoGUI dajInstancu() {
+			if(instanca==null) {
+ 			instanca=new EvidencijaRadaRacunovodstvoGUI();
+ 			
+			}
+			return instanca;
+		}
+		public static void unistiInstancu() { instanca= null; }
+		
+	public void initialize() {
 		setTitle("Pregled evidencije rada");
 		final EvidencijaRadaRacunovodstvoControler controler1 = new EvidencijaRadaRacunovodstvoControler();
 		
@@ -76,7 +89,9 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 							@SuppressWarnings("unused")
 							PromjenaSifreGUI window = new PromjenaSifreGUI();
 						} catch (Exception e) {
-							e.printStackTrace();
+							JOptionPane.showMessageDialog(rootPane,
+									"Pojavila se greška. Pokušajte ponovo.",
+									"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				});
@@ -226,7 +241,18 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 		modelTabela.addColumn("Serviser");
 		modelTabela.addColumn("Vrsta usluge");
 		modelTabela.addColumn("Utrošeno sati");
+		ListSelectionModel cellSelectionModel = tabela.getSelectionModel();
+		cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
 		JScrollPane tabelaPane = new JScrollPane(tabela);
+		
+		
+		try {
+			IspisiSve(controler1.PronadjiSvePoslove(), modelTabela);
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(rootPane,
+					"Pojavila se greška. Pokušajte ponovo.",
+					"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+		}
 
 		final JButton pretraziBtn = new JButton("Pretraga");
 
@@ -242,8 +268,15 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 		sjeverniPanel.add(filterPanel1);
 
 		final JComboBox<String> vrstaUslugeCmb = new JComboBox<String>();
-		controler1.setKlijenti();
-		controler1.setVrsteUsluge();
+		try {
+			controler1.setKlijenti();
+			controler1.setVrsteUsluge();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(rootPane,
+					"Pojavila se greška. Pokušajte ponovo.",
+					"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+		}
+		
 		for (int i = 0; i < controler1.getVrsteUsluge().size(); i++)
 			vrstaUslugeCmb.addItem(controler1.getVrsteUsluge().get(i).getNaziv());
 		filterPanel1.add(vrstaUslugeCmb);
@@ -377,13 +410,29 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 			}
 		});
 
+
+		addWindowFocusListener(new WindowFocusListener() {
+			public void windowGainedFocus(WindowEvent arg0) {
+				modelTabela.setRowCount(0);
+				try {
+						IspisiSve(controler1.PronadjiSvePoslove(), modelTabela);
+					} catch (Exception e2) {
+					JOptionPane.showMessageDialog(rootPane,
+							"Pojavila se greška. Pokušajte ponovo.",
+							"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+			public void windowLostFocus(WindowEvent arg0) {
+			}
+		});
 		
 
 		pretraziBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				modelTabela.setRowCount(0);
-				
+				System.out.println(chckbxNeizvrsen.isSelected()+" "+ime+" "+prezime+" "+jmbg+" "+klijentOdabran+" "+indexKlijent+" "+chckbxIzvrsen.isSelected()+" "+vrstaUslugeOdabrana+" "+indexVrstaUsluge+" "+pocetniDatum+" "+krajnjiDatum);
 				if(ime=="" && prezime=="" && jmbg=="" && vrstaUslugeOdabrana==false && klijentOdabran ==false
 						&& pocetniDatum==null && krajnjiDatum==null && chckbxIzvrsen.isSelected()==false
 						&& chckbxNeizvrsen.isSelected()==false)
@@ -396,23 +445,28 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 				else
 				{
 					EvidencijaRadaRacunovodstvoControler controler2 = new EvidencijaRadaRacunovodstvoControler();
-					Boolean pronadjeni = controler2.PronadjiObavljenePoslove(chckbxNeizvrsen.isSelected(), ime, prezime, jmbg, klijentOdabran, indexKlijent, chckbxIzvrsen.isSelected(), vrstaUslugeOdabrana, indexVrstaUsluge, pocetniDatum, krajnjiDatum);
+					Boolean pronadjeni;
+					try {
+						pronadjeni = controler2.PronadjiObavljenePoslove(chckbxNeizvrsen.isSelected(), ime, prezime, jmbg, klijentOdabran, indexKlijent, chckbxIzvrsen.isSelected(), vrstaUslugeOdabrana, indexVrstaUsluge, pocetniDatum, krajnjiDatum);
+					System.out.println(pronadjeni);
 					if(pronadjeni==true)
 					{
-						@SuppressWarnings("rawtypes")
-						List<List> redoviTabele = new ArrayList<List>();
-						redoviTabele.addAll(controler2.getRedovi());
-
-						for(int i=0; i<redoviTabele.size(); i++)
-						modelTabela.addRow(new Object[]{redoviTabele.get(i).get(0),redoviTabele.get(i).get(1), 
-									redoviTabele.get(i).get(3), redoviTabele.get(i).get(4), redoviTabele.get(i).get(5)});
+						IspisiSve(controler2.getObavljeniPosao(), modelTabela);
 					
 					}
 					else
+					{
 						JOptionPane.showMessageDialog(rootPane,
 								"Ne postoji obavljeni posao u bazi podataka.",
 								"Poruka o grešci", JOptionPane.INFORMATION_MESSAGE);
-				}
+					}
+				
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(rootPane,
+								"Pojavila se greška. Pokušajte ponovo.",
+								"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+					}
+					}
 				
 				ime="";
 				prezime="";
@@ -434,14 +488,21 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 
 		});
 	}
+	
+	public void IspisiSve(List<ObavljeniPosao> poslovi, DefaultTableModel modelTabela)
+	{
+		for(int i=0; i<poslovi.size(); i++)
+		modelTabela.addRow(new Object[]{poslovi.get(i).getPripadajuciZadatak().getZadatak().getVrstaZadatka(),poslovi.get(i).getPripadajuciZadatak().getZadatak().getOpis(), 
+				poslovi.get(i).getPripadajuciZadatak().getZadatak().getKlijent().getNaziv(), poslovi.get(i).getPripadajuciZadatak().getIzvrsilac().getIme()+" "+poslovi.get(i).getPripadajuciZadatak().getIzvrsilac().getPrezime(), 
+				poslovi.get(i).getVrstaUsluge().getNaziv(), poslovi.get(i).getBrojSati()});
+	
+	}
 
-	public static void main(String args[]) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				EvidencijaRadaRacunovodstvoGUI ex = new EvidencijaRadaRacunovodstvoGUI();
-				ex.setVisible(true);
-			}
-		});
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		unistiInstancu();
+		super.dispose();
 	}
 	
 }

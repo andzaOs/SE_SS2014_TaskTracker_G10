@@ -7,8 +7,10 @@ public class IzbrisiZadatakControler {
 	
 	public IzbrisiZadatakControler(){}
 	
-	public void Izbrisi(RadniZadatak radniZadatak)
+	public void Izbrisi(RadniZadatak radniZadatak) throws Exception
 	{
+		try
+		{
 		RadniZadatakDAO rDAO = new RadniZadatakDAO();
 		radniZadatak.setVidljivo(false);
 		RadniZadatak r = new RadniZadatak();
@@ -25,6 +27,11 @@ public class IzbrisiZadatakControler {
 		r.setVidljivo(radniZadatak.getVidljivo());
 		r.setVrstaZadatka(radniZadatak.getVrstaZadatka());
 		rDAO.update(r);
+		}
+		catch (Exception e) {
+		// TODO Auto-generated catch block
+		throw e;
+	}
 	}
 
 }
