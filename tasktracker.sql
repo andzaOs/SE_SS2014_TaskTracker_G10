@@ -119,8 +119,17 @@ CREATE TABLE IF NOT EXISTS `vrstausluge` (
   `NAZIV` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `VIDLJIVO` bit(1) DEFAULT NULL,
   PRIMARY KEY (`VRSTAUSLUGE_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=9 ;
 
+INSERT INTO `vrstausluge` (`VRSTAUSLUGE_ID`, `NAZIV`, `VIDLJIVO`) VALUES
+(1, 'Instalacija OS-a', b'1'),
+(2, 'Zamjena grafičke kartice', b'1'),
+(3, 'Zamjena hard diska', b'1'),
+(4, 'Instalacija antivirusa', b'1'),
+(5, 'Konfiguracija modema', b'1'),
+(6, 'Konfigurisanje LAN-a', b'1'),
+(7, 'Popravka printera', b'1'),
+(8, 'Čišćenje cooler-a', b'1');
 
 ALTER TABLE `korisnik`
   ADD CONSTRAINT `FK_bolggaaus8of25ilqwyx6ctk5` FOREIGN KEY (`TIPKORISNIKA_ID`) REFERENCES `tipkorisnika` (`TIPKORISNIKA_ID`);
