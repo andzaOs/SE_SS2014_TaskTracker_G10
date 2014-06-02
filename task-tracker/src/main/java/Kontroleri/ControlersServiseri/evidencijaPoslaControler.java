@@ -30,8 +30,10 @@ public class evidencijaPoslaControler {
 		else{
 		
 		Date d=(Date) datumObavljanja.getModel().getValue();
+		Date trenutni= new Date();
 		if(d.before(zadatak.getDatumPrihvatanja())){return "Datum mora biti veci od datuma prihvacanja zadatka!";}
 		else if(d.before(zadatak.getZadatak().getDatumUnosa())){return "Datum mora biti veci od datuma prihvacanja zadatka!";}
+		else if(d.after(trenutni)){return "Ne možete staviti da ste obavili  zadatak u budućnosti !";}
 		else{
 			ObavljeniPosao posao=new ObavljeniPosao();
 			posao.setPripadajuciZadatak(zadatak);

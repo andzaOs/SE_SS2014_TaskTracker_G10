@@ -163,6 +163,11 @@ public class ObavljeniPosaoControler {
 			model.setRowCount(0);
 		}
 		lista = li;
+		if ((Date) datumObavljanja.getModel().getValue() != null){
+			Date trenutni =new Date();
+			Date d=(Date) datumObavljanja.getModel().getValue();
+			if(d.after(trenutni)){return "Ne možete pretraživati posao obavljen u budućnosti, pogrešan datum obavljanja!"; }
+		}
 
 		if (nazivKlijenta.getText().equals("")
 				&& (Date) datumObavljanja.getModel().getValue() == null
