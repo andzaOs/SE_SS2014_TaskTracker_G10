@@ -240,7 +240,7 @@ public class ModifikacijaKorisnikaGUI extends JFrame {
 		sifraLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		final JTextField sifraTxt = new JTextField();
 		centralniPanel.add(sifraLbl);
-		sifraTxt.setToolTipText("Šifru ne možete vidjeti. Unesite novu ili ostavite prazno polje!");
+		sifraTxt.setToolTipText("Staru šifru ne možete vidjeti. Unesite novu ili ostavite prazno polje!");
 		centralniPanel.add(sifraTxt);	
 
 		JLabel tipKorisnikaLbl = new JLabel("Tip korisnika:");
