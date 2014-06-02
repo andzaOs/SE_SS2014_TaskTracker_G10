@@ -301,7 +301,7 @@ final JTable podaciTbl = new JTable(tableModel);
 		glavniMenuBar = new JMenuBar();
 		setJMenuBar(glavniMenuBar);
 		
-		mojRacunMenu = new JMenu("Moj ra�un");
+		mojRacunMenu = new JMenu("Moj račun");
 		glavniMenuBar.add(mojRacunMenu);
 		
 		promijeniSifruItem = new JMenuItem("Promijeni šifru");
