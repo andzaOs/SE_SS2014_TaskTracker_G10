@@ -12,8 +12,15 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.swing.*;
+
+import java.awt.event.*;
+import java.awt.*;
+import java.util.*;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
@@ -51,6 +58,25 @@ import com.itextpdf.text.pdf.PdfPTable;
 
 public class IzvjestajKontroler {
 	
+	private String getPath() {
+		JFileChooser chooser;
+		String path = "";
+		
+	    chooser = new JFileChooser(); 
+	    chooser.setCurrentDirectory(new java.io.File("."));
+	    chooser.setDialogTitle("Izbor putanje");
+	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    
+	    chooser.setAcceptAllFileFilterUsed(false);
+	        
+	    if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) { 	      
+	    	path = chooser.getSelectedFile().toString();
+	      }
+    
+		return path;
+	
+	}
+	
 	private String formatirajDatum(String d){
 		String[] split = d.split("-");
 		return split[2] + "." + split[1] + "." + split[0] + ".";
@@ -84,8 +110,8 @@ public class IzvjestajKontroler {
 		
 		Random rand = new Random();
 		int x = rand.nextInt(1000);
-		
-		final String FILE = "c:\\izvjestaj\\izv_" + k + "_" + sqld1 + "_" + sqld2 + "_" + x +".pdf"; 
+				
+		final String FILE = getPath() + File.separator + k + "_" + sqld1 + "_" + sqld2 + "_" + x +".pdf"; 
 	    final Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD); 
 	    final Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD); 
 		
@@ -329,7 +355,7 @@ public class IzvjestajKontroler {
 		Random rand = new Random();
 		int x = rand.nextInt(1000);
 		
-		final String FILE = "c:\\izvjestaj\\izv_" + v + "_" + sqld1 + "_" + sqld2 + "_" + x +".pdf"; 
+		final String FILE = getPath() + File.separator + v + "_" + sqld1 + "_" + sqld2 + "_" + x +".pdf"; 
 	    final Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD); 
 	    final Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD); 
 		
@@ -440,7 +466,7 @@ public class IzvjestajKontroler {
 		Random rand = new Random();
 		int x = rand.nextInt(1000);
 		
-		final String FILE = "c:\\izvjestaj\\izv_" + k + "_" + sqld1 + "_" + sqld2 + "_" + x +".pdf"; 
+		final String FILE = getPath() + File.separator + k + "_" + sqld1 + "_" + sqld2 + "_" + x +".pdf"; 
 	    final Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD); 
 	    final Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD); 
 		
@@ -548,7 +574,7 @@ public class IzvjestajKontroler {
 		Random rand = new Random();
 		int x = rand.nextInt(1000);
 		
-		final String FILE = "c:\\izvjestaj\\izv_" + "sumarni" + "_" + sqld1 + "_" + sqld2 + "_" + x +".pdf"; 
+		final String FILE = getPath() + File.separator + "sumarni" + "_" + sqld1 + "_" + sqld2 + "_" + x +".pdf"; 
 	    final Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD); 
 	    final Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD); 
 		
@@ -659,7 +685,7 @@ public class IzvjestajKontroler {
 		Random rand = new Random();
 		int x = rand.nextInt(1000);
 		
-		final String FILE = "c:\\izvjestaj\\izv_" + "detaljni" + "_" + sqld1 + "_" + sqld2 + "_" + x +".pdf"; 
+		final String FILE = getPath() + File.separator + "detaljni" + "_" + sqld1 + "_" + sqld2 + "_" + x +".pdf"; 
 	    final Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD); 
 	    final Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD); 
 		
@@ -754,6 +780,5 @@ public class IzvjestajKontroler {
 	      } 
 	    
 	}
-
 	
 }
