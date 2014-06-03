@@ -79,17 +79,15 @@ public class KorisnikKontroler {
 			KorisnikDAO kDAO = new KorisnikDAO();
 	 		korisnici = kDAO.getAll(); 
 	 		for(int i=0; i<korisnici.size(); i++) {
-	 			if(korisnici.get(i).getVidljivo() && korisnici.get(i).getKorisnicko_ime().equals("admin")) {
+	 			if(korisnici.get(i).getVidljivo() && !korisnici.get(i).getKorisnicko_ime().equals("admin")) {
 					String ime = korisnici.get(i).getIme();
-					String prezime = korisnici.get(i).getPrezime(); 
-					
-					String mail = korisnici.get(i).getEmail();
-					
-					String korisnicko_ime=korisnici.get(i).getKorisnicko_ime();
-					
+					String prezime = korisnici.get(i).getPrezime(); 					
+					String mail = korisnici.get(i).getEmail();					
+					String korisnicko_ime=korisnici.get(i).getKorisnicko_ime();					
 					String tip = korisnici.get(i).getTip_korisnika().getNaziv();
+					String jmbg = korisnici.get(i).getJmbg();
 					
-					Object[] o = {ime, prezime, korisnicko_ime, mail, tip};
+					Object[] o = {ime, prezime, jmbg, korisnicko_ime, mail, tip};
 					
 					t.addRow(o);
 	 			}
@@ -113,14 +111,15 @@ public class KorisnikKontroler {
 	 		korisnici = kDAO.getByRestrictions(im,p,j); 
 	 		
 	 		for(int i=0; i<korisnici.size(); i++) {
-	 			if(korisnici.get(i).getVidljivo() && korisnici.get(i).getKorisnicko_ime().equals("admin")) {
+	 			if(korisnici.get(i).getVidljivo() && !korisnici.get(i).getKorisnicko_ime().equals("admin")) {
 	 				String ime = korisnici.get(i).getIme();
 					String prezime = korisnici.get(i).getPrezime(); 
 					String mail = korisnici.get(i).getEmail();
 					String korisnicko_ime=korisnici.get(i).getKorisnicko_ime();
 					String tip = korisnici.get(i).getTip_korisnika().getNaziv();
+					String jmbg = korisnici.get(i).getJmbg();
 					
-					Object[] o = {ime, prezime, korisnicko_ime, mail, tip};
+					Object[] o = {ime, prezime, jmbg, korisnicko_ime, mail, tip};
 					
 					t.addRow(o);
 	 			}

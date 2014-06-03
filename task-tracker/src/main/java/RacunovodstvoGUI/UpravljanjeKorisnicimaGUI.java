@@ -128,7 +128,7 @@ public class UpravljanjeKorisnicimaGUI extends JFrame{
 	
 	
 		
- final String imenaKolona[]=  {"Ime", "Prezime", "Korisnicko ime", "E-mail", "Tip Korisnika"};		
+ final String imenaKolona[]=  {"Ime", "Prezime", "JMBG", "Korisnicko ime", "E-mail", "Tip Korisnika"};		
  
  final DefaultTableModel tableModel = new DefaultTableModel(imenaKolona, 0){
 		@Override
@@ -262,7 +262,7 @@ final JTable podaciTbl = new JTable(tableModel);
 					public void run() {
 						try {
 							if((podaciTbl.getSelectedRowCount())==0) {
-			            		JOptionPane.showMessageDialog(rootPane, "Označite klijenta!", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+			            		JOptionPane.showMessageDialog(rootPane, "Označite korisnika!", "Upozorenje", JOptionPane.WARNING_MESSAGE);
 			            	}
 		 		        	else {
 		 		        		int i = podaciTbl.convertRowIndexToModel(podaciTbl.getSelectedRow());
