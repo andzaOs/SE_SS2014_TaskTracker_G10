@@ -54,7 +54,7 @@ import java.awt.event.WindowEvent;
  			
  			
  			
- 			setTitle("Modifikovanje novog klijenta");
+ 			setTitle("Modifikacija klijenta");
  			frmModifikovanjeKlijenta = new JFrame();
  			frmModifikovanjeKlijenta.setTitle("Kreiranje novog korisnika");
  			frmModifikovanjeKlijenta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
