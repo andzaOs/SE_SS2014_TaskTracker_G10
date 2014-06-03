@@ -60,7 +60,7 @@ public class OdabirServiseraModifikacijaControler {
 		// Dobavljamo samo servisere iz baze podataka
 		for (int i = 0; i < korisnici.size(); i++) {
 			if (korisnici.get(i).getTip_korisnika().getNaziv()
-					.equals("Serviser"))
+					.equals("Serviser") && korisnici.get(i).getVidljivo()==true)
 				serviseri.add(korisnici.get(i));
 		}
 		

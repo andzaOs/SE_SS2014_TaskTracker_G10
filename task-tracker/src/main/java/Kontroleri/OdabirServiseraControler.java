@@ -57,13 +57,21 @@ public class OdabirServiseraControler {
 			r = rDAO.getByRadniZadatak(zadatak);
 			for(int i=0; i<r.size(); i++)
 			{
-				for(int j=0; j<korisnici.size(); j++)
+				for(int j=korisnici.size()-1; j>=0; j--)
 				{
 					if(r.get(i).getIzvrsilac().getKorisnik_id()==korisnici.get(j).getKorisnik_id())
 					{
 						korisnici.remove(j);
 					}
 				}
+			}
+			
+			for(int i=korisnici.size()-1; i>=0; i--) {
+		 		if(korisnici.get(i).getVidljivo()==false) 
+		 		{
+		 			korisnici.remove(i);
+		 			i=i-1;
+		 		}
 			}
 			serviseri.addAll(korisnici);
 		}
