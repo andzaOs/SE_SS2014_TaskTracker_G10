@@ -36,6 +36,7 @@ public class IzbrisiKorisnikaGUI extends JFrame {
 	public static void unistiInstancu() { instanca= null; }
 	
 	public IzbrisiKorisnikaGUI(final long id) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		setTitle("Brisanje korisnika");
 		
@@ -98,7 +99,7 @@ public class IzbrisiKorisnikaGUI extends JFrame {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		IzbrisiKlijentaGUI.unistiInstancu();
+		IzbrisiKorisnikaGUI.unistiInstancu();
 		super.dispose();
 	}
 	

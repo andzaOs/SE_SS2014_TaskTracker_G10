@@ -48,6 +48,7 @@ public class KlijentKontroler {
 	public void napuniTabeluFiltrirano(DefaultTableModel t, String n) throws Exception {
 		try {
 			KlijentDAO kDAO = new KlijentDAO();
+			if(n.equals("")) n="%";
 	 		klijenti = kDAO.getByNaziv(n); 
 	 		
 	 		for(int i=0; i<klijenti.size(); i++) {

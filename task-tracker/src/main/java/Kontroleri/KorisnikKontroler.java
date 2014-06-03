@@ -1,6 +1,6 @@
 package Kontroleri;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JPasswordField;
@@ -89,7 +89,7 @@ public class KorisnikKontroler {
 					
 					String tip = korisnici.get(i).getTip_korisnika().getNaziv();
 					
-					Object[] o = {ime, prezime, mail, korisnicko_ime, tip};
+					Object[] o = {ime, prezime, korisnicko_ime, mail, tip};
 					
 					t.addRow(o);
 	 			}
@@ -120,7 +120,7 @@ public class KorisnikKontroler {
 					String korisnicko_ime=korisnici.get(i).getKorisnicko_ime();
 					String tip = korisnici.get(i).getTip_korisnika().getNaziv();
 					
-					Object[] o = {ime, prezime, mail, korisnicko_ime, tip};
+					Object[] o = {ime, prezime, korisnicko_ime, mail, tip};
 					
 					t.addRow(o);
 	 			}
@@ -140,9 +140,9 @@ public class KorisnikKontroler {
 			try {
 				
 				Validacija v = new Validacija();
-				Boolean uslov1 = v.minimalnaDuzina(imeTxt, 2);
-			    Boolean uslov2 = v.minimalnaDuzina(prezimeTxt, 3);
-			    Boolean uslov3 = v.JMBG(jmbgTxt);
+				Boolean uslov1 = v.minimalnaDuzina(imeTxt, 2) && v.validirajString(imeTxt);
+			    Boolean uslov2 = v.minimalnaDuzina(prezimeTxt, 3) && v.validirajString(prezimeTxt);
+			    Boolean uslov3 = v.JMBG(jmbgTxt) ;
 			    Boolean uslov4 = v.brojLicneKarte(brojLKTxt);
 			    Boolean uslov5 = v.minimalnaDuzina(adresaTxt, 5);
 			    Boolean uslov6=v.brojTelefona(telefonTxt);
@@ -192,8 +192,8 @@ public class KorisnikKontroler {
 	public Boolean modifikacijaKorisnika(Boolean izmjena, JTextField imeTxt, JTextField prezimeTxt, JTextField jmbgTxt, JTextField brojLKTxt, JTextField adresaTxt,  JTextField telefonTxt, JTextField emailTxt, Date d, JTextField korisnickoImeTxt, JTextField sifraTxt, long id, TipKorisnika tip) throws Exception {
 			try {
 				Validacija v = new Validacija();
-				Boolean uslov1 = v.minimalnaDuzina(imeTxt, 2);
-			    Boolean uslov2 = v.minimalnaDuzina(prezimeTxt, 3);
+				Boolean uslov1 = v.minimalnaDuzina(imeTxt, 2) && v.validirajString(imeTxt);
+			    Boolean uslov2 = v.minimalnaDuzina(prezimeTxt, 3) && v.validirajString(prezimeTxt);
 			    Boolean uslov3 = v.JMBG(jmbgTxt);
 			    Boolean uslov4 = v.brojLicneKarte(brojLKTxt);
 			    Boolean uslov5 = v.minimalnaDuzina(adresaTxt, 5);
@@ -206,7 +206,7 @@ public class KorisnikKontroler {
 			    if(sifraTxt.getText().equals("")) { uslov11=true; }
 			    else { uslov11=v.minimalnaDuzina(sifraTxt, 5);}
 			    
-				final Boolean validno = (uslov1 && uslov2 && uslov3 && uslov4 && uslov5 && uslov6 && uslov7 && uslov8 && uslov9 && uslov10);
+				final Boolean validno = (uslov1 && uslov2 && uslov3 && uslov4 && uslov5 && uslov6 && uslov7 && uslov8 && uslov9 && uslov10 && uslov11);
 				if(validno) {
 					Korisnik k1 = new Korisnik();
 					KorisnikDAO kDAO = new KorisnikDAO();
@@ -222,7 +222,7 @@ public class KorisnikKontroler {
 					k1.setTelefon(telefonTxt.getText());
 					if(izmjena) {k1.setDatum_zaposlenja(d);}
 					else {k1.setDatum_zaposlenja(datum);}
-					k1.setDatum_zaposlenja(d);
+					//k1.setDatum_zaposlenja(d);
 					k1.setTip_korisnika(tip);
 					k1.setJmbg(jmbgTxt.getText());
 					k1.setKorisnicko_ime(korisnickoImeTxt.getText());
@@ -255,9 +255,23 @@ public class KorisnikKontroler {
 		try {
 			KorisnikDAO kDAO = new KorisnikDAO();
 			Korisnik kl = kDAO.getById(id);
-			
+			Korisnik k = new Korisnik();
+			Date datum = (Date) kl.getDatum_zaposlenja();
+			k.setKorisnik_id(id);
+			k.setIme(kl.getIme());
+			k.setPrezime(kl.getPrezime());
+			k.setAdresa(kl.getAdresa());
+			k.setBr_lk(kl.getBr_lk());
+			k.setEmail(kl.getEmail());
+			k.setTelefon(kl.getTelefon());
+			k.setDatum_zaposlenja(datum);
+			k.setTip_korisnika(kl.getTip_korisnika());
+			k.setJmbg(kl.getJmbg());
+			k.setKorisnicko_ime(kl.getKorisnicko_ime());
+			k.setLozinka(kl.getLozinka()); 
+		    k.setVidljivo(kl.getVidljivo());
 			KorisnikDAO kDAO2 = new KorisnikDAO();
-			kDAO2.delete(kl);
+			kDAO2.delete(k);
 			return true;
 		}
 		catch(Exception e){

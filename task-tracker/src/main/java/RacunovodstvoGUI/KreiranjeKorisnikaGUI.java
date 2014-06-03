@@ -50,6 +50,8 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 	Boolean uslov10;
 	Boolean uslov11;
 	Boolean uslov12;
+	Boolean uslov13;
+	Boolean uslov14;
 	Date datumIzvrsenja;
 	java.sql.Date sqlDate1;
 	private static KreiranjeKorisnikaGUI instanca;
@@ -271,6 +273,7 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 			             public void focusLost(FocusEvent e) {
 //			            	 validacija v = new validacija();
 			            	 uslov1 = v.minimalnaDuzina(imeTxt, 2);
+			            	 uslov13 = v.validirajString(imeTxt);
 			             }
 			      });
 			 
@@ -283,7 +286,7 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 				             public void focusLost(FocusEvent e) {
 //				            	 validacija v = new validacija();
 				            	 uslov2=v.minimalnaDuzina(prezimeTxt, 3);
-				            	 
+				            	 uslov14 = v.validirajString(prezimeTxt);
 				             }
 				      });
 			

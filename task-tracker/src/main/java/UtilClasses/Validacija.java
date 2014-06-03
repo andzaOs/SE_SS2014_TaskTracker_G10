@@ -21,6 +21,20 @@ public class Validacija {
 	
 	Date datumZaposlenja, datumTrenutni;
 	
+	public boolean validirajString(JTextField polje) {
+		
+		if(polje.getText().matches("^([a-z]|[A-Z]){3,20} ([a-z]|[A-Z]){3,20}$"))
+			{
+			return true;
+		}
+		else {
+			Border border = BorderFactory.createLineBorder(Color.RED, 1);
+			polje.setBorder(border);			
+			polje.setToolTipText("Možete unijeti samo slova!");
+			return false;
+		}
+	}
+	
 	public Boolean jedinstvenJMBG(JTextField polje) {
 		try {
 			KorisnikDAO kDAO = new KorisnikDAO();

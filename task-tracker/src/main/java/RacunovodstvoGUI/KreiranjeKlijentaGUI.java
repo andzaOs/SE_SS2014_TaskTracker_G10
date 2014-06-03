@@ -173,6 +173,7 @@ import UtilClasses.Validacija;
 			             public void focusLost(FocusEvent e) {
 			            	uslov1 = v.praznoPoljeBolean(nazivTxt);
 			      			uslov2 = v.minimalnaDuzina(nazivTxt, 2);
+			      			
 			             }
 			});
  			adresaTxt.addFocusListener(
