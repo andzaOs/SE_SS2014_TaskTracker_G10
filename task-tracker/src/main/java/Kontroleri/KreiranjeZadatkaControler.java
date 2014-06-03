@@ -59,7 +59,7 @@ public class KreiranjeZadatkaControler {
 		radniZadatak.setOpis(opis);
 		radniZadatak.setVidljivo(true);
 		radniZadatak.setVrstaZadatka(vrstaZadatka);
-		radniZadatak.setStatusIzvrsenosti(false);
+		radniZadatak.setPotpunoDodjeljen(false);
 		Korisnik korisnik = new Korisnik();
 		KorisnikDAO kDAO = new KorisnikDAO();
 		try
@@ -80,7 +80,7 @@ public class KreiranjeZadatkaControler {
 			} 
 			else
 				radniZadatak.setPotpunoDodjeljen(false);
-
+			
 			long idZadatak = radniZadatakDAO.create(radniZadatak);
 			radniZadatak.setRadniZadatak_id(idZadatak);
 
@@ -100,9 +100,9 @@ public class KreiranjeZadatkaControler {
 		else 
 		{
 				radniZadatak.setStatusDodjeljenosti(0);
-				radniZadatak.setPotpunoDodjeljen(false);
 				long idZadatak = radniZadatakDAO.create(radniZadatak);
 				radniZadatak.setRadniZadatak_id(idZadatak);
+				radniZadatak.setPotpunoDodjeljen(false);
 		}
 		}
 	 catch (Exception e) {

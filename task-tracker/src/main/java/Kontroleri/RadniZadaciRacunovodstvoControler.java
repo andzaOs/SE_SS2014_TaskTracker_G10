@@ -20,21 +20,41 @@ public class RadniZadaciRacunovodstvoControler {
 	private List<String> nazivServisera = new ArrayList<String>();
 	private Klijent klijent = new Klijent();
 	private List<RadniZadatak> radniZadaci = new ArrayList<RadniZadatak>();
+	private List<RadniZadatak> lista = new ArrayList<RadniZadatak>();
+	private List<RasporedjeniZadatak> rasZadaci = new ArrayList<RasporedjeniZadatak>();
+
+	public RadniZadaciRacunovodstvoControler(){}
+	
+
+	public List<RadniZadatak> getLista() {
+		return lista;
+	}
+	
 
 	public List<RadniZadatak> getRadniZadaci() {
 		return radniZadaci;
 	}
-
-	public RadniZadaciRacunovodstvoControler(){}
 	
-	public List<String> getNazivServisera() {
+	public List<String> getNazivServisera(RadniZadatak zadatak) {
+		
+		List<RasporedjeniZadatak> zadaci = new ArrayList<RasporedjeniZadatak>();
+		RasporedjeniZadatakDAO rDAO = new RasporedjeniZadatakDAO();
+		zadaci = rDAO.getByRadniZadatak(zadatak);
+		nazivServisera = new ArrayList<String>();
+		String nazivServiser = "Nije dodijeljen/Preuzet";
+		
+		if(zadaci.size()>0)
+		for(RasporedjeniZadatak z: zadaci)
+		{
+			nazivServisera.add(z.getIzvrsilac().getIme()+" "+z.getIzvrsilac().getPrezime());
+		}
+		else nazivServisera.add(nazivServiser);
+		
 		return nazivServisera;
 	}
 	
-	
-	
 	public Klijent getKlijent(int index) {
-		this.klijent = klijenti.get(index);
+		this.klijent = klijenti.get(index-1);
 		return klijent;
 	}
 
@@ -69,9 +89,9 @@ public class RadniZadaciRacunovodstvoControler {
 		
 		try
 		{
-		List<RasporedjeniZadatak> rasZadaci = new ArrayList<RasporedjeniZadatak>();
 		RasporedjeniZadatakDAO rDAO = new RasporedjeniZadatakDAO();
 		rasZadaci = rDAO.getAll();
+		PretraziSve();
 		setKlijenti();
 		
 		if(ime.equals("")==false)
@@ -82,6 +102,8 @@ public class RadniZadaciRacunovodstvoControler {
 				if(r.getIzvrsilac().getIme().equals(ime)==false)
 					rasZadaci.remove(i);
 			}
+				PronadjiRadneZadatke();
+				lista=radniZadaci;
 		}
 		if(prezime.equals("")==false)
 		{
@@ -91,34 +113,42 @@ public class RadniZadaciRacunovodstvoControler {
 				if(r.getIzvrsilac().getPrezime().equals(prezime)==false)
 					rasZadaci.remove(i);
 			}
+			if(rasZadaci.size()>0) 
+			{
+				PronadjiRadneZadatke();
+				lista=radniZadaci;
+			}
 		}
 		if(klijentOdabran==true)
 		{
 			klijent = getKlijent(indexKlijent);
-			for(int i=rasZadaci.size()-1; i>=0; i--)
+			for(int i=radniZadaci.size()-1; i>=0; i--)
 			{
-				RasporedjeniZadatak r = rasZadaci.get(i);
-				if(r.getZadatak().getKlijent().getKlijent_id()!=klijent.getKlijent_id())
-					rasZadaci.remove(i);
+				RadniZadatak r = radniZadaci.get(i);
+				if(r.getKlijent().getKlijent_id()!=klijent.getKlijent_id())
+					radniZadaci.remove(i);
 			}
+			lista = radniZadaci;
 		}
 		if(datumKreiranja!=null)
 		{
-			for(int i=rasZadaci.size()-1; i>=0; i--)
+			for(int i=radniZadaci.size()-1; i>=0; i--)
 			{
-				RasporedjeniZadatak r = rasZadaci.get(i);
-				if(ProvjeriDatum(r.getZadatak().getDatumUnosa(), datumKreiranja)==false)
-					rasZadaci.remove(i);
+				RadniZadatak r = radniZadaci.get(i);
+				if(ProvjeriDatum(r.getDatumUnosa(), datumKreiranja)==false)
+					radniZadaci.remove(i);
 			}
+			lista = radniZadaci;
 		}
 		if(krajnjiDatumIzvrsenja!=null)
 		{
-			for(int i=rasZadaci.size()-1; i>=0; i--)
+			for(int i=radniZadaci.size()-1; i>=0; i--)
 			{
-				RasporedjeniZadatak r = rasZadaci.get(i);
-				if(ProvjeriDatum(r.getZadatak().getKrajnjiDatumIzvrsenja(), krajnjiDatumIzvrsenja) == false)
-					rasZadaci.remove(i);
+				RadniZadatak r = radniZadaci.get(i);
+				if(ProvjeriDatum(r.getKrajnjiDatumIzvrsenja(), krajnjiDatumIzvrsenja)==false)
+					radniZadaci.remove(i);
 			}
+			lista = radniZadaci;
 		}
 		if(datumPreuzimanja!=null)
 		{
@@ -128,24 +158,31 @@ public class RadniZadaciRacunovodstvoControler {
 				if(ProvjeriDatum(r.getDatumPrihvatanja(), datumPreuzimanja)==false)
 					rasZadaci.remove(i);
 			}
+			if(rasZadaci.size()>0) 
+			{
+				PronadjiRadneZadatke();
+				lista=radniZadaci;
+			}
 		}
 		if(nedodjeljen==true)
 		{
-			for(int i=rasZadaci.size()-1; i>=0; i--)
+			for(int i=radniZadaci.size()-1; i>=0; i--)
 			{
-				RasporedjeniZadatak r = rasZadaci.get(i);
-				if(r.getZadatak().getPotpunoDodjeljen().equals(true))
-					rasZadaci.remove(i);
+				RadniZadatak r = radniZadaci.get(i);
+				if(r.getPotpunoDodjeljen().equals(true))
+					radniZadaci.remove(i);
 			}
+			lista = radniZadaci;
 		}
 		if(neizvrsen==true)
 		{
-			for(int i=rasZadaci.size()-1; i>=0; i--)
+			for(int i=radniZadaci.size()-1; i>=0; i--)
 			{
-				RasporedjeniZadatak r = rasZadaci.get(i);
-				if(r.getZadatak().getStatusIzvrsenosti().equals(true))
-					rasZadaci.remove(i);
+				RadniZadatak r = radniZadaci.get(i);
+				if(r.getStatusIzvrsenosti().equals(true))
+					radniZadaci.remove(i);
 			}
+			lista = radniZadaci;
 		}
 		if(neprihvacen==true)
 		{
@@ -156,6 +193,11 @@ public class RadniZadaciRacunovodstvoControler {
 					{
 						rasZadaci.remove(i);
 					}
+			}
+			if(rasZadaci.size()>0) 
+			{
+				PronadjiRadneZadatke();
+				lista=radniZadaci;
 			}
 		}
 		
@@ -205,30 +247,17 @@ public class RadniZadaciRacunovodstvoControler {
 					rasZadaci.addAll(zadaci);
 					
 				}
-		}
-		
-		if(rasZadaci.size()>0)
-		{
-			if(radniZadaci.size()>0) radniZadaci.clear();
-			radniZadaci.add(rasZadaci.get(0).getZadatak());
-		for(int i=1; i<rasZadaci.size(); i++)
-		{
-			int brojac=0;
-			for(int j=0; j<radniZadaci.size(); j++)
-				if(rasZadaci.get(i).getZadatak().getRadniZadatak_id()==
-				radniZadaci.get(j).getRadniZadatak_id())
-				{
-					brojac++;
-				}
-			if(brojac==0) radniZadaci.add(rasZadaci.get(i).getZadatak());
-		}
+			if(rasZadaci.size()>0) 
+			{
+				PronadjiRadneZadatke();
+				lista=radniZadaci;
+			}
 		}
 		}
 		 catch (Exception e) {
 				throw e;
 		 }
-
-		if(radniZadaci.size()>0) return true;
+		if(lista.size()>0) return true;
 		else return false;
 	
 	}
@@ -236,11 +265,11 @@ public class RadniZadaciRacunovodstvoControler {
 	public RadniZadatak GetZadatak(List<RadniZadatak> zadaci, int index)
 	{
 		RadniZadatak zadatak = new RadniZadatak();
-		zadatak=zadaci.get(index);
+		zadatak=zadaci.get(index+1);
 		return zadatak;
 	}
 	
-	public void pretraziSve() throws Exception
+	public void PretraziSve() throws Exception
 	{
 		RadniZadatakDAO rDAO = new RadniZadatakDAO();
 		if(radniZadaci.size()>0)radniZadaci.clear();
@@ -293,6 +322,8 @@ public class RadniZadaciRacunovodstvoControler {
 	
 	public Boolean ProvjeriDatum(Date datumBaza, Date datumForma)
 	{
+		if(datumBaza!=null)
+		{
 		Date datum = new Date();
 		Calendar cal = Calendar.getInstance();
 		Calendar cal1 = Calendar.getInstance();
@@ -310,5 +341,22 @@ public class RadniZadaciRacunovodstvoControler {
 
 				if (year == year1 && month == month1 && day == day1) return true;
 				else return false;
+		}
+		else return false;
 }
+	public void PronadjiRadneZadatke()
+	{
+		for(int i=radniZadaci.size()-1; i>=0; i--)
+		{
+			int brojac = 0;
+			RadniZadatak rz = radniZadaci.get(i);
+			for(int j=0; j<rasZadaci.size(); j++)
+			{
+				RasporedjeniZadatak r = rasZadaci.get(j);
+				if(r.getZadatak().getRadniZadatak_id()==rz.getRadniZadatak_id())
+					brojac+=1;
+			}
+			if(brojac==0) radniZadaci.remove(rz);
+		}
+	}
 }

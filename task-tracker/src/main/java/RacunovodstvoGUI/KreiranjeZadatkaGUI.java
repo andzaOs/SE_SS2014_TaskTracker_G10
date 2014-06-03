@@ -49,9 +49,9 @@ public class KreiranjeZadatkaGUI extends JFrame {
 	private List<Korisnik> selektovaniServiseri = new ArrayList<Korisnik>();
 	private KreiranjeZadatkaGUI mySelf;
 	private Validacija v = new Validacija();
-	private Boolean uslov1 = false, serviserSelektovan = false, klijentOdabran=false;
+	private Boolean uslov1 = false, serviserSelektovan = false, klijentOdabran=true;
 	private Date datumIzvrsenja = null;
-	private int maxBrojServisera = 1, indexKlijent;
+	private int maxBrojServisera = 1, indexKlijent=0;
 	private String opis = "", vrstaZadatka = "";
 	private static KreiranjeZadatkaGUI instanca;
 
@@ -306,9 +306,11 @@ public class KreiranjeZadatkaGUI extends JFrame {
 				// Pozivamo novu dijalošku formu u kojoj će korisnik dodijeliti
 				// zadatak serviserima
 				
-				OdabirServiseraGUI os = new OdabirServiseraGUI(mySelf,null,null, (Integer)maksimalanBrojServisera.getValue());
+				
+				OdabirServiseraGUI os = OdabirServiseraGUI.dajInstancu(mySelf,null,null, (Integer)maksimalanBrojServisera.getValue());
 				os.setVisible(true);
 				os.setSize(1000, 350);
+				
 			}
 		});
 
@@ -317,7 +319,7 @@ public class KreiranjeZadatkaGUI extends JFrame {
 				
 				KreiranjeZadatkaControler controler2 = new KreiranjeZadatkaControler();
 				
-				if (uslov1 == true && vrstaZadatka!="" && klijentOdabran!=false) 
+				if (uslov1 == true && vrstaZadatka!="") 
 				{
 					
 					try {
@@ -336,7 +338,6 @@ public class KreiranjeZadatkaGUI extends JFrame {
 					vrstaZadatkaCmbx.setSelectedIndex(0);
 					vrstaZadatka="";
 					nazivKlijentaCmbx.setSelectedIndex(0);
-					klijentOdabran=false;
 					maksimalanBrojServisera.setValue(1);
 					maxBrojServisera=1;
 					datumIzvrsenjaDP.getJFormattedTextField().setText("");
@@ -347,7 +348,6 @@ public class KreiranjeZadatkaGUI extends JFrame {
 
 				else 
 				{
-					if(indexKlijent==0) nazivKlijentaCmbx.setBorder(crveno);
 					if(maxBrojServisera==0) maksimalanBrojServisera.setBorder(crveno);
 					if(datumIzvrsenja==null) datumIzvrsenjaDP.setBorder(crveno);
 					if(vrstaZadatka=="") vrstaZadatkaCmbx.setBorder(crveno);

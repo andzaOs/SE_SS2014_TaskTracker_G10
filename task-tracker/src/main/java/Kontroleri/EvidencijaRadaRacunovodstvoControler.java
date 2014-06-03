@@ -23,7 +23,7 @@ public class EvidencijaRadaRacunovodstvoControler {
 	}
 	
 	public Klijent getKlijent(int index) {
-		return this.klijent = klijenti.get(index);
+		return this.klijent = klijenti.get(index-1);
 	}
 
 	public List<Klijent> getKlijenti() {
@@ -68,7 +68,7 @@ public class EvidencijaRadaRacunovodstvoControler {
 
 
 	public VrstaUsluge getVrstaUsluge(int index) {
-		this.vrstaUsluge = vrsteUsluge.get(index);
+		this.vrstaUsluge = vrsteUsluge.get(index-1);
 		return vrstaUsluge;
 	}
 

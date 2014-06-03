@@ -111,6 +111,7 @@ public class ModifikacijaZadatakControler {
 				if(maksimalanBrojServisera>zadatak.getStatusDodjeljenosti())
 				radniZadatak.setPotpunoDodjeljen(false);
 				else radniZadatak.setPotpunoDodjeljen(true);
+
 		}
 		
 		radniZadatakDAO.update(radniZadatak);

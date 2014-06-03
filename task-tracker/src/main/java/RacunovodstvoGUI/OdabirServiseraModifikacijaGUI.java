@@ -166,13 +166,23 @@ public class OdabirServiseraModifikacijaGUI extends JFrame {
 								EventQueue.invokeLater(new Runnable() {
 									public void run() {
 										try {
+											if(tabela1.getSelectedRowCount()>0)
+											{
 											// Otvaramo prozor koji prikazuje detaljne
 											// informacije o selektovanom serviseru
 											int indexTabela = tabela1.getSelectedRow();
 											@SuppressWarnings("unused")
 											PrikaziDetaljnoKorisnikaGUI window = new PrikaziDetaljnoKorisnikaGUI(
 													controler.getSelektovaniServiser(indexTabela));
-
+											}
+											else
+												JOptionPane
+												.showMessageDialog(
+														rootPane,
+														"Niste odabrali nijednog servisera.",
+														"Poruka o uspješnosti operacije",
+														JOptionPane.ERROR_MESSAGE);
+												
 										} catch (Exception e) {
 											e.printStackTrace();
 										}

@@ -275,14 +275,14 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 					"Pojavila se greška. Pokušajte ponovo.",
 					"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
 		}
-		
+		vrstaUslugeCmb.addItem("Odaberite uslugu");
 		for (int i = 0; i < controler1.getVrsteUsluge().size(); i++)
 			vrstaUslugeCmb.addItem(controler1.getVrsteUsluge().get(i).getNaziv());
 		filterPanel1.add(vrstaUslugeCmb);
 		sjeverniPanel.add(filterPanel2);
 
 		final JComboBox<String> nazivKlijentaCmb = new JComboBox<String>();
-	
+		nazivKlijentaCmb.addItem("Odaberite klijenta");
 		for (int i = 0; i < controler1.getKlijenti().size(); i++)
 			nazivKlijentaCmb.addItem(controler1.getKlijenti().get(i).getNaziv());
 		filterPanel2.add(nazivKlijentaCmb);
@@ -328,7 +328,7 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 		vrstaUslugeCmb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				indexVrstaUsluge=vrstaUslugeCmb.getSelectedIndex();
-				vrstaUslugeOdabrana=true;
+				if(indexVrstaUsluge>0) vrstaUslugeOdabrana=true;
 			}
 		});
 		
@@ -336,7 +336,7 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 		nazivKlijentaCmb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				indexKlijent=nazivKlijentaCmb.getSelectedIndex();
-				klijentOdabran=true;
+				if(indexKlijent>0) klijentOdabran=true;
 			}
 		});
 		
@@ -431,7 +431,6 @@ public class EvidencijaRadaRacunovodstvoGUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				modelTabela.setRowCount(0);
-				System.out.println(chckbxNeizvrsen.isSelected()+" "+ime+" "+prezime+" "+jmbg+" "+klijentOdabran+" "+indexKlijent+" "+chckbxIzvrsen.isSelected()+" "+vrstaUslugeOdabrana+" "+indexVrstaUsluge+" "+pocetniDatum+" "+krajnjiDatum);
 				if(ime=="" && prezime=="" && jmbg=="" && vrstaUslugeOdabrana==false && klijentOdabran ==false
 						&& pocetniDatum==null && krajnjiDatum==null && chckbxIzvrsen.isSelected()==false
 						&& chckbxNeizvrsen.isSelected()==false)

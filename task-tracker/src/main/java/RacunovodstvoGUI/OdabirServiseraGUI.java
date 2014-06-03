@@ -22,6 +22,7 @@ import Kontroleri.*;
 import Entity.RadniZadatak;
 
 import javax.swing.ListSelectionModel;
+
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -65,7 +66,12 @@ public class OdabirServiseraGUI extends JFrame {
 
 		// Kreiramo tabelu koja sadrži informacije o svim serviserima iz baze
 		// podataka
-		final DefaultTableModel model = new DefaultTableModel();
+		final DefaultTableModel model = new DefaultTableModel(){
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
 		tabela = new JTable(model);
 		tabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		model.addColumn("Ime");
@@ -126,10 +132,20 @@ public class OdabirServiseraGUI extends JFrame {
 						try {
 							// Otvaramo prozor koji prikazuje detaljne
 							// informacije o selektovanom serviseru
+							if(tabela.getSelectedRowCount()>0)
+							{
 							int indexTabela = tabela.getSelectedRow();
 							@SuppressWarnings("unused")
 							PrikaziDetaljnoKorisnikaGUI window = new PrikaziDetaljnoKorisnikaGUI(
 									controler.getSelektovaniServiser(indexTabela));
+							}
+							else
+								JOptionPane
+								.showMessageDialog(
+										rootPane,
+										"Niste odabrali nijednog servisera.",
+										"Poruka o grešci",
+										JOptionPane.ERROR_MESSAGE);
 
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -212,7 +228,7 @@ public class OdabirServiseraGUI extends JFrame {
 					JOptionPane
 					.showMessageDialog(
 							rootPane,
-							"Niste selektovali nijedan red u tabeli.",
+							"Niste odabrali nijednog servisera.",
 							"Poruka o uspješnosti operacije",
 							JOptionPane.ERROR_MESSAGE);
 					
@@ -233,9 +249,9 @@ public class OdabirServiseraGUI extends JFrame {
 	}
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		unistiInstancu();
 		super.dispose();
 	}
+
 
 }

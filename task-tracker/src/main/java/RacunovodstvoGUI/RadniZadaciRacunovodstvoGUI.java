@@ -50,7 +50,7 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	private Date datumKreiranja=null, datumPreuzimanja=null, datumIzvrsenja=null, krajnjiDatumIzvrsenja=null;
 	private String ime="", prezime="";
 	private Boolean klijentOdabran = false, serviserSelektovan = false;
-	private int indexKlijent=0, indexTabela;
+	private int indexKlijent, indexTabela;
 	private JTable tabela;
 	private List<RadniZadatak> zadaci = new ArrayList<RadniZadatak>();
 	private List<String> naziviServisera = new ArrayList<String>();
@@ -213,6 +213,7 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
+	nazivKlijentaCmb.addItem("Odaberite klijenta");
 	for (int i = 0; i < controler1.getKlijenti().size(); i++)
 		nazivKlijentaCmb.addItem(controler1.getKlijenti().get(i).getNaziv());
 	
@@ -254,7 +255,7 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			SwingUtilities.invokeLater(new Runnable() {
 	            public void run() {
-	                KreiranjeZadatkaGUI ex = new KreiranjeZadatkaGUI();
+	                KreiranjeZadatkaGUI ex = KreiranjeZadatkaGUI.dajInstancu();
 	                ex.setSize(351, 276);
 	                ex.setLocationRelativeTo(null);
 	                ex.setVisible(true);
@@ -270,7 +271,7 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			SwingUtilities.invokeLater(new Runnable() {
 	            public void run() {
-	                EvidencijaRadaRacunovodstvoGUI f = new EvidencijaRadaRacunovodstvoGUI();
+	                EvidencijaRadaRacunovodstvoGUI f = EvidencijaRadaRacunovodstvoGUI.dajInstancu();
 	                f.setTitle("Evidencija rada");
 	                f.setSize(1000, 350);
 	                f.setLocationRelativeTo(null);
@@ -296,12 +297,11 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	modelTabela.addColumn("Opis zadatka");
 	modelTabela.addColumn("Klijent");
 	modelTabela.addColumn("Serviser(i)");
-	ListSelectionModel cellSelectionModel = tabela.getSelectionModel();
-	cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
+	tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);        
 	JScrollPane tabelaPane = new JScrollPane(tabela);
 	
 	try {
-		controler1.pretraziSve();
+		controler1.PretraziSve();
 		zadaci = controler1.getRadniZadaci();
 		Ispisi(controler1.getRedovi(controler1.getRadniZadaci()), modelTabela);
 	} catch (Exception e) {
@@ -334,10 +334,19 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			SwingUtilities.invokeLater(new Runnable() {
 	            public void run() {
+	            	if(tabela.getSelectedRowCount()>0)
+	            	{
+	            	indexTabela=tabela.getSelectedRow();
 	                ModifikacijaZadatakGUI ex = new ModifikacijaZadatakGUI(controler1.GetZadatak(zadaci, indexTabela));
 	                ex.setSize(351, 276);
 	                ex.setLocationRelativeTo(null);
 	                ex.setVisible(true);
+	            	}
+	            	else
+	            		JOptionPane.showMessageDialog(rootPane,
+	    						"Niste odabrali zadatak.",
+	    						"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
+	            		
 	            }
 	        });
 		}
@@ -347,10 +356,18 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			SwingUtilities.invokeLater(new Runnable() {
 	            public void run() {
-	                IzbrisiZadatakGUI ex = new IzbrisiZadatakGUI(controler1.GetZadatak(zadaci, indexTabela));
+	            	if(tabela.getSelectedRowCount()>0)
+	            	{
+	            	indexTabela=tabela.getSelectedRow();
+	                IzbrisiZadatakGUI ex = IzbrisiZadatakGUI.dajInstancu(controler1.GetZadatak(zadaci, indexTabela));
 	                ex.setSize(600, 150);
 	                ex.setLocationRelativeTo(null);
 	                ex.setVisible(true);
+	            	}
+	            	else
+	            		JOptionPane.showMessageDialog(rootPane,
+	    						"Niste odabrali zadatak.",
+	    						"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
 	            }
 	        });
 		}
@@ -360,11 +377,14 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		public void actionPerformed(ActionEvent event) {
 			 SwingUtilities.invokeLater(new Runnable() {
 		            public void run() {
+		            	if(tabela.getSelectedRowCount()>0)
+		            	{
+		            	indexTabela=tabela.getSelectedRow();
 		            	RadniZadatak zadatak = new RadniZadatak();
 		            	zadatak = controler1.GetZadatak(zadaci, indexTabela);
 		            	if(zadatak.getPotpunoDodjeljen()==false)
 		            	{
-		                OdabirServiseraGUI os = new OdabirServiseraGUI(null,mySelf, zadatak,0);
+		                OdabirServiseraGUI os = OdabirServiseraGUI.dajInstancu(null,mySelf, zadatak,0);
 						os.setVisible(true);
 		                os.setTitle("Odabir servisera");
 		                os.setSize(1000, 350);
@@ -374,9 +394,13 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		            	else
 		            		JOptionPane.showMessageDialog(rootPane,
 		    						"Radni zadatak je već potpuno dodijeljen.",
-		    						"Poruka o grešci", JOptionPane.INFORMATION_MESSAGE);
+		    						"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
 		            		
-		
+		            	}
+		            	else
+		            		JOptionPane.showMessageDialog(rootPane,
+		    						"Niste odabrali zadatak.",
+		    						"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
 		          }
 		     });
 		}
@@ -386,11 +410,19 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			SwingUtilities.invokeLater(new Runnable() {
 	            public void run() {
-	                PrikaziDetaljnoZadatakGUI ex = new PrikaziDetaljnoZadatakGUI(controler1.GetZadatak(zadaci, indexTabela), naziviServisera);
+	            	if(tabela.getSelectedRowCount()>0)
+	            	{
+	            	indexTabela=tabela.getSelectedRow();
+	                PrikaziDetaljnoZadatakGUI ex = PrikaziDetaljnoZadatakGUI.dajInstancu(controler1.GetZadatak(zadaci, indexTabela), naziviServisera);
 	                ex.setSize(400, 400);
 	                ex.setTitle("Prikaz radnog zadatka");
 	                ex.setLocationRelativeTo(null);
 	                ex.setVisible(true);
+	            	}
+	            	else
+	            		JOptionPane.showMessageDialog(rootPane,
+	    						"Niste odabrali zadatak.",
+	    						"Poruka o grešci", JOptionPane.ERROR_MESSAGE);
 	            }
 	        });
 		}
@@ -417,7 +449,7 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 			modelTabela.setRowCount(0);
 			
 			try {
-				controler1.pretraziSve();
+				controler1.PretraziSve();
 				zadaci = controler1.getRadniZadaci();
 				Ispisi(controler1.getRedovi(controler1.getRadniZadaci()), modelTabela);
 			} catch (Exception e) {
@@ -432,14 +464,6 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 		}
 	});
 	
-	cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
-		
-		public void valueChanged(ListSelectionEvent arg0) {
-			
-			indexTabela=tabela.getSelectedRow();
-			
-		}
-	});
 	
 	datumKreiranjaDP.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
@@ -486,7 +510,7 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	nazivKlijentaCmb.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			indexKlijent=nazivKlijentaCmb.getSelectedIndex();
-			klijentOdabran=true;
+			if(indexKlijent>0) klijentOdabran=true;
 		}
 	});
 
@@ -515,8 +539,8 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 			
 			if(radniZadaciNadjeni)
 			{
-				zadaci = controler2.getRadniZadaci();
-				Ispisi(controler2.getRedovi(controler2.getRadniZadaci()), modelTabela);
+				zadaci = controler2.getLista();
+				Ispisi(controler2.getRedovi(controler2.getLista()), modelTabela);
 			}
 			else 
 			{
