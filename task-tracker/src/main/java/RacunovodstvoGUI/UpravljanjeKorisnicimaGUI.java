@@ -128,7 +128,7 @@ public class UpravljanjeKorisnicimaGUI extends JFrame{
 	
 	
 		
- final String imenaKolona[]=  {"Ime", "Prezime", "JMBG", "Korisnicko ime", "E-mail", "Tip Korisnika"};		
+ final String imenaKolona[]=  {"Ime", "Prezime", "JMBG", "Korisničko ime", "E-mail", "Tip Korisnika"};		
  
  final DefaultTableModel tableModel = new DefaultTableModel(imenaKolona, 0){
 		@Override

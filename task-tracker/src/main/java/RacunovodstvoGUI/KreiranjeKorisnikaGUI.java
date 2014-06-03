@@ -401,7 +401,7 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 				 					if(kKontroler.kreiranjeKorisnika(uslov12, imeTxt, prezimeTxt, jmbgTxt, brojLKTxt, adresaTxt, telefonTxt, emailTxt, sqlDate1, korisnickoImeTxt, sifraTxt, t)) {
 				 						dispose();
 				 						JOptionPane.showMessageDialog(frmKreiranjeKorisnika,
-				 							    "Novi klijent je uspješno dodan.",
+				 							    "Novi korisnik je uspješno dodan.",
 				 							    "Dodavanje klijenta",
 				 							    JOptionPane.INFORMATION_MESSAGE);
 				 					}
