@@ -23,7 +23,7 @@ public class Validacija {
 	
 	public boolean validirajString(JTextField polje) {
 		
-		if(polje.getText().matches("^([a-z]|[A-Z]){3,20} ([a-z]|[A-Z]){3,20}$"))
+		if(polje.getText().matches("^([a-z]|[A-Z]){3,20}( ){0,1}([a-z]|[A-Z]){0,20}$"))
 			{
 			return true;
 		}
