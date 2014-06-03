@@ -42,7 +42,7 @@ public class SistemObavjestavanjaGUI extends JFrame
 	{
 		
 		//Naziv forme
-		setTitle("Podešavanje automatskog obavještavanja i opominjanja korisnika");
+		setTitle("Podešavanje automatskog obavještavanja");
 		
 		this.setSize(428, 296);
 		setLocationRelativeTo(null);
