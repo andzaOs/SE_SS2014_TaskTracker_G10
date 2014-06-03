@@ -11,11 +11,19 @@ public class KorisnickoUputstvo implements java.io.Serializable{
 	
 	
 	public void dobaviUputstvo() {
-		String fileAddress="src\\main\\resources\\UputstvoRacunovodstvo.pdf";
+		String fileAddress="src" + File.separator + "main" + File.separator + "resources" + File.separator + "UputstvoRacunovodstvo.pdf";
         try {
             if ((new File(fileAddress)).exists()) {
-                Process process = Runtime.getRuntime().exec("rundll32 url.dll, FileProtocolHandler "+fileAddress);
-                process.waitFor();
+        	
+    	        if (Desktop.isDesktopSupported()) { 
+  	              try { 
+  	                  File myFile = new File(fileAddress); 
+  	                  Desktop.getDesktop().open(myFile); 
+  	              } catch (IOException ex) { 
+  	                  // no application registered for PDFs 
+  	              } 
+    	        }
+       	
             } else {
                 System.out.println("Dokument nije pronađen");
             }
@@ -26,11 +34,20 @@ public class KorisnickoUputstvo implements java.io.Serializable{
 	}
 	
 	public void dobaviUputstvoServiseri() {
-		String fileAddress="src\\main\\resources\\UputstvoServiseri.pdf";
+		String fileAddress="src" + File.separator + "main" + File.separator + "resources" + File.separator + "UputstvoServiseri.pdf";
         try {
             if ((new File(fileAddress)).exists()) {
-                Process process = Runtime.getRuntime().exec("rundll32 url.dll, FileProtocolHandler "+fileAddress);
-                process.waitFor();
+
+    	        if (Desktop.isDesktopSupported()) { 
+    	              try { 
+    	                  File myFile = new File(fileAddress); 
+    	                  Desktop.getDesktop().open(myFile); 
+    	              } catch (IOException ex) { 
+    	                  // no application registered for PDFs 
+    	              } 
+      	        }
+            	
+            	
             } else {
                 System.out.println("Dokument nije pronađen");
             }
