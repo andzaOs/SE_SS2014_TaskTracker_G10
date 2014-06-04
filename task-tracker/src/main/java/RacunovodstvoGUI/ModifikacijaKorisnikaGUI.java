@@ -56,6 +56,7 @@ public class ModifikacijaKorisnikaGUI extends JFrame {
 	Boolean uslov13;
 	Boolean uslov14;
 	Boolean uslov15;
+	Boolean uslov16;
 	Date datumIzvrsenja;
 	Boolean izmjena;
 	java.sql.Date sqlDate1;
@@ -320,6 +321,7 @@ public class ModifikacijaKorisnikaGUI extends JFrame {
 				             public void focusLost(FocusEvent e) {
 //				            	 validacija v = new validacija();
 				            	 uslov4=v.brojLicneKarte(brojLKTxt);
+				            	 uslov16 = v.jedinstvenBrLKM(brojLKTxt, id);
 				            	 
 				             }
 				      });

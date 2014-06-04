@@ -150,9 +150,10 @@ public class KorisnikKontroler {
 			    Boolean uslov8=v.jedinstvenJMBG(jmbgTxt);
 			    Boolean uslov9=v.jedinstvenUsername(korisnickoImeTxt);
 			    Boolean uslov10=v.minimalnaDuzina(korisnickoImeTxt, 3);
+			    Boolean uslov11 = v.jedinstvenBrLK(brojLKTxt);
 			    
 			    Boolean uslov12=dat;
-			    Boolean validno = (uslov1 && uslov2 && uslov3 && uslov4 && uslov5 && uslov6 && uslov7 && uslov8 && uslov9 && uslov10 && uslov12);
+			    Boolean validno = (uslov1 && uslov2 && uslov3 && uslov4 && uslov5 && uslov6 && uslov7 && uslov8 && uslov9 && uslov10 && uslov11 && uslov12);
 				if(validno) {
 					
 					Korisnik k1 = new Korisnik();
@@ -203,10 +204,11 @@ public class KorisnikKontroler {
 			    Boolean uslov9=v.jedinstvenUsernameM(korisnickoImeTxt, id);
 			    Boolean uslov10=v.minimalnaDuzina(korisnickoImeTxt, 3);
 			    Boolean uslov11;
+			    Boolean uslov12 = v.jedinstvenBrLKM(brojLKTxt, id);
 			    if(sifraTxt.getText().equals("")) { uslov11=true; }
 			    else { uslov11=v.minimalnaDuzina(sifraTxt, 5);}
 			    
-				final Boolean validno = (uslov1 && uslov2 && uslov3 && uslov4 && uslov5 && uslov6 && uslov7 && uslov8 && uslov9 && uslov10 && uslov11);
+				final Boolean validno = (uslov1 && uslov2 && uslov3 && uslov4 && uslov5 && uslov6 && uslov7 && uslov8 && uslov9 && uslov10 && uslov11 && uslov12);
 				if(validno) {
 					Korisnik k1 = new Korisnik();
 					KorisnikDAO kDAO = new KorisnikDAO();

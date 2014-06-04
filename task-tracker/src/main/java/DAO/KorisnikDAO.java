@@ -92,6 +92,16 @@ public class KorisnikDAO implements CRUD<Korisnik> {
 
 		return korisnik;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Korisnik getByBrLK(String br_lk) {
+		Korisnik korisnik = new Korisnik();
+		korisnik = (Korisnik) session.createCriteria(Korisnik.class)
+			    .add( Restrictions.like("br_lk", br_lk) )
+			    .uniqueResult();
+
+		return korisnik;
+	}
 			
 
 	@SuppressWarnings("unchecked")

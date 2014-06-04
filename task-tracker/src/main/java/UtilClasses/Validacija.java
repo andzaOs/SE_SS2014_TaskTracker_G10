@@ -109,6 +109,45 @@ public class Validacija {
 		}
 	}
 	
+	public Boolean jedinstvenBrLK(JTextField polje) {
+		try {
+			KorisnikDAO kDAO = new KorisnikDAO();
+			if ((kDAO.getByBrLK(polje.getText())).equals(null)) return true;
+			else {
+				Border border = BorderFactory.createLineBorder(Color.RED, 1);
+				polje.setBorder(border);			
+				polje.setToolTipText("Broj lične karte nije jedinstven");
+				return false;
+			}
+		}
+		catch(NullPointerException ex) {
+			return true;
+		}
+	}
+	
+	public Boolean jedinstvenBrLKM(JTextField polje, long id) {
+		try {
+			KorisnikDAO kDAO = new KorisnikDAO();
+			KorisnikDAO kDAO2 = new KorisnikDAO();
+			
+			if ((kDAO.getByBrLK(polje.getText())).equals(null)) return true;
+			else {
+				if((kDAO2.getById(id).getBr_lk().equals(polje.getText()))) { 
+					return true;
+					}
+				else {
+					Border border = BorderFactory.createLineBorder(Color.RED, 1);
+					polje.setBorder(border);			
+					polje.setToolTipText("Broj lične karte nije jedinstven");
+					return false;
+				}
+			}
+		}
+		catch(NullPointerException ex) {
+			return true;
+		}
+	}
+	
 	public Boolean jedinstvenUsername(JTextField polje) {
 		try {
 			KorisnikDAO kDAO = new KorisnikDAO();
