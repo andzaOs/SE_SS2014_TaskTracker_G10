@@ -53,6 +53,7 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 	Boolean uslov13;
 	Boolean uslov14;
 	Boolean uslov15;
+	Boolean uslov16;
 	Date datumIzvrsenja;
 	java.sql.Date sqlDate1;
 	private static KreiranjeKorisnikaGUI instanca;
@@ -352,6 +353,7 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 				             public void focusLost(FocusEvent e) {
 //				            	 validacija v = new validacija();
 				            	 uslov7=v.emailAdresa(emailTxt);
+				            	 uslov16=v.jedinstvenEmail(emailTxt);
 				             }
 				      });
 			

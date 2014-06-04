@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +21,26 @@ import Entity.Korisnik;
 public class Validacija {
 	
 	Date datumZaposlenja, datumTrenutni;
+	
+	
+	public boolean jedinstvenEmail(JTextField polje) {
+				
+		try {
+			KorisnikDAO kDAO = new KorisnikDAO();
+			if ((kDAO.getByEmail(polje.getText())).equals(null)) return true;
+			else {
+				Border border = BorderFactory.createLineBorder(Color.RED, 1);
+				polje.setBorder(border);			
+				polje.setToolTipText("Email nije jedinstven");
+				return false;
+			}
+		}
+		catch(NullPointerException ex) {
+			return true;
+		}
+
+	}
+	
 	
 	public boolean validirajAdresuBrojevi(JTextField polje) {
 		

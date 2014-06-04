@@ -157,5 +157,14 @@ public class KorisnikDAO implements CRUD<Korisnik> {
 				    .list();
 			return korisnici;
 		}
+		
+		public Korisnik getByEmail(String email) {
+			Korisnik korisnik = new Korisnik();
+			korisnik = (Korisnik) session.createCriteria(Korisnik.class)
+				    .add( Restrictions.like("email", email) )
+				    .uniqueResult();
+
+			return korisnik;
+		}
 
 }
