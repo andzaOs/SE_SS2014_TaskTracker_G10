@@ -33,7 +33,7 @@ import java.awt.event.WindowEvent;
  	
  	public class ModifikovanjeKlijentaGUI extends JFrame {
  		private JFrame frmModifikovanjeKlijenta;
- 		Boolean uslov1, uslov2, uslov3, uslov4, uslov5, uslov6, uslov7;
+ 		Boolean uslov1, uslov2, uslov3, uslov4, uslov5, uslov6, uslov7, uslov8;
  	
  		private static ModifikovanjeKlijentaGUI instanca;
  		public ModifikovanjeKlijentaGUI(long klijent) {
@@ -195,6 +195,7 @@ import java.awt.event.WindowEvent;
 			             public void focusLost(FocusEvent e) {
 			            	uslov3 = v.praznoPoljeBolean(adresaTxt);
 			      			uslov4 = v.minimalnaDuzina(adresaTxt, 5);
+			      			uslov8 = v.validirajAdresuBrojevi(adresaTxt);
 			             }
 			});
  			emailTxt.addFocusListener(

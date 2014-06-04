@@ -30,7 +30,7 @@ import UtilClasses.Validacija;
  	
  	public class KreiranjeKlijentaGUI extends JFrame {
  		private JFrame frmKreiranjeKlijenta;
- 		Boolean uslov1, uslov2, uslov3, uslov4, uslov5, uslov6, uslov7;
+ 		Boolean uslov1, uslov2, uslov3, uslov4, uslov5, uslov6, uslov7, uslov8;
  		private static KreiranjeKlijentaGUI instanca;
  		public KreiranjeKlijentaGUI() {
  			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -183,6 +183,7 @@ import UtilClasses.Validacija;
 			             public void focusLost(FocusEvent e) {
 			            	uslov3 = v.praznoPoljeBolean(adresaTxt);
 			      			uslov4 = v.minimalnaDuzina(adresaTxt, 5);
+			      			uslov8 = v.validirajAdresuBrojevi(adresaTxt);
 			             }
 			});
  			emailTxt.addFocusListener(

@@ -21,6 +21,20 @@ public class Validacija {
 	
 	Date datumZaposlenja, datumTrenutni;
 	
+	public boolean validirajAdresuBrojevi(JTextField polje) {
+		
+		if(polje.getText().matches("[0-9]{0,}"))
+		{
+			Border border = BorderFactory.createLineBorder(Color.RED, 1);
+			polje.setBorder(border);			
+			polje.setToolTipText("Adresa ne može biti samo od brojeva.");
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
 	public boolean validirajString(JTextField polje) {
 		
 		if(polje.getText().matches("^([a-z]|[A-Z]){3,20}( ){0,1}([a-z]|[A-Z]){0,20}$"))

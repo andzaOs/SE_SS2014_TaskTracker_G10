@@ -53,6 +53,7 @@ public class ModifikacijaKorisnikaGUI extends JFrame {
 	Boolean uslov11;
 	Boolean uslov12;
 	Boolean uslov13;
+	Boolean uslov14;
 	Date datumIzvrsenja;
 	Boolean izmjena;
 	java.sql.Date sqlDate1;
@@ -331,6 +332,7 @@ public class ModifikacijaKorisnikaGUI extends JFrame {
 				             public void focusLost(FocusEvent e) {
 //				            	 validacija v = new validacija();
 				            	 uslov5=v.minimalnaDuzina(adresaTxt, 3);
+				            	 uslov14=v.validirajAdresuBrojevi(adresaTxt);
 				             }
 				      });
 			
