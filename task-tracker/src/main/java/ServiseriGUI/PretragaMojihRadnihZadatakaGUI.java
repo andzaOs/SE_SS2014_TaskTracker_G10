@@ -321,8 +321,8 @@ public class PretragaMojihRadnihZadatakaGUI extends JFrame{
 			
 	
 				
-		      if(izabrani.getPotpunoDodjeljen()==true){JOptionPane.showMessageDialog(rootPane, "Ne možete preuzeti ovaj zadatak, na njemu radi već maksimalan broj servisera", "Obavijest", JOptionPane.INFORMATION_MESSAGE);}
-				else{
+		      
+				
 					MojiZadaciControler controler=new MojiZadaciControler();
 				if(rasporedjeniZadaci.size()>0){
 
@@ -344,7 +344,7 @@ public class PretragaMojihRadnihZadatakaGUI extends JFrame{
 							
 							}
 								
-					}
+					
 				
 					}
 					

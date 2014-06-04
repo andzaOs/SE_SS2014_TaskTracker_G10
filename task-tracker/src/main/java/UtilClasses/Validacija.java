@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -68,6 +69,19 @@ public class Validacija {
 			polje.setToolTipText("Možete unijeti samo slova!");
 			return false;
 		}
+	}
+	
+	public boolean validirajDatum( JFormattedTextField polje, Date d ){
+		
+		 Date trenutni= new Date();
+		    if(d.before(trenutni)) return true;
+		    else{
+		    	Border border = BorderFactory.createLineBorder(Color.RED, 1);
+				polje.setBorder(border);			
+				polje.setToolTipText("Ne možete unijeti datum u budućnosti!");
+				return false;
+		    	
+		    }
 	}
 	
 	public Boolean jedinstvenJMBG(JTextField polje) {

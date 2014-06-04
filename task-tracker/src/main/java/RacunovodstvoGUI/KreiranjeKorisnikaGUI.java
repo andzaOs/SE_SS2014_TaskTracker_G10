@@ -36,6 +36,7 @@ import Kontroleri.KorisnikKontroler;
 import UtilClasses.KorisnickoUputstvo;
 import UtilClasses.RandomString;
 import UtilClasses.Validacija;
+import java.awt.event.FocusAdapter;
 
 public class KreiranjeKorisnikaGUI extends JFrame {
 	private JFrame frmKreiranjeKorisnika;
@@ -56,8 +57,10 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 	Boolean uslov15;
 	Boolean uslov16;
 	Boolean uslov17;
+	Boolean uslov18;
 	Date datumIzvrsenja;
 	java.sql.Date sqlDate1;
+	 final Validacija v = new Validacija();
 	private static KreiranjeKorisnikaGUI instanca;
 		public KreiranjeKorisnikaGUI() {
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -217,6 +220,18 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 		final JDatePanelImpl datePanel = new JDatePanelImpl(model);
 		
 		final JDatePickerImpl pocetniDatumDP = new JDatePickerImpl(datePanel);	
+		pocetniDatumDP.getJFormattedTextField().addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+//				if((Date)pocetniDatumDP.getModel().getValue() !=null){
+//				uslov18= v.validirajDatum(pocetniDatumDP.getJFormattedTextField(),(Date)pocetniDatumDP.getModel().getValue() );
+//				}
+			}
+		});
 		centralniPanel.add(datumZaposlenjaLbl);
 		
 		centralniPanel.add(pocetniDatumDP);
@@ -268,7 +283,8 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 			}
 		});
 		
-		 final Validacija v = new Validacija();
+	
+	
 		
 			//Validacija imena
 		
@@ -399,7 +415,9 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 							 }
 							 try {
 				 					KorisnikKontroler kKontroler = new KorisnikKontroler();
-				 					if(kKontroler.kreiranjeKorisnika(uslov12, imeTxt, prezimeTxt, jmbgTxt, brojLKTxt, adresaTxt, telefonTxt, emailTxt, sqlDate1, korisnickoImeTxt, sifraTxt, t)) {
+				 					Date datum=(Date)pocetniDatumDP.getModel().getValue();
+				 					
+				 					if(kKontroler.kreiranjeKorisnika(uslov12, imeTxt, prezimeTxt, jmbgTxt, brojLKTxt, adresaTxt, telefonTxt, emailTxt, sqlDate1, korisnickoImeTxt, sifraTxt, t,pocetniDatumDP,datum )) {
 				 						dispose();
 				 						JOptionPane.showMessageDialog(frmKreiranjeKorisnika,
 				 							    "Novi korisnik je uspješno dodan.",

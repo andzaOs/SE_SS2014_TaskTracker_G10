@@ -246,14 +246,14 @@ public class MojiZadaciControler {
 	public void izvrsiUpdatePreuzimanja(Long id, Long id2) throws Exception {
 		try {
 			RadniZadatakDAO zDAO = new RadniZadatakDAO();
-			RadniZadatak pomocni = zDAO.getById(id);
-			int broj = pomocni.getStatusDodjeljenosti();
-			pomocni.setStatusDodjeljenosti(broj + 1);
-			if (pomocni.getBrojServisera() == pomocni.getStatusDodjeljenosti()) {
-				pomocni.setPotpunoDodjeljen(true);
-			}
-			RadniZadatakDAO tDAO = new RadniZadatakDAO();
-			tDAO.update(pomocni);
+			//RadniZadatak pomocni = zDAO.getById(id);
+			//int broj = pomocni.getStatusDodjeljenosti();
+			//pomocni.setStatusDodjeljenosti(broj + 1);
+			//if (pomocni.getBrojServisera() == pomocni.getStatusDodjeljenosti()) {
+			//	pomocni.setPotpunoDodjeljen(true);
+		//	}
+		//	RadniZadatakDAO tDAO = new RadniZadatakDAO();
+		//	tDAO.update(pomocni);
 			RasporedjeniZadatakDAO pDAO = new RasporedjeniZadatakDAO();
 			RasporedjeniZadatak rasporedjeni = pDAO.getById(id2);
 			rasporedjeni.setStatusPrihvacenosti(true);
@@ -280,6 +280,8 @@ public class MojiZadaciControler {
 			Long br = li.get(i).getZadatak().getRadniZadatak_id();
 
 			if (br.equals(izabrani.getRadniZadatak_id())) {
+				if(li.get(i).getStatusPrihvacenosti()==true){return false;}
+				else{
 
 				try {
 					izvrsiUpdatePreuzimanja(izabrani.getRadniZadatak_id(), li
@@ -291,7 +293,7 @@ public class MojiZadaciControler {
 
 				Odradjeno = true;
 				break;
-			}
+			}}
 
 		}
 

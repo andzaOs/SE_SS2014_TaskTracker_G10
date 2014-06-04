@@ -60,6 +60,7 @@ public class KreiranjeZadatkaControler {
 		radniZadatak.setVidljivo(true);
 		radniZadatak.setVrstaZadatka(vrstaZadatka);
 		radniZadatak.setPotpunoDodjeljen(false);
+		radniZadatak.setStatusIzvrsenosti(false);
 		Korisnik korisnik = new Korisnik();
 		KorisnikDAO kDAO = new KorisnikDAO();
 		try
