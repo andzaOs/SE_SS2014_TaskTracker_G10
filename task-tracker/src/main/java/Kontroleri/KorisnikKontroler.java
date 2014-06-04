@@ -80,7 +80,7 @@ public class KorisnikKontroler {
 			KorisnikDAO kDAO = new KorisnikDAO();
 	 		korisnici = kDAO.getAll(); 
 	 		for(int i=0; i<korisnici.size(); i++) {
-	 			if(korisnici.get(i).getVidljivo() && !korisnici.get(i).getKorisnicko_ime().equals("admin")) {
+	 			if(korisnici.get(i).getVidljivo() && !korisnici.get(i).getKorisnicko_ime().equals("admin") && korisnici.get(i).getKorisnik_id()!=SessionControler.getIdLog()) {
 					String ime = korisnici.get(i).getIme();
 					String prezime = korisnici.get(i).getPrezime(); 					
 					String mail = korisnici.get(i).getEmail();					
@@ -112,7 +112,7 @@ public class KorisnikKontroler {
 	 		korisnici = kDAO.getByRestrictions(im,p,j); 
 	 		
 	 		for(int i=0; i<korisnici.size(); i++) {
-	 			if(korisnici.get(i).getVidljivo() && !korisnici.get(i).getKorisnicko_ime().equals("admin")) {
+	 			if(korisnici.get(i).getVidljivo() && !korisnici.get(i).getKorisnicko_ime().equals("admin") && korisnici.get(i).getKorisnik_id()!=SessionControler.getIdLog()) {
 	 				String ime = korisnici.get(i).getIme();
 					String prezime = korisnici.get(i).getPrezime(); 
 					String mail = korisnici.get(i).getEmail();
@@ -283,6 +283,15 @@ public class KorisnikKontroler {
 		KorisnikDAO kDAO = new KorisnikDAO();
 		Korisnik k = kDAO.getById(korisnici.get(i).getKorisnik_id());
 		PrikaziDetaljnoKorisnikaGUI win = new PrikaziDetaljnoKorisnikaGUI(k);
+	}
+	
+	public void odjaviKorisnika() {
+		java.awt.Window win[] = java.awt.Window.getWindows(); 
+		for(int i=0;i<win.length;i++){ 
+			win[i].dispose(); 
+		} 
+		SessionControler.unistiInstancu();
+		LoginGUI l = new LoginGUI();
 	}
 
 }

@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
+import ba.unsa.etf.si.tim10.task_tracker.LoginGUI;
+import Kontroleri.SessionControler;
 import RacunovodstvoGUI.ONamaGUI;
 import RacunovodstvoGUI.PromjenaSifreGUI;
 import UtilClasses.KorisnickoUputstvo;
@@ -178,7 +180,7 @@ public class PocetnaServiserGUI extends JFrame {
 	@Override
  	public void dispose() {
  		// TODO Auto-generated method stub
- 		unistiInstancu();
+ 		PocetnaServiserGUI.unistiInstancu();
  		super.dispose();
  	}
 

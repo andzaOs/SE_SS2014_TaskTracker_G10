@@ -174,12 +174,14 @@ public class LoginGUI {
 	            ex.setSize(540, 255);
 	            ex.setLocationRelativeTo(null);
 	            ex.setVisible(true);
+	            frmPrijava.dispose();
 			}
 			else if (kKontroler.provjeraPrijave(korisnickoImeTxt.getText(), sifraTxt.getText()).equals("Serviser")){
-				 PocetnaServiserGUI ex = new PocetnaServiserGUI();
+				 PocetnaServiserGUI ex = PocetnaServiserGUI.dajInstancu();
 	                ex.setSize(540, 255);
 	                ex.setLocationRelativeTo(null);
 	                ex.setVisible(true);
+	                frmPrijava.dispose();
 			}
 			else if (kKontroler.provjeraPrijave(korisnickoImeTxt.getText(), sifraTxt.getText()).equals("Netacna sifra")) {
 				JOptionPane.showMessageDialog(frmPrijava, "Netacna sifra!", "Greska", JOptionPane.ERROR_MESSAGE); 

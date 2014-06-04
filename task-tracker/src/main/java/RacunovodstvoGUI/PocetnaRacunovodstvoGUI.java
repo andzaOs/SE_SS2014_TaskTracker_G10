@@ -27,7 +27,7 @@ public class PocetnaRacunovodstvoGUI extends JFrame {
 	
 	private static PocetnaRacunovodstvoGUI instanca;
 	public PocetnaRacunovodstvoGUI() {
-			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			initialize();
 		}
 		public static PocetnaRacunovodstvoGUI dajInstancu() {

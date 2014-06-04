@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Kontroleri.KorisnikKontroler;
 import Kontroleri.SessionControler;
 import ba.unsa.etf.si.tim10.task_tracker.LoginGUI;
 
@@ -48,12 +49,8 @@ public class OdjaviSeGUI extends JFrame {
 		JButton odjavaBtn = new JButton("Odjavi se");
 		odjavaBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				java.awt.Window win[] = java.awt.Window.getWindows(); 
-				for(int i=0;i<win.length;i++){ 
-					win[i].dispose(); 
-				} 
-				SessionControler.unistiInstancu();
-				LoginGUI l = new LoginGUI();
+				KorisnikKontroler kKontr = new KorisnikKontroler();
+				kKontr.odjaviKorisnika();
 			}
 		});
 		juzniPanel.add(odjavaBtn);
