@@ -34,6 +34,7 @@ import DAO.TipKorisnikaDAO;
 import Entity.TipKorisnika;
 import Kontroleri.KorisnikKontroler;
 import UtilClasses.KorisnickoUputstvo;
+import UtilClasses.RandomString;
 import UtilClasses.Validacija;
 
 public class KreiranjeKorisnikaGUI extends JFrame {
@@ -227,7 +228,9 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 		
 		JLabel sifraLbl = new JLabel("Šifra*:");
 		sifraLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField sifraTxt = new JTextField();
+		final JLabel sifraTxt = new JLabel();
+		RandomString rs=new RandomString(10);
+		sifraTxt.setText(rs.nextString());
 		centralniPanel.add(sifraLbl);
 		centralniPanel.add(sifraTxt);	
 
@@ -373,14 +376,7 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 			
 			//Validacija  šifre
 			
-			sifraTxt.addFocusListener(
-			          new FocusListener() {
-				             public void focusGained(FocusEvent e) {};
-
-				             public void focusLost(FocusEvent e) {
-				            	 uslov11=v.minimalnaDuzina(sifraTxt, 5);
-			             }
-			      });
+			
 		
 			kreirajBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {

@@ -23,6 +23,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -242,7 +243,7 @@ public class ModifikacijaKorisnikaGUI extends JFrame {
 		
 		JLabel sifraLbl = new JLabel("Nova šifra:");
 		sifraLbl.setHorizontalAlignment(SwingConstants.RIGHT);
-		final JTextField sifraTxt = new JTextField();
+		final JPasswordField sifraTxt = new JPasswordField();
 		centralniPanel.add(sifraLbl);
 		sifraTxt.setToolTipText("Trenutnu šifru ne možete vidjeti. Unesite novu ili ostavite prazno polje!");
 		centralniPanel.add(sifraTxt);	
