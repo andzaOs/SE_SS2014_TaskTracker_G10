@@ -219,9 +219,15 @@ public class KreirajIzvjestajGUI extends JFrame {
 									    "Molimo Vas da prvi datum bude manji od drugog.",
 									    "Obavijest",
 									    JOptionPane.ERROR_MESSAGE);
-			            	}
+			            	} else if (unosCmbx.getSelectedIndex() == -1  ) {
+								JOptionPane.showMessageDialog(rootPane,
+									    "Greška. Niste izabrali sve parametre.",
+									    "Obavijest",
+									    JOptionPane.ERROR_MESSAGE);
+			            	} 
 			            	else {
 								try {
+									//System.out.println(unosCmbx.getSelected());
 									ik.otvoriFormu(unosCmbx, vrstaIzvjestajaCmbx.getSelectedItem().toString(), d1, d2);
 								}
 								catch(Exception e) {
