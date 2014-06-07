@@ -3,6 +3,7 @@ package UtilClasses;
 import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -17,7 +18,6 @@ import javax.swing.border.EtchedBorder;
 
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import DAO.KorisnikDAO;
-import Entity.Korisnik;
 
 public class Validacija {
 	
@@ -240,10 +240,26 @@ public class Validacija {
 	
 	public Boolean JMBG(JTextField polje) {
 		
-		final Pattern EMAIL_ADDRESS_REGEX =  Pattern.compile("^(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[012])[0-9]{9}$", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = EMAIL_ADDRESS_REGEX .matcher(polje.getText());
-
-        if ( matcher.find() ) {
+		Boolean ispravno;
+        List<Integer> JMBG_N = new ArrayList<Integer>();
+		
+		for (char c : polje.getText().toCharArray()) 
+			JMBG_N.add(Character.getNumericValue(c));
+		
+		if(polje.getText().length() != 13)
+			ispravno=false;
+		
+		else 
+		{
+			double eval = 0;
+			
+			for(int i = 0; i < 6; i++)
+				eval += (7 - i) * (JMBG_N.get(i) + JMBG_N.get(i + 6));
+			
+			ispravno=JMBG_N.get(12) == 11 - eval % 11;
+		}
+        
+        if ( ispravno ) {
 			Border border = BorderFactory.createLineBorder(Color.GRAY, 1);
 			polje.setBorder(border);
 			polje.setToolTipText(null);
