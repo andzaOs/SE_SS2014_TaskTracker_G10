@@ -155,7 +155,7 @@ public class KorisnikKontroler {
 			   Boolean uslov12=true;
 			  //  Boolean uslov12=v.validirajDatum(polje.getJFormattedTextField(), datum);
 			    Date trenutni=new Date();
-			    if(d.after(trenutni)){uslov12=false;}
+			   if(d!=null){ if(d.after(trenutni)){uslov12=false;}}
 			 
 			    Boolean validno = (uslov1 && uslov2 && uslov3 && uslov4 && uslov5 && uslov6 && uslov7 && uslov8 && uslov9 && uslov10 && uslov11 && uslov12);
 				if(validno) {

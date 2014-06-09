@@ -437,6 +437,7 @@ public class KreiranjeKorisnikaGUI extends JFrame {
 											    "Izuzetak",
 											    JOptionPane.ERROR_MESSAGE);
 										System.exit(DISPOSE_ON_CLOSE);
+			 						
 			 					}
 					    }
 			        });
