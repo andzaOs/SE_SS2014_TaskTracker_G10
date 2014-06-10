@@ -302,7 +302,7 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	
 	try {
 		controler1.PretraziSve();
-		zadaci = controler1.getRadniZadaci();
+		zadaci.addAll(controler1.getRadniZadaci());
 		Ispisi(controler1.getRedovi(controler1.getRadniZadaci()), modelTabela);
 	} catch (Exception e) {
 		JOptionPane.showMessageDialog(rootPane,
@@ -337,7 +337,7 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 	            	if(tabela.getSelectedRowCount()>0)
 	            	{
 	            	indexTabela=tabela.getSelectedRow();
-	                ModifikacijaZadatakGUI ex = new ModifikacijaZadatakGUI(controler1.GetZadatak(zadaci, indexTabela));
+	                ModifikacijaZadatakGUI ex = ModifikacijaZadatakGUI.dajInstancu(controler1.GetZadatak(zadaci, indexTabela));
 	                ex.setSize(351, 276);
 	                ex.setLocationRelativeTo(null);
 	                ex.setVisible(true);
@@ -450,7 +450,8 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 			
 			try {
 				controler1.PretraziSve();
-				zadaci = controler1.getRadniZadaci();
+				if(zadaci.isEmpty()==false) zadaci.clear();
+				zadaci.addAll(controler1.getRadniZadaci());
 				Ispisi(controler1.getRedovi(controler1.getRadniZadaci()), modelTabela);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(rootPane,
@@ -539,7 +540,8 @@ public class RadniZadaciRacunovodstvoGUI extends JFrame{
 			
 			if(radniZadaciNadjeni)
 			{
-				zadaci = controler2.getLista();
+				if(zadaci.isEmpty()==false)zadaci.clear();
+				zadaci.addAll(controler2.getLista());
 				Ispisi(controler2.getRedovi(controler2.getLista()), modelTabela);
 			}
 			else 
