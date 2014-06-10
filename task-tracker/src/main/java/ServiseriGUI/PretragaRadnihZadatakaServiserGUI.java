@@ -83,6 +83,7 @@ public class PretragaRadnihZadatakaServiserGUI extends JFrame{
 	
 		
 public PretragaRadnihZadatakaServiserGUI() {
+	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	addWindowFocusListener(new WindowFocusListener() {
 		public void windowGainedFocus(WindowEvent arg0) {
 			DefaultTableModel model = (DefaultTableModel) table.getModel();

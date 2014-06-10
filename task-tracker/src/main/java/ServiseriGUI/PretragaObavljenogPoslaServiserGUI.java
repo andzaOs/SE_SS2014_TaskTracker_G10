@@ -92,6 +92,7 @@ public class PretragaObavljenogPoslaServiserGUI extends JFrame{
 		public static void unistiInstancu() { instanca= null; }
 	
 	public PretragaObavljenogPoslaServiserGUI() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
 				

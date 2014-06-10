@@ -232,7 +232,8 @@ public class EvidentiranjeObavljenogPoslaGUI extends JFrame
 					e.printStackTrace();
 				}
 				JOptionPane.showMessageDialog(rootPane, s, "Obavijest", JOptionPane.INFORMATION_MESSAGE);
-				dispose();
+				if(s.equals("Uspješno ste evidentirali posao!")){
+				dispose();}
 			}
 		});
 		
