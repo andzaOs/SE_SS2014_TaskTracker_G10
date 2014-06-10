@@ -316,10 +316,9 @@ public class ModifikacijaZadatakGUI extends JFrame {
 				// zadatak serviserima
 				if(radniZadatak.getStatusDodjeljenosti() < (Integer)maksimalanBrojServisera.getValue())
 				{
-					OdabirServiseraModifikacijaGUI os = new OdabirServiseraModifikacijaGUI(mySelf, radniZadatak,(Integer)maksimalanBrojServisera.getValue());
+					OdabirServiseraModifikacijaGUI os = OdabirServiseraModifikacijaGUI.dajInstancu(mySelf, radniZadatak,(Integer)maksimalanBrojServisera.getValue());
 					os.setVisible(true);
 					os.setSize(1000, 350);
-					OdabirServiseraModifikacijaGUI.unistiInstancu();
 				}
 				else
 				{
