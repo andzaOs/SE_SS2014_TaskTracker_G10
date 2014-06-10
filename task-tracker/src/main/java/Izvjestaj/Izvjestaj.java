@@ -58,10 +58,11 @@ public class Izvjestaj {
         
         Query query = session.createSQLQuery("SELECT concat(k.ime, ' ', k.prezime), kl.naziv, o.datumobavljanja, o.brojsati "
         		+ "FROM korisnik k, vrstausluge v, obavljeniposao o, radnizadatak radz, rasporedjenizadatak rasz, klijent kl "
-        		+ "WHERE k.korisnik_id = radz.korisnik_id "
+        		+ "WHERE k.korisnik_id = rasz.korisnik_id "
         		+ "AND rasz.radnizadatak_id = radz.radnizadatak_id "
         		+ "AND o.rasporedjenizadatak_id = rasz.rasporedjenizadatak_id "
         		+ "AND kl.klijent_id = radz.klijent_id "
+        		+ "AND o.vrstausluge_id = v.vrstausluge_id "
         		+ "AND o.vrstausluge_id = " + usluga.getVrstaUsluge_id() + " "
         		+ "AND (o.datumobavljanja BETWEEN '" + pocetak.toString() + "' AND '" + kraj.toString() + "')");
         
@@ -92,7 +93,8 @@ public class Izvjestaj {
         		+ "WHERE k.korisnik_id = rasz.korisnik_id "
         		+ "AND rasz.radnizadatak_id = radz.radnizadatak_id "
         		+ "AND o.rasporedjenizadatak_id = rasz.rasporedjenizadatak_id "
-        		+ "AND kl.klijent_id = radz.klijent_id "
+        		+ "AND kl.klijent_id = radz.klijent_id "        		
+        		+ "AND v.vrstausluge_id = o.vrstausluge_id "
         		+ "AND radz.klijent_id = " + klijent.getKlijent_id() + " AND radz.statusizvrsenosti = 1 "
         		+ "AND (o.datumobavljanja BETWEEN '" + pocetak.toString() + "' AND '" + kraj.toString() + "')");
         
@@ -119,9 +121,10 @@ public class Izvjestaj {
         
         Query query = session.createSQLQuery("SELECT distinct concat(k.ime, ' ', k.prezime) AS ime, SUM(o.brojsati) "
         		+ "FROM korisnik k, vrstausluge v, obavljeniposao o, radnizadatak radz, rasporedjenizadatak rasz "
-        		+ "WHERE k.korisnik_id = radz.korisnik_id "
+        		+ "WHERE k.korisnik_id = rasz.korisnik_id "
         		+ "AND rasz.radnizadatak_id = radz.radnizadatak_id "
         		+ "AND o.rasporedjenizadatak_id = rasz.rasporedjenizadatak_id "
+        		+ "AND o.vrstausluge_id = v.vrstausluge_id "
         		+ "AND (o.datumobavljanja BETWEEN '" + pocetak.toString() + "' AND '" + kraj.toString() + "') "
         		+ "GROUP BY ime");
         

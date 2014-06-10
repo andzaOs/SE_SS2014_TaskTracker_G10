@@ -37,6 +37,7 @@ import Entity.RasporedjeniZadatak;
 import Kontroleri.SessionControler;
 import Kontroleri.ControlersServiseri.MojiZadaciControler;
 import RacunovodstvoGUI.ONamaGUI;
+import RacunovodstvoGUI.OdjaviSeGUI;
 import RacunovodstvoGUI.PromjenaSifreGUI;
 import UtilClasses.DateLabelFormatter;
 import UtilClasses.KorisnickoUputstvo;
@@ -460,7 +461,16 @@ public class PretragaMojihRadnihZadatakaGUI extends JFrame{
 		odjaviSeItem = new JMenuItem("Odjavi se");
 		odjaviSeItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(1);
+				SwingUtilities.invokeLater(new Runnable() 
+				{
+					public void run() 
+					{
+						OdjaviSeGUI ex = new OdjaviSeGUI();
+			             ex.setSize(600, 150);
+			             ex.setLocationRelativeTo(null);
+			             ex.setVisible(true);
+					}
+				});
 			}
 		});
 		mojRacunMeni.add(odjaviSeItem);

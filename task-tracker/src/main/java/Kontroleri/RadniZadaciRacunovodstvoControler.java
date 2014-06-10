@@ -265,7 +265,7 @@ public class RadniZadaciRacunovodstvoControler {
 	public RadniZadatak GetZadatak(List<RadniZadatak> zadaci, int index)
 	{
 		RadniZadatak zadatak = new RadniZadatak();
-		zadatak=zadaci.get(index+1);
+		zadatak=zadaci.get(index);
 		return zadatak;
 	}
 	

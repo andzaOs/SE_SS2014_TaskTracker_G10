@@ -24,6 +24,7 @@ import javax.swing.SwingUtilities;
 import ba.unsa.etf.si.tim10.task_tracker.LoginGUI;
 import Kontroleri.SessionControler;
 import RacunovodstvoGUI.ONamaGUI;
+import RacunovodstvoGUI.OdjaviSeGUI;
 import RacunovodstvoGUI.PromjenaSifreGUI;
 import UtilClasses.KorisnickoUputstvo;
 
@@ -78,7 +79,16 @@ public class PocetnaServiserGUI extends JFrame {
 		JMenuItem odjaviSeItem = new JMenuItem("Odjavi se");
 		odjaviSeItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				SwingUtilities.invokeLater(new Runnable() 
+				{
+					public void run() 
+					{
+						OdjaviSeGUI ex = new OdjaviSeGUI();
+			             ex.setSize(600, 150);
+			             ex.setLocationRelativeTo(null);
+			             ex.setVisible(true);
+					}
+				});
 			}
 		});
 		mojRaunMenu.add(odjaviSeItem);

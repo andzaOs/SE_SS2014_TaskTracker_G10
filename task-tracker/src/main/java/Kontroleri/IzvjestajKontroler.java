@@ -644,7 +644,7 @@ public class IzvjestajKontroler {
 		try {
 	    			
 	    	TipKorisnikaDAO tkDAO = new TipKorisnikaDAO();
-	    	TipKorisnika tk= tkDAO.getById(1);
+	    	TipKorisnika tk= tkDAO.getById(2);
 	    	Set<Korisnik> lista = tk.getKorisnici();
 	    	
 	    	for (Iterator<Korisnik> it = lista.iterator(); it.hasNext(); ) {
@@ -711,7 +711,7 @@ public class IzvjestajKontroler {
 	        document.add(preface); 
 	        
 	    	TipKorisnikaDAO tkDAO = new TipKorisnikaDAO();
-	    	TipKorisnika tk= tkDAO.getById(1);
+	    	TipKorisnika tk= tkDAO.getById(2);
 	    	Set<Korisnik> lista = tk.getKorisnici();
 	    	
 	    	for (Iterator<Korisnik> it = lista.iterator(); it.hasNext(); ) {

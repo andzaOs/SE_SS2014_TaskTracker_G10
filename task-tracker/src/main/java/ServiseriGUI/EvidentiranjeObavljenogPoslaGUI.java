@@ -21,6 +21,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -32,6 +33,7 @@ import Entity.RasporedjeniZadatak;
 import Entity.VrstaUsluge;
 import Kontroleri.ControlersServiseri.evidencijaPoslaControler;
 import RacunovodstvoGUI.ONamaGUI;
+import RacunovodstvoGUI.OdjaviSeGUI;
 import RacunovodstvoGUI.PromjenaSifreGUI;
 import UtilClasses.KorisnickoUputstvo;
 
@@ -105,7 +107,16 @@ public class EvidentiranjeObavljenogPoslaGUI extends JFrame
 		JMenuItem odjaviSeItem = new JMenuItem("Odjavi se");
 		odjaviSeItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(1);
+				SwingUtilities.invokeLater(new Runnable() 
+				{
+					public void run() 
+					{
+						OdjaviSeGUI ex = new OdjaviSeGUI();
+			             ex.setSize(600, 150);
+			             ex.setLocationRelativeTo(null);
+			             ex.setVisible(true);
+					}
+				});
 			}
 		});
 		mojRacunMeni.add(odjaviSeItem);
@@ -148,15 +159,7 @@ public class EvidentiranjeObavljenogPoslaGUI extends JFrame
 		getContentPane().add(vrstaUslugeLbl, gbc_vrstaUslugeLbl);
 		
 		
-		comboUsluga.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(comboUsluga.getSelectedItem().toString()=="Dodaj novu vrstu usluge"){
-					NovaUslugaGUI g= new NovaUslugaGUI(comboUsluga);
-					
-					
-				}
-			}
-		});
+	
 		GridBagConstraints gbc_comboUsluga = new GridBagConstraints();
 		gbc_comboUsluga.insets = new Insets(0, 0, 5, 0);
 		gbc_comboUsluga.fill = GridBagConstraints.HORIZONTAL;

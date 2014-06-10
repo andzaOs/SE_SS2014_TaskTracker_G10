@@ -29,6 +29,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
@@ -38,6 +39,7 @@ import Entity.ObavljeniPosao;
 import Kontroleri.SessionControler;
 import Kontroleri.ControlersServiseri.ObavljeniPosaoControler;
 import RacunovodstvoGUI.ONamaGUI;
+import RacunovodstvoGUI.OdjaviSeGUI;
 import RacunovodstvoGUI.PromjenaSifreGUI;
 import UtilClasses.DateLabelFormatter;
 import UtilClasses.KorisnickoUputstvo;
@@ -328,7 +330,16 @@ public class PretragaObavljenogPoslaServiserGUI extends JFrame{
 		odjaviSeItem = new JMenuItem("Odjavi se");
 		odjaviSeItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(1);
+				SwingUtilities.invokeLater(new Runnable() 
+				{
+					public void run() 
+					{
+						OdjaviSeGUI ex = new OdjaviSeGUI();
+			             ex.setSize(600, 150);
+			             ex.setLocationRelativeTo(null);
+			             ex.setVisible(true);
+					}
+				});
 			}
 		});
 		mojRacunMenu.add(odjaviSeItem);
