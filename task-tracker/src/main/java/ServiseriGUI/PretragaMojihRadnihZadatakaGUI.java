@@ -259,7 +259,10 @@ public class PretragaMojihRadnihZadatakaGUI extends JFrame{
 					JOptionPane.showMessageDialog(rootPane, s, "Obavijest", JOptionPane.INFORMATION_MESSAGE);
 					
 				}
-									
+				
+				if(datumIzvrsenja.getModel().getValue()!=null)datumIzvrsenja.getModel().setValue(null);		
+				datumIzvrsenja.getJFormattedTextField().setText("");
+				
 				
 					
 			}

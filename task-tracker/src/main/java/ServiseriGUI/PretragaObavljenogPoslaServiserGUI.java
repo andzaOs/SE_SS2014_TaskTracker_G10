@@ -236,6 +236,8 @@ public class PretragaObavljenogPoslaServiserGUI extends JFrame{
 					JOptionPane.showMessageDialog(rootPane, s, "Obavijest", JOptionPane.INFORMATION_MESSAGE);
 					
 				}
+				if(datumObavljanja.getModel().getValue()!=null)datumObavljanja.getModel().setValue(null);		
+				datumObavljanja.getJFormattedTextField().setText("");
 			}
 		});
 		

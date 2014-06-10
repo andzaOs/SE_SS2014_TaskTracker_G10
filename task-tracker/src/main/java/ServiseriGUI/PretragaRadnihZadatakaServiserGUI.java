@@ -238,6 +238,8 @@ public PretragaRadnihZadatakaServiserGUI() {
 					
 				}
 				
+				if(datumIzvrsenja.getModel().getValue()!=null)datumIzvrsenja.getModel().setValue(null);		
+				datumIzvrsenja.getJFormattedTextField().setText("");
 			}
 		});
 		getContentPane().add(pretraziRadniZadatakBtn, "7, 6");
