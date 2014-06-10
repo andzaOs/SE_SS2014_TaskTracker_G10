@@ -263,7 +263,8 @@ public class PretragaMojihRadnihZadatakaGUI extends JFrame{
 				
 				if(datumIzvrsenja.getModel().getValue()!=null)datumIzvrsenja.getModel().setValue(null);		
 				datumIzvrsenja.getJFormattedTextField().setText("");
-				
+				if(datumKreiranja.getModel().getValue()!=null)datumKreiranja.getModel().setValue(null);		
+				datumKreiranja.getJFormattedTextField().setText("");
 				
 					
 			}

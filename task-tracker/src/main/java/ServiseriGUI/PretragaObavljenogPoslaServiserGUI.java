@@ -35,7 +35,9 @@ import javax.swing.table.DefaultTableModel;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import DAO.VrstaUslugeDAO;
 import Entity.ObavljeniPosao;
+import Entity.VrstaUsluge;
 import Kontroleri.SessionControler;
 import Kontroleri.ControlersServiseri.ObavljeniPosaoControler;
 import RacunovodstvoGUI.ONamaGUI;
@@ -173,6 +175,9 @@ public class PretragaObavljenogPoslaServiserGUI extends JFrame{
 		}
 		lista=controler.getLista();
 		posao=controler.getPosao();
+		VrstaUslugeDAO uDAO= new VrstaUslugeDAO();
+		final List<VrstaUsluge> usluge;
+		usluge=uDAO.getAll();
 		
 		scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, "1, 8, 7, 17, fill, fill");
@@ -207,7 +212,6 @@ public class PretragaObavljenogPoslaServiserGUI extends JFrame{
 		getContentPane().add(vrstaZadatkaLbl, "5, 2, right, default");
 		
 		comboUsluga = new JComboBox();
-		comboUsluga.setModel(new DefaultComboBoxModel(new String[] {"", "Instalacija OS-a", "Zamjena hard diska", "Instalcija rootera"}));
 		getContentPane().add(comboUsluga, "7, 2, fill, default");
 		
 		pocetniDatumLbl = new JLabel("Datum obavljanja:");
@@ -276,6 +280,9 @@ public class PretragaObavljenogPoslaServiserGUI extends JFrame{
 				}
 		});
 		panel.add(prikaziViseBtn);
+		 for(int i=0;i<usluge.size();i++){
+	 			comboUsluga.addItem(usluge.get(i));
+	 		}
 		
 		btnPreuzmiRadniZadatak =new JButton("Modifikuj obavljeni posao");
 		btnPreuzmiRadniZadatak.addActionListener(new ActionListener() {

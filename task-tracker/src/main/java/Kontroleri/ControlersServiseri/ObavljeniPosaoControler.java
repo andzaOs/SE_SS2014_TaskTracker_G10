@@ -55,12 +55,14 @@ public class ObavljeniPosaoControler {
 	private List<ObavljeniPosao> nadjiPoUsluzi(List<ObavljeniPosao> poslovi,
 			JComboBox comboUsluga) {
 		List<ObavljeniPosao> posaoPretraga = new ArrayList<ObavljeniPosao>();
+		if(comboUsluga.getSelectedIndex()!=0){
 		for (int i = 0; i < poslovi.size(); i++) {
+	
 			if (poslovi.get(i).getVrstaUsluge().getNaziv()
-					.equals((String) comboUsluga.getSelectedItem())) {
+					.equals(comboUsluga.getSelectedItem().toString())) {
 				posaoPretraga.add(poslovi.get(i));
 			}
-		}
+		}}
 		return posaoPretraga;
 	}
 
