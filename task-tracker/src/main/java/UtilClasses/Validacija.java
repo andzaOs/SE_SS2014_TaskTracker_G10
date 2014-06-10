@@ -59,7 +59,7 @@ public class Validacija {
 	
 	public boolean validirajString(JTextField polje) {
 		
-		if(polje.getText().matches("^([a-z]|[A-Z]){3,20}( ){0,1}([a-z]|[A-Z]){0,20}$"))
+		if(polje.getText().matches("^([a-z]|[A-Z]|[č,ć,š,ž]){3,20}( ){0,1}([a-z]|[A-Z]|[č,ć,š,ž]){0,20}$"))
 			{
 			return true;
 		}
