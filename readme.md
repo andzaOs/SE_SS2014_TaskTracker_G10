@@ -17,6 +17,6 @@ Team work - group of 6 people
 **IDE:** Eclipse
 
 
-Interface design:
+Interface design (quick review):
 
 https://github.com/aosmanovic/SE_SS2014_TaskTracker_G10/tree/master/Interface
