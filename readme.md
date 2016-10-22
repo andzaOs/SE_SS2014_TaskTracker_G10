@@ -17,4 +17,6 @@ Team work - group of 6 people
 **IDE:** Eclipse
 
 
-https://github.com/aosmanovic/SE_SS2014_TaskTracker_G10/blob/master/Interface/Screen%20Shot%202016-10-22%20at%2014.36.51.png?raw=true
+Interface design:
+
+https://github.com/aosmanovic/SE_SS2014_TaskTracker_G10/tree/master/Interface
