@@ -25,5 +25,3 @@ https://github.com/aosmanovic/SE_SS2014_TaskTracker_G10/blob/master/Documentatio
 **System Design**
 https://github.com/aosmanovic/SE_SS2014_TaskTracker_G10/blob/master/Documentation/dizajn_sistema_v1_1.pdf
 
-**Prototype**
-https://github.com/aosmanovic/SE_SS2014_TaskTracker_G10/blob/master/Prototype.zip
