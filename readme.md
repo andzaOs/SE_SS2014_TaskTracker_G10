@@ -12,7 +12,7 @@ Team work - group of 6 people
 
 **Programming language:** Java
 
-**Technologies:** Java, Hibernate, Maven, Git
+**Technologies:** Java, Hibernate, Maven, Git, MySql (phpMyAdmin)
 
 **IDE:** Eclipse
 
